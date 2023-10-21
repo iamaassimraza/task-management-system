@@ -1,0 +1,92 @@
+<body class="page-login">
+  <main class="page-content">
+    <svg xmlns="http://www.w3.org/2000/svg" width="327" height="310" viewBox="0 0 327 342" fill="none">
+      <path opacity="0.3" d="M125.233 -54.8552C234.32 -56.7588 324.707 30.5283 326.611 139.615C328.514 248.702 241.445 339.085 132.14 340.993C22.8358 342.9 -67.3339 255.609 -69.2374 146.522C-71.1409 37.4356 16.1461 -52.9517 125.233 -54.8552ZM125.917 -15.6624C38.3861 -14.135 -31.5719 58.3078 -30.0445 145.839C-28.5171 233.369 43.9257 303.327 131.456 301.8C218.987 300.273 288.945 227.83 287.418 140.299C285.89 52.7682 213.448 -17.1898 125.917 -15.6624Z" fill="url(#paint0_linear_3781_165)"/>
+      <defs>
+      <linearGradient id="paint0_linear_3781_165" x1="244.106" y1="-44.75" x2="308.005" y2="278.996" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFBDA"/>
+      <stop offset="1" stop-color="#FFFBDA" stop-opacity="0"/>
+      </linearGradient>
+      </defs>
+      </svg>
+      <div class="full container">
+<ng-container *ngIf="loading; else content">
+     <div class="loginLoader">
+    <div style="padding-right:100px; padding-top: 60px;" class="col-lg-6 col-md-8 col-sm-12">
+      <div class="skeleton-loader" style="width: 70%; margin-left: 25px; height: 35px;">
+        <span style="width: 100%"></span>
+      </div>
+      <div class="skeleton-loader" style="width: 70%; margin-left: 25px; height: 35px;">
+        <span style="width: 100%"></span></div>
+      <div class="skeleton-loader" style="width: 70%; margin-left: 25px; height: 35px;">
+        <span style="width: 100%"></span></div>
+      <div class="skeleton-loader" style="width: 70%; margin-left: 25px; height: 35px;">
+        <span style="width: 100%"></span></div>
+    </div>
+
+    <div style="padding-top: 80px; padding-left: 160px; border-left:1px solid #fff;" class="col-lg-6 col-md-8 col-sm-12">
+      <div class="skeleton-loader" style="width: 70%; margin-left: 25px; height: 30px; ">
+        <span style="width: 100%"></span></div>
+      <div class="skeleton-loader" style="width: 70%; margin-left: 25px; height: 30px; margin-top:  25px;">
+        <span style="width: 100%"></span></div>
+      <div class="skeleton-loader" style="width: 70%; margin-left: 25px; height: 30px; margin-top: 25px;">
+        <span style="width: 100%"></span></div>
+      <div class="skeleton-loader" style="width: 70%; margin-left: 25px; height: 30px; margin-top: 25px;">
+        <span style="width: 100%"></span></div>
+      <div class="skeleton-loader" style="width: 70%; margin-left: 25px; height: 30px; margin-top: 25px;">
+        <span style="width: 100%"></span></div>
+    </div>
+  </div>
+
+
+
+  </ng-container>
+
+        <ng-template #content>
+       <div class="col-lg-12 row">
+        <div class="col-lg-6 heading">
+          <div class="word">
+      <h1 class="txt"> Each Interaction <br> <br> Shape Customer <br> <br> Stories of Success </h1>
+      <p class="txt1"> Let's Create a Legacy of Excellence. </p>
+      </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form">
+            <h2 class="for">The MASHR Infinite Solutions </h2>
+            <form style="margin-top:20px" [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+              <div class="col-lg-10" >
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>User Name</mat-label>
+                    <input matInput formControlName="emp_username">
+                </mat-form-field>
+            </div>
+            <div class="col-lg-10" style="margin-top:10px">
+              <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-label>Pasword</mat-label>
+                  <input matInput type="{{show_password ? 'text':'password'}}" formControlName="emp_password">
+                  <ng-container style="cursor: pointer;" >
+                    <span class="material-icons" style="position:absolute;right: 10px;top: 5px;"
+                    *ngIf="!show_password" (click)="show_password=!show_password">visibility</span>
+                 <span class="material-icons" style="position:absolute;right: 10px;top: 5px;"
+                 *ngIf="show_password" (click)="show_password=!show_password">visibility_off</span>
+             </ng-container>
+                </mat-form-field>
+          </div>
+          <div class="col-lg-9">
+            <p *ngIf="invalidCredentials" style="color:red; text-align: left;">Invalid username or password. <br>Please contact with your manager.</p>
+          </div>
+          <div class="col-lg-10" style="margin-top:20px">
+            <button class="btn" type="submit" mat-raised-button>Login Now</button>
+          </div>
+             </form>
+             <p class="forget" style="margin-top:12px !important"> {{currentYear}} &copy; Developed by MITSOL Tech</p>
+        </div>
+          </div>
+
+
+        </div>
+    </ng-template>
+
+      </div>
+    </main>
+</body>

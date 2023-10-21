@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>
+  <span *ngIf="name=='serviceMashrBusinessAddress'" class>Business Address
+  </span>
+  <span *ngIf="name=='serviceMashrRegisteredAgent'" class>registered agent
+  </span>
+  <span *ngIf="name=='serviceMashrCompanyFormation'" class>Company formation
+  </span>
+  <span *ngIf="name=='serviceMashrEINwithSSN'" class>EIN with SSN
+  </span>
+  <span *ngIf="name=='serviceMashrEINwithoutSSN'" class>EIN without SSN
+  </span>
+  <span *ngIf="name=='serviceMashrBankAccount'" class>bank account
+  </span>
+  <span *ngIf="name=='serviceMashrAmazon'" class>amazon
+  </span>
+</h2>
+
+<mat-dialog-content>
+<div class="mat-typography">
+  <h3 class="use">Description:</h3>
+  <h3 class="error" style="color:red" *ngIf="!detail">Nothing Description Found.</h3>
+  <p style="min-width:100%; text-transform:none;">{{detail}}</p>
+  <h3 class="docs">Documents:</h3>
+  <div class="UploadFiles" >
+    <div id="upload_Img" class="col-lg-3" *ngFor="let doc of docs; let i=index">
+      <div class="upload_Img_div">
+        <button type="button">
+          <div>
+            <img  *ngIf="doc.endsWith('.png') || doc.endsWith('.jpg') || doc.endsWith('.jpeg')" class="imagePreview"
+            src="{{imgBasePath}}companyDocuments/{{customId}}/{{doc}}" class="afterUpload"
+            >
+
+            <img *ngIf="doc.endsWith('.pdf')" class="cross imagePreview1"
+            style="width: 250px;height: 150px;"   src="https://www.loanezi.com.au/wp-content/uploads/2018/12/PDF-Icon.png">
+
+
+          </div>
+        </button>
+      </div>
+      <div class="Uploadtext">
+        <div style="text-align: center;" class="upload_Img_text">
+          {{doc.split('_')[1]}}
+        </div>
+      </div>
+    </div>
+</div>
+
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Close</button>
+</mat-dialog-actions>

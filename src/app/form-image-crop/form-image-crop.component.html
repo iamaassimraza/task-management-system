@@ -1,0 +1,70 @@
+    <body class="page-header-fixed">
+      <!-- hidden responsive navbar -->
+        <main class="page-content content-wrap">
+          <app-header></app-header>
+            <!-- Navbar -->
+            <app-sidebar></app-sidebar>
+            <!-- Page Sidebar -->
+            <div class="page-inner">
+                <div class="page-title">
+                    <h3>Image Crop</h3>
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="#">Forms</a></li>
+                            <li class="active">Image Crop</li>
+                        </ol>
+                    </div>
+                </div>
+                <div id="main-wrapper">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-white">
+                                <div class="panel-heading clearfix">
+                                    <h3 class="panel-title">Image Cropper</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="image-crop">
+                                                <img src="assets/images/crop.jpg" style="width: 100%; height: 100%;" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4>Image Preview:</h4>
+                                            <div class="img-preview"></div>
+                                            <div class="m-t-md">
+                                                <button class="btn btn-primary" id="zoomIn">Zoom In</button>
+                                                <button class="btn btn-primary" id="zoomOut">Zoom Out</button>
+                                                <button class="btn btn-primary" id="rotateLeft">Rotate Left</button>
+                                                <button class="btn btn-primary" id="rotateRight">Rotate Right</button>
+                                                <button class="btn btn-primary" id="clear">Clear</button>
+                                                <p class="text-danger m-t-sm">Note: Be sure the browser supports canvas before call Rotate method.</p>
+                                                <div class="input-group m-t-sm">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" id="replace" type="button">Replace</button>
+                                                    </span>
+                                                    <input class="form-control" id="replaceWith" type="text" value="assets/images/crop.jpg" placeholder="Input image URL">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                </div><!-- Main Wrapper -->
+                <div class="page-footer">
+                    <p class="no-s">2015 &copy; Modern by Steelcoders.</p>
+                </div>
+            </div><!-- Page Inner -->
+        </main><!-- Page Content -->
+      <app-footernav></app-footernav>
+        <div class="cd-overlay"></div>
+	
+
+        <!-- Javascripts -->
+       
+        <script src="assets/js/pages/form-image-crop.js"></script>
+        
+    </body>

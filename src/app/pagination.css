@@ -1,0 +1,59 @@
+  /* pagination color */
+  :host ::ng-deep .ngx-pagination {
+    padding-left: 0px !important;
+    color: white !important;
+  }
+  :host ::ng-deep .ngx-pagination .current {
+    color: white !important;
+    border-radius: 4px !important;
+    padding-left: 9px!important;
+    padding-right: 9px!important;
+  }
+  
+  :host ::ng-deep .ngx-pagination a:hover,
+  .ngx-pagination button:hover {
+    background: #174994 !important;
+    color: white !important;
+    border-radius: 3px!important;
+    padding-left: 9px!important;
+    padding-right: 9px!important;
+    text-decoration: none!important;
+  }
+  
+  :host ::ng-deep .ngx-pagination a:focus,
+  .ngx-pagination button:focus {
+    outline: none!important;
+    background: #174994 !important;
+    color: white !important;
+  }
+
+  :host ::ng-deep .ngx-pagination a,
+  button {
+    color: white;
+  }
+  
+  :host ::ng-deep .ngx-pagination .ngx-pagination-controls {
+    color: white !important;
+  }
+  :host ::ng-deep.ngx-pagination .current,
+  .btn-info {
+    background: #174994 !important;
+    border: transparent !important;
+  }
+  
+  :host ::ng-deep.ngx-pagination .current:hover {
+    background: #174994 !important;
+    border: transparent !important;
+  }
+ ::ng-deep .ngx-pagination a, .ngx-pagination button {
+    color: #fffefe;
+    display: block;
+    padding: .1875rem .625rem;
+    border-radius: 0;
+}
+
+/* pagination color end */
+
+.div{
+background-color: red !important;
+}

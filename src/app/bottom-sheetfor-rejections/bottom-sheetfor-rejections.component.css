@@ -1,0 +1,40 @@
+tr{
+    height: 57px;
+   
+}
+
+tr{
+    
+    height: 50px !important;
+}
+td{
+    color: #ffff;
+    border-top: none !important;
+    border-bottom: none !important;
+   
+}
+ th {
+   
+    color: #28A0A2 !important;
+    border-top: none !important;
+    border-bottom: none !important;
+  }
+  .mat-bottom-sheet-container{
+    background-color: #260216 !important;
+  }
+  /* For small screens */
+@media only screen and (max-width: 767px) {
+    .mat-bottom-sheet-container {
+      background-color: #260216 !important;
+    }
+  }
+  
+  /* For medium and large screens */
+  @media only screen and (min-width: 768px) {
+    .mat-bottom-sheet-container {
+      background-color: #123456 !important; /* Replace this with the desired color */
+    }
+  }
+ .bottom-sheet-content {
+    min-height: 300px !important;
+  }

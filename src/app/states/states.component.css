@@ -1,0 +1,280 @@
+
+@import url(../../assets/sharedMaterialStyles.css);
+
+.panel-heading{
+    display: flex;
+    height: 80px ;
+}
+/* // table CSS */
+table {
+    width: 100%;
+    text-align: center;
+  }
+
+
+  tr.example-detail-row {
+    height: 0;
+  }
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  .example-element-description {
+    padding: 16px;
+  }
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+  #detail_row label{
+font-weight: 400;
+margin-right: 10px;
+  }
+
+  .iconDemo .glyph {
+    border-bottom: 1px dotted #ccc;
+    padding: 10px 0 20px;
+    margin-bottom: 20px;
+ }
+ .iconDemo .preview-glyphs {
+    display: flex;
+    flex-direction: row;
+ }
+ .iconDemo .step {
+    flex-grow: 1;
+    line-height: 0.5;
+ }
+ .iconDemo .material-icons.md-18 {
+    font-size: 18px;
+ }
+ .iconDemo .material-icons.md-24 {
+    font-size: 24px;
+ }
+ .iconDemo .material-icons.md-36 {
+    font-size: 36px;
+ }
+ .iconDemo .material-icons.md-48 {
+    font-size: 48px;
+ }
+ .iconDemo .material-icons.md-dark {
+    color: rgba(0, 0, 0, 0.54);
+ }
+ .iconDemo .material-icons.md-dark.md-inactive {
+    color: rgba(0, 0, 0, 0.26);
+ }
+ .iconDemo .material-icons.md-light {
+    color: white;
+ }
+ .iconDemo .material-icons.md-light.md-inactive {
+    color: rgba(255, 255, 255, 0.3);
+ }
+
+ .mydiv{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+ }
+ .detailRow{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+ }
+ .detailRow div{
+  display: flex;
+  align-items: center;
+  justify-content:flex-start;
+  /* margin-left: 10px; */
+ }
+ .detailRow div label{
+font-size: 12px;
+margin-right: 20px;
+ }
+ .detailRow div p{
+margin-top: 4px;
+font-weight: 500;
+   }
+   .detailRow img{
+margin-bottom: 5px;
+border: black dashed 1px;
+height: 100px;
+width: 150px;
+       }
+       .rowWithMargin{
+        margin-right: 10px;
+       }
+
+       .detailRow .material-icons{
+        font-size: 16px;
+        margin-top: -5px;
+        color:#4cbca4;
+        /* margin-left: -10px; */
+       }
+
+       legend{
+        margin-bottom: 1px !important;
+       }
+       fieldset{
+        padding: 5px 10px !important;
+        /* margin-top:5px; */
+        margin-bottom: 10px;
+       }
+
+/* Radio Buttons */
+       .example-container mat-form-field + mat-form-field {
+        margin-left: 8px;
+      }
+
+      .example-container mat-form-field {
+        width: 220px;
+      }
+
+      .example-container form {
+        margin-bottom: 20px;
+      }
+
+      .example-container form > * {
+        margin: 12px 0;
+      }
+
+      .example-container .mat-radio-button {
+        margin: 0 12px;
+      }
+
+      .example-form-fields {
+        display: flex;
+        align-items: flex-start;
+      }
+      .row, .form-row{
+        padding: 0px !important;
+        margin: 0px !important;
+      }
+
+      .myOpacity{
+        opacity: 0.5;
+        z-index: auto;
+      }
+      .my-input:not(:focus) {
+        display: none;
+      }
+
+        /* pagination color */
+  :host /deep/ .ngx-pagination {
+    padding-left: 0px;
+    color: white;
+  }
+  :host /deep/ .ngx-pagination .current {
+    color: white;
+    border-radius: 4px;
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  :host /deep/ .ngx-pagination a:hover,
+  .ngx-pagination button:hover {
+    background: #174994 !important;
+    color: white;
+    border-radius: 3px;
+    padding-left: 9px;
+    padding-right: 9px;
+    text-decoration: none;
+  }
+
+  :host /deep/ .ngx-pagination a:focus,
+  .ngx-pagination button:focus {
+    outline: none;
+    background: #174994 !important;
+    color: white;
+  }
+  :host /deep/ .ngx-pagination a {
+    color: white;
+  }
+  :host /deep/ .ngx-pagination a,
+  button {
+    color: white;
+  }
+
+  :host /deep/ .ngx-pagination .ngx-pagination-controls {
+    color: white;
+  }
+  :host /deep/.ngx-pagination .current,
+  .btn-info {
+    background: #174994 !important;
+    border: transparent;
+  }
+
+  :host /deep/.ngx-pagination .current:hover {
+    background: #174994 !important;
+    border: transparent;
+  }
+
+/* pagination color end */
+
+
+
+.table td, .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  padding: 0px !important;
+  vertical-align: middle;
+  border-top: 0px !important;
+}
+
+
+/* state loader css start */
+
+
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+.skeleton-loader {
+  background-color: #e0e0e0; /* Placeholder color */
+  height: 20px; /* Adjust height as needed */
+  margin-bottom: 10px; /* Adjust margin as needed */
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.skeleton-loader{
+  animation: skeleton-loading 1s linear infinite alternate;
+
+}
+
+
+.mainHeading{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.loaderdiv{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

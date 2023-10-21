@@ -1,0 +1,1291 @@
+<body>
+
+    <form [formGroup]="order_form" (ngSubmit)="onSubmit()"  style="background: #130E13;">
+      <h2 class="cat">Add Order</h2>
+    <div style="margin: 30px 50px 30px 50px;"  class="card">
+    
+    
+    
+    <div style="padding: 0px 20px;" class="col-lg-6 leftSide">
+      <h2 class="main-heading">Basic Information</h2>
+      <div class="col-lg-12 basicInfo">
+    
+      <p style="margin-bottom:25px; padding: 0px 10px 0 10px;" class=" col-lg-6 col-md-5 col-sm-12 ">
+        <mat-form-field appearance="outline" class="myF col-lg-12 col-md-12 col-sm-12"
+        style="height:40px !important; ">
+        <mat-label>Formation Country</mat-label>
+        <mat-select formControlName="formation_Country"
+            (selectionChange)="countryChange()" [errorStateMatcher]="matcher"
+            name="food" >                                                <mat-option *ngFor="let o of countries" [value]="o">
+                <span *ngIf="o==='usa'">United States Of America</span>
+                <span *ngIf="o==='uk'">United Kingdom</span>
+            </mat-option>
+        </mat-select>
+        <span><img src="assets/img/dropdown-arrow.png" alt=""></span>
+        <mat-error *ngIf="order_form.get('entity')?.hasError('required')">You must
+            make a selection</mat-error>
+    </mat-form-field>
+      </p>
+    
+    <ng-container *ngIf="order_form.controls.formation_Country.value==='usa'">
+    <p style="padding: 0px 10px 0 10px;" class="col-lg-6 col-md-5 col-sm-12">
+      <mat-form-field appearance="outline"
+      class="myF col-lg-12 col-md-12 col-sm-12"
+      style="height:40px !important">
+      <mat-label>Entity Type</mat-label>
+      <mat-select formControlName="entity"
+          [errorStateMatcher]="matcher" name="food">
+          <mat-option *ngFor="let o of allentity; let i=index"
+              value="{{ o.tbl_entity_id }}">
+              {{o.entity_name}}
+          </mat-option>
+      </mat-select>
+      <span><img src="assets/img/dropdown-arrow.png" alt=""></span>
+      <mat-error *ngIf="order_form.get('entity')?.hasError('required')">You
+          must
+          make a selection</mat-error>
+    </mat-form-field>
+    </p>
+    
+    <p style="padding: 0px 10px 0 10px;" class=" col-lg-6 col-md-5 col-sm-12">
+      <mat-form-field class=" example-full-width" appearance="outline">
+        <mat-label>Formation State</mat-label>
+        <input style="border:none;" type="text" [errorStateMatcher]="matcher"
+            formControlName="formation_state" matInput [matAutocomplete]="auto"
+            (input)="onSearchStates($event)">
+        <span>
+            <img src="assets/img/dropdown-arrow.png" alt="">
+        </span>
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="find_state_id(o.state_name)"
+                *ngFor="let o of filteredStates" [value]="o.state_name">
+                {{ o.state_name }}
+            </mat-option>
+        </mat-autocomplete>
+        <mat-error
+            *ngIf="order_form.get('formation_state')?.hasError('required')">You
+            must
+            make a selection</mat-error>
+    </mat-form-field>
+    </p>
+    </ng-container>
+    
+    
+    <p style="padding: 0px 10px 0 10px;" class=" col-lg-6 col-md-5 col-sm-12">
+      <mat-form-field appearance="outline" class="myF col-lg-12 col-md-12 col-sm-12"
+          style="height:40px !important; ">
+          <mat-label>Packages</mat-label>
+          <mat-select formControlName="formation_Country" >
+            <mat-option>
+                  <span >Silver</span>
+                  <span >Gold</span>
+                  <span>Platinum</span>
+              </mat-option>
+          </mat-select>
+          <span><img src="assets/img/dropdown-arrow.png" alt=""></span>
+          <mat-error>You must
+              make a selection</mat-error>
+      </mat-form-field>
+    </p>
+    </div>
+    
+    <h2 style="padding-left: 17px; color: #fff; font-weight: 300;" class="contactInfo">Contact Information</h2>
+    
+      <div  class="card-body" style=" padding: 0px 15px !important;">
+      <div class="row" id="account_details" #account_details>
+          <div class="col-lg-12 contactInformation">
+          <p style="padding: 0px 10px 0 10px;" id="mm" class="mm col-lg-6 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label> First Name</mat-label>
+              <input type="text" matInput formControlName="fname"
+                placeholder="Placeholder" autocomplete="off">
+    
+              <mat-error>
+                This field should have at least 3 characters
+              </mat-error>
+              <mat-error>
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0 10px;" class=" col-lg-6 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label> Last Name</mat-label>
+              <input type="text" formControlName="lname" matInput placeholder="Placeholder">
+              <mat-error>
+                This field should have at least 3 characters
+              </mat-error>
+              <mat-error>
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0 10px;" class=" col-lg-6 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label>Email</mat-label>
+              <input type="text" formControlName="Contact_email" matInput placeholder="Placeholder"
+                autocomplete="off">
+              <mat-error>
+                Please enter a valid email
+              </mat-error>
+              <mat-error>
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+    
+          <p style="padding: 0px 10px 0 10px;" class=" col-lg-6 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label>Contact Phone</mat-label>
+              <input type="text" formControlName="Contact_phone" matInput placeholder="Placeholder">
+              <mat-error>
+                Please enter a valid phone number
+              </mat-error>
+              <mat-error >
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+        </div>
+    
+    
+      </div>
+    </div>
+    
+          <div class="col-lg-12 primaryAddress">
+          <p style="padding: 0px 10px 0 10px;" class=" col-lg-8 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label>Contact Address</mat-label>
+              <input type="text" formControlName="Contact_address" autocomplete="off" #Contact_address matInput>
+              <mat-error >
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label> City</mat-label>
+              <input type="text" formControlName="Contact_city" matInput>
+              <mat-error>
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label> State</mat-label>
+              <input type="text" formControlName="Contact_state" matInput>
+              <mat-error >
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label>Zip Code</mat-label>
+              <input type="number" formControlName="Contact_zip" #Contact_zip matInput>
+              <mat-error>
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label>Country</mat-label>
+              <input type="text" formControlName="Contact_country" matInput>
+              <mat-error>
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+        </div>
+    
+    
+    
+    <h2 class="main-heading">Company Information</h2>
+    
+    <div class="card-body" style=" padding: 0px 15px !important;">
+    <div class="row d-flex justify-content-start companyInformation" id="Company_Information" #Company_Information>
+      <div class="col-lg-12 companyInformation">
+        <p style="padding: 0px 10px 0 10px;" class="col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label> First Priority Company Name </mat-label>
+            <input matInput formControlName="company_name_1" placeholder="Mashr Incorporation">
+            <mat-error *ngIf="company_name_1?.hasError('required')">
+              This field is required
+            </mat-error>
+            <mat-error *ngIf="company_name_1?.hasError('minlength')">
+              This field should have at least 3 characters
+            </mat-error>
+          </mat-form-field>
+        </p>
+        <p style="padding: 0px 10px 0 10px;"  class="col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="col-lg-12" appearance="outline">
+            <mat-label> Second Priority Company Name </mat-label>
+            <input type="text" formControlName="company_name_2" matInput placeholder="MITSOL">
+            <mat-error *ngIf="company_name_2?.hasError('required')">
+              This field is required
+            </mat-error>
+            <mat-error *ngIf="company_name_2?.hasError('minlength')">
+              This field should have at least 3 characters
+            </mat-error>
+          </mat-form-field>
+        </p>
+        <p style="padding: 0px 10px 0 10px;"  class="col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="col-lg-12" appearance="outline">
+            <mat-label>Last Priority Company Name </mat-label>
+            <input type="text" formControlName="company_name_3" matInput placeholder="Mashr IT Solutions">
+            <mat-error *ngIf="company_name_3?.hasError('required')">
+              This field is required
+            </mat-error>
+            <mat-error *ngIf="company_name_3?.hasError('minlength')">
+              This field should have at least 3 characters
+            </mat-error>
+          </mat-form-field>
+        </p>
+        <p style="padding: 0px 10px 0 10px;"  class="col-lg-6 col-md-6 col-sm-12">
+          <mat-form-field appearance="outline" class="myF col-lg-12 col-md-12 col-sm-12"
+            style="height:40px !important">
+            <mat-label>Entity Ending</mat-label>
+            <mat-select formControlName="entityEndingPronunciation" [errorStateMatcher]="matcher"
+              name="food">
+              <mat-option *ngFor="let o of entityPronunciationNames; let i=index" value="{{ o }}">
+                {{o}}
+              </mat-option>
+            </mat-select>
+            <span class="custom-arrow"><img src="assets/img/dropdown-arrow.png" alt=""></span>
+            <!-- <span><img src="assets/img/dropdown-arrow.png" alt=""></span> -->
+            <mat-error *ngIf="order_form.get('entityEndingPronunciation')?.hasError('required')">You must
+              make a selection</mat-error>
+          </mat-form-field>
+        </p>
+    </div>
+    
+    </div>
+    </div>
+    
+    <h2 class="main-heading">Company Structure</h2>
+    <div class="card-body" style=" padding: 0px 6px !important;">
+    <!-- <div  class="col-lg-12 col-md-12 col-sm-12 dropDown"> -->
+    
+      <span style="margin: 0px 8px;" class="row">
+      <p class="col-lg-12 col-md-6 col-sm-12" style="margin-bottom:2rem">
+          <mat-form-field appearance="outline" class="myF col-lg-12 col-md-12 col-sm-12"
+            style="height:40px !important">
+            <mat-label>Choose Company Structure </mat-label>
+            <mat-select formControlName="companyStructure" (selectionChange)="onChangeCompanyStructure()"
+              [errorStateMatcher]="matcher" name="food" class="custom-select"
+              panelClass="custom-select-panel">
+              <mat-option *ngFor="let o of companyStructureNames; let i=index" value="{{ o }}">
+                {{ o }}
+              </mat-option>
+            </mat-select>
+            <span class="custom-arrow"><img src="assets/img/dropdown-arrow.png" alt=""></span>
+            <mat-error *ngIf="order_form.get('companyStructure')?.hasError('required')">You must
+              make a selection</mat-error>
+          </mat-form-field>
+        </p>
+        <div class="error_div" *ngIf="whenManagersAreEmpty &&
+        this.order_form.controls.companyStructure.value === 'Manager Managed'">
+          Please add atleast one manager or change company structure.
+        </div>
+        <div class="error_div" *ngIf="whenMembersAreEmpty
+        && this.order_form.controls.companyStructure.value === 'Member Managed'">
+          Please add atleast one member or change company structure.
+        </div>
+        <div class="error_div" *ngIf="whenBothMembersAndManagersAreEmpty
+        && this.order_form.controls.companyStructure.value === 'Both Managed'">
+          Please add atleast one member/manager or change company structure.
+        </div>
+        <div class="error_div" *ngIf="invalidEquity ">
+          Equity should be 100% of all members/managers.
+        </div>
+    
+        <span id="members_form" #members_form [ngStyle]="{'display':order_form.controls.companyStructure.value === 'Member Managed' ||
+      order_form.controls.companyStructure.value === 'Both Managed' ? 'block': 'none'}"
+          class="col-lg-12 col-md-12 col-sm-12" style="margin-top:25px">
+          <div class="justify-content-between mb-2">
+    
+            <div class="card box_shadow" style="flex-wrap:wrap; flex-direction: column; ">
+              <div style="margin-bottom: 15px;" class="card-header d-flex justify-content-between mb-4">
+                <h3 style="color: #fff;" class="d-flex align-items-center">
+                  <!-- <span class="material-icons"><img src="assets/images/service-card-img/members.png"></span> -->
+                  Member/s
+                </h3>
+                <button  type="button" (click)="add_members()" class="btn mat-raised-button "
+                  style=" background-color:#174994; color:#fff; margin-right:5px" mat-raised-button>Add
+                  {{add_name1}}</button>
+    
+              </div>
+    
+    
+              <div *ngIf="allmembers.length > 0">
+                <div class="col-lg-12" [ngClass]="{'closedMembersOrManagers':mem.fname}"
+                  *ngFor="let mem of getNonEmptyMembers(); let ii=index">
+                  <div style="color: #fff;"  class="col-lg-2">{{ii+1}}.</div>
+                  <div  class="col-lg-2 border-right" style="justify-content:flex-start; color: #fff;">{{mem.fname}}
+                  </div>
+                  <div style="color: #fff;"  class="col-lg-2 border-right">{{mem.city}}</div>
+                  <div style="color: #fff;"  class="col-lg-2 border-right">{{mem.equity}} %</div>
+                  <div style="margin-top: -10px;"  class="col-lg-3">
+                    <button type="button" style="color:#ff4d4d" mat-button
+                      (click)="delete_member(ii)">Delete</button>
+                    <button type="button" style="color: #fff; margin-left: 15px;" mat-button (click)="editMember(ii)">Edit</button>
+                  </div>
+                </div>
+              </div>
+              <mat-accordion>
+                <mat-expansion-panel #membersPanelRef>
+                  <div class="card-body" formArrayName="company_members" *ngFor="
+                  let m of order_form.controls.company_members.controls;
+                  let i = index" style="padding-top:5px; padding-bottom:0px">
+                    <div class="row align-items-center justify-content-around" [formGroupName]="i">
+                      <p   class=" col-lg-4 col-md-12 col-sm-12"
+                        *ngIf="allmembers[i]?.active || allmembers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>First Name </mat-label>
+                          <input type="text" formControlName="fname" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="fname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="fname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p   class=" col-lg-4 col-md-12 col-sm-12"
+                        *ngIf="allmembers[i]?.active || allmembers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>Last Name</mat-label>
+                          <input type="text" formControlName="lname" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p  class=" col-lg-4 col-md-12 col-sm-12"
+                        *ngIf="allmembers[i]?.active || allmembers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>Equity %</mat-label>
+                          <input type="number" formControlName="equity" matInput
+                            placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+    
+                      </p>
+                      <p  class=" col-lg-12 col-md-12 col-sm-12"
+                        *ngIf="allmembers[i]?.active || allmembers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>Address</mat-label>
+                          <input type="text" formControlName="street" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p   class=" col-lg-3 col-md-12 col-sm-12"
+                        *ngIf="allmembers[i]?.active || allmembers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>City</mat-label>
+                          <input type="text" formControlName="city" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p   class=" col-lg-3 col-md-12 col-sm-12"
+                        *ngIf="allmembers[i]?.active || allmembers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>State</mat-label>
+                          <input type="text" formControlName="state" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p   class=" col-lg-3 col-md-12 col-sm-12"
+                        *ngIf="allmembers[i]?.active || allmembers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>Country</mat-label>
+                          <input type="text" formControlName="country" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p   class=" col-lg-3 col-md-12 col-sm-12"
+                        *ngIf="allmembers[i]?.active || allmembers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>Zip Code</mat-label>
+                          <input type="text" formControlName="zipcode" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p  class="col-lg-12 col-md-12 col-sm-12 saveCancel"
+                        style="margin-top:-5px" *ngIf="allmembers[i]?.active || allmembers.length == 0">
+                        <button class="cancelButtonInsideMembers" mat-button color="primary"
+                          (click)="cancel_member(i, membersPanelRef)">Cancel</button>
+                        <button type="button" mat-flat-button color="primary"
+                          (click)="save_members(i, membersPanelRef)">Save </button>
+                      </p>
+                    </div>
+                  </div>
+    
+                </mat-expansion-panel>
+              </mat-accordion>
+    
+    
+            </div>
+            <!-- <span *ngIf="members_div" class="error_div">Please fill all required fields</span> -->
+          </div>
+    
+    
+    
+        </span>
+        <!-- Add manager  -->
+        <span #managers_form id="managers_form" [ngStyle]="{'display':order_form.controls.companyStructure.value === 'Manager Managed' ||
+    order_form.controls.companyStructure.value === 'Both Managed' ? 'block': 'none'}"
+          class="col-lg-12 col-md-12 col-sm-12" style="margin-top:25px">
+          <div class="justify-content-between mb-2">
+            <div class="card box_shadow" style="flex-wrap:wrap; flex-direction: column;">
+              <div style="margin-bottom: 15px;" class="card-header d-flex justify-content-between mb-4">
+                <h3 style="color: #fff;" class="d-flex align-items-center">
+                  <!-- <span class="material-icons"><img src="assets/img/service-card-img/manager.png"></span> -->
+                  Manager/s
+                </h3>
+                <button type="button" (click)="add_managers()" class="btn mat-raised-button "
+                  style=" background-color:#174994; color:#fff; margin-right:5px" mat-raised-button>Add
+                  {{add_name2}}</button>
+              </div>
+              <div *ngIf="allmanagers.length > 0">
+                <div class="col-lg-12" [ngClass]="{'closedMembersOrManagers':mem.fname}"
+                  *ngFor="let mem of getNonEmptyManagers(); let ii=index">
+                  <div style="color: #fff;" class="col-lg-2">{{ii+1}}.</div>
+                  <div class="col-lg-2 border-right" style="justify-content:flex-start; color: #fff; ">{{mem.fname}}
+                  </div>
+                  <div style="color: #fff;"  class="col-lg-2 border-right">{{mem.city}}</div>
+                  <div style="color: #fff;" class="col-lg-2 border-right">{{mem.zipcode}}</div>
+                  <div style="margin-top: -10px;"  class="col-lg-3">
+                    <button type="button" style="color:#ff4d4d" mat-button
+                      (click)="delete_manager(ii)">Delete</button>
+                    <button type="button" style="color: #fff; margin-left: 15px;" mat-button (click)="editManager(ii)">Edit</button>
+                  </div>
+                </div>
+              </div>
+    
+              <mat-accordion>
+                <mat-expansion-panel #managersPanelRef>
+                  <div class="card-body" formArrayName="company_managers" *ngFor="
+       let m of order_form.controls.company_managers.controls;
+       let i = index" style="padding-top:5px; padding-bottom:0px">
+                    <div class="row align-items-center justify-content-around" [formGroupName]="i">
+                      <p style="padding: 0px 0px 0px 0px;"  class=" col-lg-6 col-md-12 col-sm-12"
+                        *ngIf="allmanagers[i]?.active || allmanagers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>First Name </mat-label>
+                          <input type="text" formControlName="fname" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="fname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="fname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p style="padding: 0px 0px 0px 0px;"  class=" col-lg-6 col-md-12 col-sm-12"
+                        *ngIf="allmanagers[i]?.active || allmanagers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>Last Name</mat-label>
+                          <input type="text" formControlName="lname" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p style="padding: 0px 10px 0px 10px;"  class=" col-lg-12 col-md-12 col-sm-12"
+                        *ngIf="allmanagers[i]?.active || allmanagers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>Address</mat-label>
+                          <input type="text" formControlName="street" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p style="padding: 0px 10px 0px 10px;"  class=" col-lg-3 col-md-12 col-sm-12"
+                        *ngIf="allmanagers[i]?.active || allmanagers.length == 0">
+                        <mat-form-field   class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>City</mat-label>
+                          <input type="text" formControlName="city" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p style="padding: 0px 10px 0px 10px;"  class=" col-lg-3 col-md-12 col-sm-12"
+                        *ngIf="allmanagers[i]?.active || allmanagers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>State</mat-label>
+                          <input type="text" formControlName="state" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p style="padding: 0px 10px 0px 10px;"  class=" col-lg-3 col-md-12 col-sm-12"
+                        *ngIf="allmanagers[i]?.active || allmanagers.length == 0">
+                        <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>Country</mat-label>
+                          <input type="text" formControlName="country" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p style="padding: 0px 10px 0px 10px;" class=" col-lg-3 col-md-12 col-sm-12"
+                        *ngIf="allmanagers[i]?.active || allmanagers.length == 0">
+                        <mat-form-field   class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                          <mat-label>Zip Code</mat-label>
+                          <input type="text" formControlName="zipcode" matInput placeholder="Placeholder">
+                          <mat-error *ngIf="lname?.hasError('required')">
+                            This field is required
+                          </mat-error>
+                          <mat-error *ngIf="lname?.hasError('minlength')">
+                            This field should have at least 3 characters
+                          </mat-error>
+                        </mat-form-field>
+                      </p>
+                      <p style="padding: 0px 10px 0px 10px;"  class="col-lg-12 col-md-12 col-sm-12 saveCancel"
+                        style="margin-top:-5px"
+                        *ngIf="allmanagers[i]?.active || allmanagers.length == 0">
+                        <button class="cancelButtonInsideMembers" mat-button color="primary"
+                          (click)="cancel_manager(i, managersPanelRef)">Cancel</button>
+    
+                        <button type="button" mat-flat-button color="primary"
+                          (click)="save_managers(i, managersPanelRef)">Save </button>
+                      </p>
+    
+                    </div>
+                  </div>
+    
+                </mat-expansion-panel>
+    
+              </mat-accordion>
+            </div>
+            <span *ngIf="members_div" class="error_div">Please fill all required fields</span>
+          </div>
+        </span>
+        <!-- Add manager  -->
+    
+      </span>
+    
+      <!-- <div style="display: flex; justify-content: end;" class="col-lg-6">
+          <mat-form-field>
+            <mat-label></mat-label>
+            <mat-select>
+              <mat-option *ngFor="let food of foods" [value]="food.value">
+                {{food.viewValue}}
+    
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+      <!-- </div> -->
+    
+      </div>
+    
+    
+    
+    
+    </div>
+    
+    <div style="padding: 0px 20px;" class="col-lg-6 rightSide">
+    
+      <div style="margin-top: 3px;" class="col-lg-12 expensionPanel">
+      <h2 style="padding-left: 2px;  color: #fff; font-weight: 300;" class="businessAddress">Business Address</h2>
+      <!-- <mat-expansion-panel>
+        <mat-expansion-panel-header>
+         <mat-panel-title>
+          <div style="padding: 0px 10px 0 10px;" class="col-2">
+          <span class="material-icons">radio_button_unchecked</span>
+        </div>
+        <div style="padding: 0px 10px 0 10px;" class="col-10">
+          <p>Get an Official Business Address</p>
+        </div>
+    
+    
+    
+    
+          </mat-panel-title>
+    
+        </mat-expansion-panel-header>
+      </mat-expansion-panel> -->
+        <div style="padding: 0px 15px 0 15px;" class="col-lg-12 col-md-12 col-sm-12">
+          <mat-radio-group formControlName="bussiness_address" aria-label="Select an option">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+             <mat-panel-title>
+              <mat-radio-button disableRipple=true class="form-check-label1"
+              [checked]="order_form.controls.bussiness_address.value === 'ourAddress'"
+                                  (click)="our_Address()" value="ourAddress" >
+                                  <span class="radioSpan">
+                                    Get an Official Business Address
+                                  </span>
+                                </mat-radio-button>
+              </mat-panel-title>
+    
+            </mat-expansion-panel-header>
+    
+    
+              <p class="form-check d-flex">
+    
+                <mat-radio-button id="btn-year" class="col-lg-5 addressDuration  mt-4">
+                  <span style="margin-left:2px; font-size: 15px; font-weight:500px">
+                    $120/<span
+                      style="text-transform:capitalize;">Year</span>
+                    <span class="discount" >
+                      30% <br>OFF </span>
+                  </span>
+                </mat-radio-button>
+    
+                  <mat-radio-button id="btn-month"  class="col-lg-5 addressDuration  mt-4">
+                    <span style="margin-left:2px; font-size: 15px; font-weight:500px">
+                      $15/<span
+                        style="text-transform:capitalize;">Month</span>
+    
+                    </span>
+                </mat-radio-button>
+              </p>
+    
+        <!--
+            <p style="padding: 0px 10px 0 10px;" class="col-lg-6 col-md-12 col-sm-12">
+              <mat-form-field class="col-lg-12" appearance="outline">
+                <mat-label></mat-label>
+                <input type="text" formControlName="company_name_3" matInput placeholder="Mashr IT Solutions">
+                <mat-error>
+                  This field is required
+                </mat-error>
+                <mat-error>
+                  This field should have at least 3 characters
+                </mat-error>
+              </mat-form-field>
+            </p> -->
+    
+          </mat-expansion-panel>
+          <div style="margin-top: 15px;" class="expensionPanel2">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-radio-button disableRipple=true class=" form-check-label1"
+                  [checked]="order_form.controls.bussiness_address.value === 'ownAddress'"
+                  value="ownAddress" >
+                  <span class="radioSpan">I already
+                    have an Official Business Address</span> </mat-radio-button>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+    
+              <div class="row" style="padding-top:25px">
+                <p style="padding: 0px 10px 0 10px;" class=" col-lg-9 col-md-12 col-sm-12">
+                  <mat-form-field class="col-lg-12" appearance="outline">
+                    <mat-label>Street Address</mat-label>
+                    <input type="text" formControlName="clientAddress_street" #clientAddress_street
+                      matInput>
+                    <!-- <mat-icon matSuffix><span class='material-icons'>home</span></mat-icon> -->
+                    <mat-error *ngIf="order_form.get('clientAddress_street')?.hasError('required')">
+                      This field is required
+                    </mat-error>
+    
+                  </mat-form-field>
+                </p>
+                <p style="padding: 0px 10px 0 10px;" class=" col-lg-3 col-md-12 col-sm-12">
+                  <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                    <mat-label> Zip Code</mat-label>
+                    <input type="number" formControlName="clientAddress_zipcode" #clientAddress_zipcode
+                      matInput>
+                    <mat-error *ngIf="order_form.get('clientAddress_zipcode')?.hasError('required')">
+                      This field is required
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+                <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+                  <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                    <mat-label>City</mat-label>
+                    <input type="text" formControlName="clientAddress_city" matInput>
+                    <mat-error *ngIf="order_form.get('clientAddress_city')?.hasError('required')">
+                      This field is required
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+                <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+                  <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                    <mat-label>State</mat-label>
+                    <input type="text" formControlName="clientAddress_state" matInput>
+                    <mat-error *ngIf="order_form.get('clientAddress_state')?.hasError('required')">
+                      This field is required
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+                <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+                  <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                    <mat-label>Country</mat-label>
+                    <input type="text" formControlName="clientAddress_country" matInput>
+                    <mat-error *ngIf="order_form.get('clientAddress_state')?.hasError('required')">
+                      This field is required
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </div>
+    
+            </mat-expansion-panel>
+          </div>
+        </mat-radio-group>
+        </div>
+    <!--
+        <p style="padding: 0px 10px 0 10px;" class="col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="col-lg-12" appearance="outline">
+            <mat-label></mat-label>
+            <input type="text" formControlName="company_name_3" matInput placeholder="Mashr IT Solutions">
+            <mat-error>
+              This field is required
+            </mat-error>
+            <mat-error>
+              This field should have at least 3 characters
+            </mat-error>
+          </mat-form-field>
+        </p> -->
+    
+    
+    
+    
+    </div>
+    
+    
+    
+    
+    
+    <div class="col-lg-12 registeredAgent">
+      <h2 class="registerHeading">Registered Agent</h2>
+    
+      <div class="card-body" style=" padding: 0px 0px !important;">
+    
+          <div style="padding: 0px 10px 0px 10px;" class="col-lg-6 col-md-6 col-sm-12 select_agent_div  justify-content-center"
+            [ngClass]="{'activeRadioButton':want_agent === true}"
+            (click)="select_agent_option('want_agent')">
+            <div style="padding: 10px 0px 10px 0px; margin-left: 5px; cursor: pointer;" class="row">
+            <div class="col-2 d-flex align-items-center">
+              <span  class="material-icons myrad">
+                <span *ngIf="want_agent">radio_button_checked</span>
+                <span *ngIf="!want_agent">radio_button_unchecked</span>
+              </span>
+            </div>
+            <div class="col-10">
+              I want to hire registered agent.
+            </div>
+          </div>
+        </div>
+          <div  style="padding: 0px 10px 0px 10px;" class="col-lg-6 col-md-6 col-sm-12 select_agent_div justify-content-center" (click)="select_agent_option('not_want_agent')"
+            [ngClass]="{'activeRadioButton':want_agent === false}">
+            <div style="padding: 10px 0px 10px 0px; margin-left: 5px; cursor: pointer;"  class="row">
+            <div class="col-2 d-flex align-items-center">
+              <span  class="material-icons myrad">
+                <span *ngIf="want_agent === false ">radio_button_checked</span>
+                <span *ngIf="want_agent || want_agent === undefined">radio_button_unchecked</span>
+              </span>
+            </div>
+            <div class="col-10">
+              I will be my own registered agent.
+            </div>
+          </div>
+        </div>
+    
+        <span style="color:red" *ngIf="agent_div" class="error_div">This filed is required.</span>
+        <div *ngIf="want_agent === false" class=" row up_icon ">
+          <div class="col-lg-6 col-sm-12 d-flex justify-content-center">
+            <span class='material-icons arrow_icon '>arrow_drop_up</span>
+          </div>
+        </div>
+        <div class="card border_box" *ngIf="want_agent === false">
+          <div class="card-body">
+    
+            <div class="row justify-content-around mt-4" style="margin-bottom:2rem">
+    
+              <div style="padding: 0px 10px 0px 10px;" class="col-lg-6 col-md-6 col-sm-12 select_agent_div "
+                (click)="select_agent_type('individual')"
+                [ngClass]="{'activeRadioButton': agentIsIndividual}">
+                <div style="padding: 10px 0px 10px 0px; margin-left: 5px; cursor: pointer;" class="row">
+                <div  class="col-2 d-flex align-items-center">
+                  <span class="material-icons myrad">
+                    <span *ngIf="agentIsIndividual">radio_button_checked</span>
+                    <span
+                      *ngIf="!agentIsIndividual || agentIsIndividual ===  undefined">radio_button_unchecked</span></span>
+                </div>
+                <div class="col-10">
+                  The registered agent will be an individual.
+                </div>
+              </div>
+              </div>
+    
+              <div style="padding: 0px 10px 0px 10px;" class="col-lg-6 col-md-6 col-sm-12 select_agent_div "
+                (click)="select_agent_type('company')" [ngClass]="{'activeRadioButton': agentIsCompany}">
+                <div style="padding: 10px 0px 10px 0px; margin-left: 5px; cursor: pointer;" class="row">
+                <div class="col-2 d-flex align-items-center">
+                  <span class="material-icons myrad" (click)="select_agent_type('company')">
+                    <span *ngIf="agentIsCompany === true">radio_button_checked</span>
+                    <span *ngIf="!agentIsCompany">radio_button_unchecked</span>
+                  </span>
+                </div>
+                <div class="col-10">
+                  The registered agent will be a company.
+                </div>
+              </div>
+              </div>
+              <span style="color:red" *ngIf="agentTypeErrorDiv" class="error_div">This filed is
+                required.</span>
+            </div>
+            <div style="margin-bottom: 10px; cursor: pointer;" class="col-lg-3 col-md-6 mb-4 col-sm-6 card_body_title" *ngIf="agentIsIndividual === true">
+              <span *ngIf="use_existing_user_detail_agent" class="material-icons"
+                (click)="click_on_use_existing_user_detail('agent_info')">check</span>
+    
+              <span *ngIf="!use_existing_user_detail_agent" class="un"
+                (click)="click_on_use_existing_user_detail('agent_info')"></span>
+    
+              <span class="material-icons" style="font-size:26px; margin-right: 10px;">person_outline</span>
+              <span>{{this.order_form.controls['fname'].value}}</span>
+            </div>
+            <div class="col-lg-12 row myRow" *ngIf="agentIsIndividual === true || agentIsCompany === true">
+              <p  class=" col-lg-6 col-md-12 col-sm-12" *ngIf="agentIsIndividual === true">
+                <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                  <mat-label>First Name</mat-label>
+                  <input type="text" formControlName="Agent_fname" matInput placeholder="Placeholder">
+                  <mat-error *ngIf="Agent_fname?.hasError('required')">
+                    This field is required
+                  </mat-error>
+                  <mat-error *ngIf="Agent_fname?.hasError('minlength')">
+                    This field should have at least 3 characters
+                  </mat-error>
+    
+                </mat-form-field>
+              </p>
+    
+              <p  class=" col-lg-6 col-md-12 col-sm-12" *ngIf="agentIsIndividual === true">
+                <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                  <mat-label>Last Name</mat-label>
+                  <input type="text" formControlName="Agent_lname" matInput placeholder="Placeholder">
+                  <mat-error *ngIf="Agent_lname?.hasError('required')">
+                    This field is required
+                  </mat-error>
+                  <mat-error *ngIf="Agent_lname?.hasError('minlength')">
+                    This field should have at least 3 characters
+                  </mat-error>
+                </mat-form-field>
+              </p>
+    
+              <p style="padding: 0px 10px 0px 10px;" class=" col-lg-12 col-md-12 col-sm-12" *ngIf="agentIsCompany === true">
+                <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                  <mat-label>Company Name</mat-label>
+                  <input type="text" formControlName="Agent_company_name" matInput
+                    placeholder="Placeholder">
+                  <!-- <mat-icon matSuffix><span class="material-icons">business</span></mat-icon> -->
+    
+                  <mat-error *ngIf="Agent_company_name?.hasError('required')">
+                    This field is required
+                  </mat-error>
+    
+                </mat-form-field>
+              </p>
+    
+              <!-- <span *ngIf="!want_agent" class="row">x -->
+              <p style="padding: 0px 10px 0px 10px;" class=" col-lg-12 col-md-12 col-sm-12">
+                <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                  <mat-label>Street Address</mat-label>
+                  <input type="text" formControlName="Agent_address" #Agent_address matInput>
+    
+                  <!-- <mat-icon matSuffix><span class="material-icons">home</span></mat-icon> -->
+                  <mat-error *ngIf="order_form.get('Agent_address')?.hasError('required')">
+                    This field is required
+                  </mat-error>
+                </mat-form-field>
+              </p>
+              <p  class=" col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                  <mat-label>City</mat-label>
+                  <input type="text" formControlName="Agent_city" matInput>
+                  <mat-error *ngIf="Agent_city?.hasError('required')">
+                    This field is required
+                  </mat-error>
+                </mat-form-field>
+              </p>
+              <p  class=" col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                  <mat-label>State</mat-label>
+                  <input type="text" formControlName="Agent_state" matInput>
+                  <mat-error *ngIf="Agent_state?.hasError('required')">
+                    This field is required
+                  </mat-error>
+                </mat-form-field>
+              </p>
+              <p  class=" col-lg-4 col-md-12 col-sm-12">
+                <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+                  <mat-label> Zip Code</mat-label>
+                  <input type="number" formControlName="Agent_zip" #Agent_zip matInput>
+                  <mat-error *ngIf="order_form.get('Agent_zip')?.hasError('required')">
+                    This field is required
+                  </mat-error>
+                </mat-form-field>
+              </p>
+              <!-- </span> -->
+    
+            </div>
+            <div></div>
+          </div>
+        </div>
+        <!-- <div class="card mt-4" *ngIf="want_agent">
+          <div class="card-body form_notes">
+            <h1 style="text-align: start" *ngIf="want_agent">
+              Why Choose Us As Your Registered Agent?
+            </h1>
+            <div class="row justify-content-start ">
+              <div class="row">
+                <div class="col-1 text-center p-0">
+                  <span class="material-icons mt-1">admin_panel_settings</span>
+                </div>
+                <div class="col-11 p-0">
+                  <h3 class="p-0 m-0">All-Inclusive</h3>
+                  <p>We never charge a dime in additional fees for postage paid to deliver you your
+                    company's
+                    important documents.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+    
+    
+      </div>
+    
+    
+      <!-- <div class="col-lg-6">
+    
+      <mat-radio-button value="1">I want to hire Registered Agent</mat-radio-button>
+    </div>
+    
+    <div class="col-lg-6">
+     <mat-radio-button value="1">I will be my own Registered Agent</mat-radio-button>
+    </div> -->
+    
+    <div *ngIf="ownRegisteredAgentOpened"  class="card-body">
+    
+          <div class="col-lg-12 div">
+          <div class="col-lg-6">
+            <mat-radio-button value="1">The registered agent will be an individual.</mat-radio-button>
+           </div>
+    
+          <div class="col-lg-6">
+            <mat-radio-button value="1">The registered agent will be a company.</mat-radio-button>
+          </div>
+        </div>
+    
+    
+      <div class="col-lg-3 col-md-6 mb-4 col-sm-6 card_body_title">
+        <span>check</span>
+        <span class="material-icons" style="font-size:26px; margin-right: 10px;">person_outline</span>
+    
+      </div>
+      <div class="row myRow">
+        <!-- <p style="padding: 0px 10px 0 10px;" class=" col-lg-6 col-md-12 col-sm-12" >
+          <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input type="text" formControlName="Agent_fname" matInput placeholder="Placeholder">
+    
+    
+    
+          </mat-form-field>
+        </p> -->
+    
+        <!-- <p style="padding: 0px 10px 0 10px;" class=" col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input type="text" formControlName="Agent_lname" matInput placeholder="Placeholder">
+    
+    
+          </mat-form-field>
+        </p> -->
+         <div *ngIf="registeredAgentCompanyOpened">
+        <p style="padding: 0px 10px 0 10px;" class=" col-lg-12 col-md-12 col-sm-12">
+          <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+            <mat-label>Company Name</mat-label>
+            <input type="text" formControlName="Agent_company_name" matInput
+              placeholder="Placeholder">
+    
+    
+    
+          </mat-form-field>
+        </p>
+    
+        <!-- <span *ngIf="!want_agent" class="row">x -->
+        <p style="padding: 0px 10px 0 10px;" class=" col-lg-12 col-md-12 col-sm-12">
+          <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+            <mat-label>Street Address</mat-label>
+            <input type="text" formControlName="Agent_address" #Agent_address matInput>
+    
+            <!-- <mat-icon matSuffix><span class="material-icons">home</span></mat-icon> -->
+    
+          </mat-form-field>
+        </p>
+        <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+          <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+            <mat-label>City</mat-label>
+            <input type="text" formControlName="Agent_city" matInput>
+    
+          </mat-form-field>
+        </p>
+        <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+          <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+            <mat-label>State</mat-label>
+            <input type="text" formControlName="Agent_state" matInput>
+    
+          </mat-form-field>
+        </p>
+        <p style="padding: 0px 10px 0 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+          <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+            <mat-label> Zip Code</mat-label>
+            <input type="number" formControlName="Agent_zip" #Agent_zip matInput>
+          </mat-form-field>
+        </p>
+      </div>
+        <!-- </span> -->
+    
+      </div>
+      <div></div>
+    </div>
+    
+    
+    
+    </div>
+    
+    
+    <div class="col-lg-12 div">
+    <h2 class="main-heading1">Add Ons</h2>
+    <div style="margin: 0px 10px;" class="col-lg-3 check-section">
+      <mat-checkbox class="example-margin">E.I.N</mat-checkbox>
+      <mat-checkbox class="example-margin">Business Bank Accounts</mat-checkbox>
+      <mat-checkbox class="example-margin">E-commerce Platform</mat-checkbox>
+      <mat-checkbox class="example-margin">Reselling Permits</mat-checkbox>
+    </div>
+    </div>
+    
+    
+    
+    <div class="col-lg-12 einRadioButton">
+      <h2 class="main-heading1">Employee Identification Number(E.I.N)</h2>
+    
+      <div style="margin-left: 8px;" class="row">
+    
+        <span *ngIf="tax_ssn_div" class="error_div">Please Select SSN or fill required field</span>
+    
+        <div class=" d-flex align-items-center col-12 align-items-center"
+          style="cursor:pointer;margin-bottom:20px">
+          <mat-radio-group aria-label="Select an option"
+            formControlName="SSN_validation">
+            <mat-radio-button disableRipple=true style="padding: 0px 10px 0px 10px;" value="Without SSN" (click)="taxEIN('without SSN')" >
+              Standard EIN (Obtained Directly On Your Name)</mat-radio-button>
+            <mat-radio-button disableRipple=true style="padding: 0px 10px 0px 10px;" value="With SSN" class="ms-3" >
+              Express EIN (Obtained On Agents SSN)</mat-radio-button>
+          </mat-radio-group>
+        </div>
+    
+    
+        <div *ngIf="ssn_div || order_form.controls.SSN_validation.value==='With SSN' " class="row  mt-3 m-0 p-0">
+          <p style="padding: 0px 10px 0px 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label>SSN</mat-label>
+              <input type="text" formControlName="SSN" matInput placeholder="Placeholder">
+              <mat-icon matSuffix><span class="material-icons">event</span></mat-icon>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0px 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input type="text" formControlName="SSN_holder_fname" matInput placeholder="Placeholder">
+              <mat-error *ngIf="SSN_holder_fname?.hasError('required')">
+                This field is required
+              </mat-error>
+              <mat-error *ngIf="SSN_holder_fname?.hasError('minlength')">
+                This field should have at least 3 characters
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0px 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input type="text" formControlName="SSN_holder_lname" matInput placeholder="Placeholder">
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0px 10px;" class=" col-lg-8 col-md-12 col-sm-12">
+            <mat-form-field  class="col-lg-12 col-md-12 col-sm-12"
+              appearance="outline">
+              <mat-label>Address</mat-label>
+              <input type="text" formControlName="SSN_holder_address" #SSN_holder_address matInput>
+              <mat-icon matSuffix><span class="material-icons">home</span></mat-icon>
+              <mat-error *ngIf="order_form.get('SSN_holder_address')?.hasError('required')">
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0px 10px;" class=" col-lg-4 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label> Date Of Birth</mat-label>
+              <input type="date" matInput formControlName="SSN_holder_DOB" placeholder="Placeholder">
+              <mat-icon matSuffix><span class="material-icons">calender_today</span></mat-icon>
+              <mat-error *ngIf="SSN_holder_DOB?.hasError('required')">
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0px 10px;" class=" col-lg-5 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label> City</mat-label>
+              <input type="text" formControlName="SSN_holder_city" matInput placeholder="Placeholder">
+              <mat-error *ngIf="order_form.get('SSN_holder_city')?.hasError('required')">
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0px 10px;" class=" col-lg-5 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label> State</mat-label>
+              <input type="text" formControlName="SSN_holder_state" matInput placeholder="Placeholder">
+              <mat-error *ngIf="order_form.get('SSN_holder_state')?.hasError('required')">
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+          <p style="padding: 0px 10px 0px 10px;" class=" col-lg-2 col-md-12 col-sm-12">
+            <mat-form-field class="col-lg-12 col-md-12 col-sm-12" appearance="outline">
+              <mat-label> Zip Code</mat-label>
+              <input type="number" formControlName="SSN_holder_zipcode" #SSN_holder_zipcode matInput>
+              <mat-error *ngIf="order_form.get('SSN_holder_zipcode')?.hasError('required')">
+                This field is required
+              </mat-error>
+            </mat-form-field>
+          </p>
+    
+        </div>
+    
+      </div>
+    
+      <!-- <div style="padding: 0px 10px;" class="ein">
+        <div style="padding-left: 15px;" class="einRadio">
+          <div class="col-lg-6 col-md-6 col-sm-12 select_agent_div justify-content-center" >
+            <div class="row">
+              <div class="col-2 d-flex align-items-center">
+    
+              </div>
+              <div class="col-10">
+                Standard EIN(Obtain Directly on your Name)
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 select_agent_div justify-content-center" >
+            <div class="row">
+              <div class="col-2 d-flex align-items-center">
+    
+              </div>
+              <div class="col-10">
+                Express E.I.N(Obtain on Agent SSN)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    
+    
+      <!-- <div class="col-lg-6">
+        <mat-radio-button value="1">Standard EIN(Obtain Directly on your Name)</mat-radio-button>
+      </div>
+    
+      <div class="col-lg-6">
+        <mat-radio-button value="1">Express E.I.N(Obtain on Agent SSN)</mat-radio-button>
+      </div> -->
+    
+    </div>
+    
+    
+    
+    <div class="col-lg-12 div">
+    <h2 class="main-heading1">Setting Up Small Banking Business</h2>
+      <div style="margin: 0px 10px;" class="col-lg-3 check-section">
+        <mat-checkbox class="example-margin">Payoneer ($80)</mat-checkbox>
+        <mat-checkbox class="example-margin">Wise ($80)</mat-checkbox>
+    
+      </div>
+      </div>
+    
+    
+    </div>
+    
+    </div>
+    
+    <div class="totalBill">
+    <p class="bill">Review/Total Bill = _________ </p>
+    
+    <div style="padding: 10px 20px;" class="row">
+    <div class="col-lg-6 btn_Back">
+    <button style="color: #fff; border: #174994 1px solid; width: 50px;" mat-stroked-button color="primary">Back</button>
+    <button style="background-color: #174994; margin-left: 460px;" mat-flat-button color="primary">Payment</button>
+    </div>
+    
+    <!-- <div class="col-lg-6 btn_Payment">
+    <button style="background-color: #174994;" mat-flat-button color="primary">Payment</button>
+    </div> -->
+    </div>
+    
+    </div>
+    
+    
+    
+    
+    
+    </form>
+    </body>
+    

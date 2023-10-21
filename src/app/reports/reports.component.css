@@ -1,0 +1,582 @@
+@import'../../assets/sharedMaterialStyles.css';
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  justify-content: space-between;
+  animation: slide-in 0.5s ease-in-out;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.event {
+  display: flex;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.bubble {
+  background-color: #333;
+  border-radius: 50%;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+}
+
+.event-text {
+  margin-left: 70px;
+  padding: 10px;
+}
+
+h3 {
+  font-size: 20px;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.event:nth-child(odd) .bubble {
+  left: 0;
+}
+
+.event:nth-child(even) .bubble {
+  right: 0;
+}
+
+.event:nth-child(odd) .event-text {
+  text-align: right;
+}
+
+.event:nth-child(even) .event-text {
+  text-align: left;
+}
+
+.example-card {
+  max-width: 100%;
+  background-color: #130E13;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.example-card_heading {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.69;
+}
+
+mat-card-title,
+mat-card-actions .mat-button {
+  color: white !important;
+}
+
+.Start_Card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cards {
+  background-color: #130E13;
+  border-radius: 12px;
+  width: 32%;
+}
+
+#Last_Card {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Last_Card_Child {
+  background-color: #130E13;
+  border-radius: 10px;
+  height: 48%;
+}
+
+.agent-card {}
+
+.agent-card-head {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 27px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.agent-heading>p {
+  font-size: 24px;
+  font-weight: 500;
+  color: #ffff;
+}
+
+.agent-link>a {
+  color: #ffff;
+  font-size: 14px;
+}
+
+.agent-link>a:hover {
+  color: #ffff;
+  text-decoration: none;
+}
+
+.agent-card-text {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-right: 15px;
+  text-align: end;
+}
+
+.agent-card-text>p {
+  color: grey;
+}
+
+.agent-card-text>p>span {
+  color: #ffff;
+}
+
+.Emp_Report {
+  width: 100%;
+  display: flex;
+  padding-bottom: 2px;
+}
+
+.Emp_Report_heading {
+  width: 50%;
+}
+
+.Emp_Report_heading>h1 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #ffff;
+}
+
+.Emp_Report_text {
+  width: 50%;
+  text-align: right;
+  padding: 17px;
+}
+
+.Emp_Report_text>p>a {
+  color: #383737;
+}
+
+.Emp_Report_text>p>span>a {
+  color: #fff;
+}
+
+.Emp_Report_text>p>a:hover,
+.Emp_Report_text>p>span>a:hover {
+  text-decoration: none;
+}
+
+table {
+  width: 100%;
+  /* margin: 20px; */
+  font-size: 14px;
+  font-weight: 500;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+
+}
+
+#emm-table-head>tr>th {
+  padding: 10px 24px;
+
+}
+
+.Employee_Report>tr,
+th,
+td {
+  padding: 3px 24px;
+  text-align: center;
+  font-weight: 400;
+  color: #ffff;
+}
+
+
+
+thead tr {
+  text-align: center;
+  color: #fff;
+}
+
+.col-lg-4 {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.Task_status>h2 {
+
+  color: #fff;
+}
+
+.Task_status>h2,
+p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
+
+#Status1 {
+  float: left;
+  text-align: center;
+
+}
+
+#Status2 {
+  letter-spacing: 1px;
+}
+
+#Status3 {
+  float: right;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.progress_bar {
+  width: 100%;
+  padding-top: 20px;
+  /* padding-left: 15px;
+  padding-right: 15px; */
+  padding-bottom: 20px;
+
+  display: flex;
+}
+
+.progress_bar_child1 {
+  width: 80%;
+  text-align: center;
+  background: #174994;
+  color: #fff;
+}
+
+.progress_bar_child1>h4,
+.progress_bar_child2>h4 {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.progress_bar_child2 {
+  width: 20%;
+  text-align: center;
+  background: #a98f06;
+  color: #fff;
+}
+
+.Radio_Button {
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.Radio_Btn2 {
+  padding-left: 60px;
+}
+
+.Radio_Btn1>h1,
+.Radio_Btn2>h1 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffff;
+}
+
+.dot {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  margin-right: 15px;
+  display: inline-block;
+}
+
+#dot1 {
+  background-color: #174994;
+}
+
+#dot2 {
+  background-color: #a98f06;
+}
+
+#Agent_Table>tr>th,
+td {
+  padding: 5px 0px;
+}
+
+.graph_table {
+  padding: 10px;
+}
+
+#Assigned {
+  background: #8BA4FD;
+  padding: 10px !important;
+}
+
+#Completed {
+  background: #174994;
+  padding: 10px !important;
+}
+
+#Pending {
+  background: #a98f06;
+  padding: 10px !important;
+}
+
+#text {
+  color: #ffff !important;
+  font-weight: 500 !important;
+  padding: 10px;
+  text-align: center;
+}
+
+.col-lg-12 {
+  padding-top: 20px;
+}
+
+.dropdown_Buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-right: 20px;
+}
+.selectBox{
+display: flex;
+align-items: flex-start;
+flex-direction: column;
+color: white;
+
+label {
+color: yellow !important;
+background-color: red;
+}
+}
+
+.filtersBlock {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.col-lg-2 {
+  margin-right: 15px;
+}
+
+.col-lg-5 {
+  text-align: center;
+  color: #130E13;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.col-lg-4 {
+  text-align: center;
+  color: #130E13;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.Graph_Table {
+  /* padding-right: 20px; */
+  padding-bottom: 20px;
+  /* padding-left: 20px; */
+}
+
+#Radio_Btn_bottom {
+  padding-left: 130px;
+}
+
+#dot1_bottom {
+  background: #8BA4FD;
+}
+
+#daily_Report {
+  display: block !important;
+}
+
+.daily_Report_heading>h1 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #ffff;
+  letter-spacing: 1px;
+
+}
+
+.daily_Report_tabs {
+  display: flex;
+  padding-bottom: 15px;
+  padding-top: 5px;
+
+
+}
+
+.tabs_dropdown {
+  padding: 4.5px;
+  width: 40rem;
+}
+
+.select-dropdown {
+  background-color: #174994;
+  color: white !important;
+  width: 100%;
+  height: 40px;
+  border-radius: 3px !important;
+  background: #444;
+}
+
+.btn-primary {
+  background: #174994;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 400;
+  width: 100%;
+  height: 40px;
+}
+
+
+#Report_Table_head>tr>th,
+td {
+  padding: 10px 24px;
+}
+
+#Report_Table_body>tr>th,
+td {
+  padding-bottom: 3px !important;
+  padding-top: 3px !important;
+}
+
+#Report_Table_head>tr>th,
+td {
+  padding: 10px 24px;
+}
+
+#Report_Table_body>tr>th,
+td {
+  padding-bottom: 3px !important;
+  padding-top: 3px !important;
+}
+
+.filtersRow .col-lg-2 {
+  padding-right: 0px !important;
+}
+
+.error {
+  color: red;
+  margin-left: 30px;
+  font-weight: normal !important;
+}
+
+.warning {
+  color: yellow !important;
+}
+
+.alert {
+  color: red !important;
+}
+
+.mat-form-field {
+  height: 10px !important;
+}
+
+.mat-select {
+  height: 10px !important;
+}
+
+select, .selectBox input {
+  height: 40px;
+  width: 150px;
+  background: black;
+  color: #ccc;
+  padding: 0px 10px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+::ng-deep .mat-form-field-flex .ng-tns-c70-9, ::ng-deep .mat-form-field-flex .ng-tns-c70-8{
+  height: 45px !important;
+
+}
+:ng-deep .input.mat-input-element {
+  margin-top: -25px !important;
+}
+
+.filtersBlock .mat-icon-button {
+  margin-top: -20px !important;
+}
+/* Change the color of the datepicker icon */
+.custom-datepicker::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Invert the color of the icon */
+}
+.custom-datepicker {
+  color: white !important;
+}
+::ng-deep .mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: none !important
+}
+
+::ng-deep .mat-card-header-text {
+  margin: 0px 0px !important;
+}
+
+
+/* reports loader css */
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+.skeleton-loader {
+  background-color: #e0e0e0; /* Placeholder color */
+  height: 20px; /* Adjust height as needed */
+  margin-bottom: 10px; /* Adjust margin as needed */
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.skeleton-loader{
+  animation: skeleton-loading 1s linear infinite alternate;
+
+}
+
+
+.mainHeading{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.loaderdiv{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.bigCards{
+  display: flex;
+  flex-wrap: wrap;
+}
+

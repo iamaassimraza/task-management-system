@@ -1,0 +1,142 @@
+<div class="page-sidebar sidebar" style="margin-left:19px; width: 15%;">
+
+  <ng-container -container *ngIf="loading; else content">
+
+
+
+
+
+    <div class="sideBarMain">
+    <div *ngFor="let i of Sidebarlists" class="skelton-loader-list">
+      <span style="width: 100%"></span>
+    </div>
+  </div>
+
+  </ng-container>
+
+  <ng-template #content>
+    <div class="page-sidebar-inner slimscroll">
+        <ul class="menu accordion-menu">
+            <li style="margin-top: 10px">
+                <a (click)="reloadPageIfRouteMatch('/dashboard')" [ngClass]="isActive('/dashboard') ? 'active' : ''"
+                    routerLink="/dashboard" class="a waves-effect waves-button">
+                    <span class="s menu-icon glyphicon glyphicon-home"></span>
+                    <p class="p" [ngClass]="isActive('/dashboard') ? 'active' : ''">Dashboard</p>
+                </a>
+            </li>
+            <li style="margin-top: -2px;" (click)="reloadPageIfRouteMatch('/orders')">
+                <a [ngClass]="isActive('/orders') ? 'active' : ''" routerLink="/orders"
+                    *ngIf="empType=='Manager' || empType=='Admin'" class="a waves-effect waves-button"><span
+                        class="s menu-icon fas fa-shopping-cart"></span>
+                    <p class="p" [ngClass]="isActive('/orders') ? 'active' : ''">Orders</p>
+                </a>
+            </li>
+
+            <li style="margin-top: -2px;" (click)="reloadPageIfRouteMatch('/todo')">
+                <a [ngClass]="isActive('/todo') ? 'active' : ''" routerLink="/todo" *ngIf="empType=='Team'"
+                    class="a waves-effect waves-button"><span class="s menu-icon glyphicon glyphicon-check"></span>
+                    <p class="p" [ngClass]="isActive('/todo') ? 'active' : ''">To Do</p>
+                </a>
+            </li>
+            <li style="margin-top: -2px;" (click)="reloadPageIfRouteMatch('/employees')"> <a
+                    [ngClass]="isActive('/employees') ? 'active' : ''" routerLink="/employees"
+                    *ngIf="empType=='Manager' || empType=='Admin'" class="a waves-effect waves-button"><span
+                        class="s menu-icon fas fa-users"></span>
+                    <p class="p" [ngClass]="isActive('/employees') ? 'active' : ''">Employees</p>
+                </a></li>
+            <li style="margin-top: -2px;" (click)="reloadPageIfRouteMatch('/states')"><a
+                    [ngClass]="isActive('/states') ? 'active' : ''" routerLink="/states"
+                    *ngIf="empType=='Manager' || empType=='Admin'" class="a waves-effect waves-button"><span
+                        class="s menu-icon fas fa-flag"></span>
+                    <p class="p" id="p-2" [ngClass]="isActive('/states') ? 'active' : ''">States</p>
+                </a></li>
+            <li (click)="reloadPageIfRouteMatch('/clients')">
+                <a [ngClass]="isActive('/clients') ? 'active' : ''" routerLink="/clients"
+                    class="a waves-effect waves-button"><span class="s menu-icon glyphicon1 fas fa-user-friends"></span>
+                    <span class="p" [ngClass]="isActive('/clients') ? 'active' : ''">Clients</span>
+                </a>
+            </li>
+            <li (click)="reloadPageIfRouteMatch('/notifications')">
+                <a [ngClass]="isActive('/notifications') ? 'active' : ''" routerLink="/notifications"
+                    class="a waves-effect waves-button"><span class="s menu-icon glyphicon1 fas fa-bell"></span>
+                    <span class="p" [ngClass]="isActive('/notifications') ? 'active' : ''">Notifications</span>
+                </a>
+            </li>
+            <li (click)="reloadPageIfRouteMatch('/register-agent')" style="margin-top: -2px;"><a
+                    [ngClass]="isActive('/register-agent') ? 'active' : ''" routerLink="/register-agent"
+                    *ngIf="empType=='Manager' || empType=='Admin'" class="a waves-effect waves-button">
+                    <span><img src="assets/images/registered-agent.png" alt="" height="20px" width="20px"></span>
+                    <p id="p4" class="p" [ngClass]="isActive('/register-agent') ? 'active' : ''">Registered Agents</p>
+                </a></li>
+            <li (click)="reloadPageIfRouteMatch('/reports')" style="margin-top: -2px;"
+                *ngIf="empType=='Manager' || empType=='Admin'"><a [ngClass]="isActive('/reports') ? 'active' : ''"
+                    routerLink="/reports" class="a waves-effect waves-button"><span id="p7-icon"
+                        class="s menu-icon fas fa-file-alt"></span>
+                    <p class="p" id="p8" [ngClass]="isActive('/reports') ? 'active' : ''">Reports</p>
+                </a></li>
+
+            <li (click)="reloadPageIfRouteMatch('/commission-agents')" style="margin-top: -2px;"><a
+                    [ngClass]="isActive('/commission-agents') ? 'active' : ''" routerLink="/commission-agents"
+                    *ngIf="empType=='Manager' || empType=='Admin'" class="a waves-effect waves-button">
+                    <span><img src="assets/images/commision-agent.png" alt="" height="20px" width="20px"></span>
+                    <p id="p4" class="p" [ngClass]="isActive('/commission-agents') ? 'active' : ''">Commission Agents
+                    </p>
+                </a></li>
+
+            <li (click)="reloadPageIfRouteMatch('/services')" style="margin-top: -2px;"><a
+                    [ngClass]="isActive('/services') ? 'active' : ''" routerLink="/services" *ngIf="empType=='Admin'"
+                    class="a waves-effect waves-button"><span id="p5-icon" class="s menu-icon fas fa-cogs"></span>
+                    <p id="p6" class="p" [ngClass]="isActive('/services') ? 'active' : ''">Services</p>
+                </a></li>
+
+            <li (click)="reloadPageIfRouteMatch('/testimonials')" style="margin-top: -2px;"><a
+                    [ngClass]="isActive('/testimonials') ? 'active' : ''" routerLink="/testimonials"
+                    *ngIf="empType=='Manager' || empType=='Admin'" class="a waves-effect waves-button"><span
+                        class="s menu-icon fas fa-quote-left"></span>
+                    <p class="p" [ngClass]="isActive('/testimonials') ? 'active' : ''">Testimonials</p>
+                </a></li>
+            <li (click)="reloadPageIfRouteMatch('/packages')" style="margin-top: -2px;"><a
+                    [ngClass]="isActive('/packages') ? 'active' : ''" routerLink="/packages" *ngIf="empType=='Admin'"
+                    class="a waves-effect waves-button"><span class="s menu-icon fas fa-boxes"></span>
+                    <p class="p" [ngClass]="isActive('/packages') ? 'active' : ''">Packages</p>
+                </a></li>
+
+<li (click)="reloadPageIfRouteMatch('/social-media-leads')" style="margin-top: -2px;"><a
+[ngClass]="isActive('/social-media-leads') ? 'active' : ''" routerLink="/social-media-leads" *ngIf="empType=='Admin'"
+                    class="a waves-effect waves-button"><span class="s menu-icon fas fa-boxes"></span>
+                    <p class="p" [ngClass]="isActive('/social-media-leads') ? 'active' : ''">Social Media Leads</p>
+                </a></li>
+
+
+
+        </ul>
+        <div id="pending-orders" class="menu accordion-menu">
+            <div class="pending-orders" style="padding: 3px; margin: 10px;">
+                <div class="main-heading">
+                    <h5 style="text-align: center; letter-spacing: 1px; font-weight: 500; font-size: 17px;">Deadline
+                        Countdown</h5>
+                </div>
+                <div class="main">
+                    <div class="row">
+                        <div class="col-one">Pkg</div>
+                        <div class="col2"> Cust. Id</div>
+                        <div class="col5">Left Days</div>
+                    </div>
+                    <div id="pending-order-portion" class="row" *ngFor="let item of pendingOrders; let i = index">
+                        <div style="font-size: 12px; font-weight: 300; color: #FFFFFF;" class="col1">{{item.pkg_title}}
+                        </div>
+                        <div style="font-size: 12px; font-weight: 300; color: #FFFFFF;" class="col2">
+                            {{item.order_services[0]?.customId}}</div>
+                        <div style="font-size: 12px; font-weight: 300; color: #FFFFFF; padding-left: 0px;" class="col5">
+                            <span
+                                [ngStyle]="{'color': (item.deadline_date === 'Today' || item.deadline_date === 'Tmrw' || item.deadline_date < 0) ? 'red' : 'inherit'}">
+                                {{ item.deadline_date }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </ng-template>
+</div>

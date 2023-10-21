@@ -1,0 +1,4 @@
+.page-breadcrumb ol.breadcrumb li a, .page-breadcrumb ol.breadcrumb li.active, .page-breadcrumb ul li a {
+    font-size: 15px !important;
+    color: #E4E4E4;
+}

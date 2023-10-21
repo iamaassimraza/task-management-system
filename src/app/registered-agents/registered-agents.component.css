@@ -1,0 +1,78 @@
+
+@import url(../../assets/sharedMaterialStyles.css);
+
+
+.modal-content {
+  opacity: 0;
+  transform: scale(0.7);
+  animation: bounceIn 0.5s both;
+}
+
+@keyframes bounceIn {
+  0%,
+  20%,
+  40%,
+  60%,
+  80%,
+  100% {
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  20% {
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  80% {
+    transform: scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 
+registeredagent loader css */
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+.skeleton-loader {
+  background-color: #e0e0e0; /* Placeholder color */
+  height: 20px; /* Adjust height as needed */
+  margin-bottom: 10px; /* Adjust margin as needed */
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.skeleton-loader{
+  animation: skeleton-loading 1s linear infinite alternate;
+
+}
+
+
+.mainHeading{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.loaderdiv{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css" />
+
+<body class="page-header-fixed">
+  <main class="page-content content-wrap">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+    <div class="page-inner">
+      <ng-container *ngIf="loading; else content">
+        <div class="loaderdiv">
+        <div class="mainHeading">
+          <div class="skelton-loader-circle" >
+            <span style="width: 100%; border-radius: 50px;"></span>
+          </div>
+        <div class="skeleton-loader-heading" >
+          <span style="width: 100%"></span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="bigCards">
+    <div class="skeleton-loader" style="margin-left: 25px; height: 250px; width: 30%; margin-top: 20px;">
+      <span style="width: 100%"></span></div>
+    <div class="skeleton-loader" style="margin-left: 25px; height: 250px; width: 30%; margin-top: 20px;">
+      <span style="width: 100%"></span></div>
+
+
+  <div class="smallCards">
+  <div class="skeleton-loader" style="margin-left: 25px; height: 120px; width: 350px; margin-top: 20px;">
+    <span style="width: 100%"></span></div>
+  <div class="skeleton-loader" style="margin-left: 25px; height: 120px; width: 350px; margin-top: 10px;">
+    <span style="width: 100%"></span></div>
+</div>
+</div>
+<div class="skeleton-loader" style="margin-left: 25px; height: 400px; width: 95.5%; margin-top: 20px;">
+  <span style="width: 100%"></span></div>
+<div class="skeleton-loader" style="margin-left: 25px; height: 300px; width: 95.5%; margin-top: 20px;">
+  <span style="width: 100%"></span></div>
+<div class="skeleton-loader" style="margin-left: 25px; height: 300px; width: 95.5%; margin-top: 20px;">
+  <span style="width: 100%"></span></div>
+
+
+      </ng-container>
+
+      <ng-template #content>
+     <div id="main-wrapper">
+        <app-breadcrumb (passUserType)="receiveData($event)"></app-breadcrumb>
+        <div style="
+            justify-content: space-around; align-items: center;">
+          <!-- New Updated CArds start-->
+          <mat-card class="example-card" style="background-color: transparent; padding:10px 0px;">
+
+            <div class="Start_Card">
+              <div class="cards cardAnimation" style="padding-left:10px; padding-right:10px">
+                <mat-card-header>
+                  <mat-card-title class="example-card_heading">Tasks Status</mat-card-title>
+                </mat-card-header>
+
+                <div class="col-lg-4">
+                  <div class="Task_status" id="Status1">
+                    <h2>Total Tasks</h2>
+                    <p>{{totalOrders}}</p>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="Task_status" id="Status2">
+                    <h2>In-Progress</h2>
+                    <p>{{assignedOrders}}</p>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="Task_status" id="Status3">
+                    <h2>Not-Assigned</h2>
+                    <p>{{unassignedOrders}}</p>
+                  </div>
+                </div>
+                <div>
+                  <div class="progress_bar">
+                    <div class="progress_bar_child1">
+                      <h4 style="padding-top:18px">{{assignedOrders}}</h4>
+                    </div>
+                    <div class="progress_bar_child2">
+
+                      <h4 style="padding-top:18px">{{unassignedOrders}}</h4>
+                    </div>
+                  </div>
+                  <div class="Radio_Button">
+                    <div class="Radio_Btn1">
+                      <h1>
+                        <span class="dot" id="dot1"></span>
+                        In-Progress
+                      </h1>
+                    </div>
+                    <div class="Radio_Btn2">
+                      <h1>
+                        <span class="dot" id="dot2"></span>
+                        Not-Assigned
+                      </h1>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cards cardAnimation">
+                <div class="agent-card">
+                  <div class="agent-card-head">
+                    <div class="agent-heading">
+                      <p>
+                        Top Comission Agents
+                      </p>
+                    </div>
+                    <div class="agent-link">
+                      <a routerLink="/register-agent">See all</a>
+                    </div>
+                  </div>
+
+                  <div class="agent-card-text">
+                    <p>
+                      Past Month <span> / Past 3 Months </span>
+                    </p>
+                  </div>
+                  <div>
+                    <table>
+                      <thead id="Agent_Table">
+                        <tr>
+                          <th>Agent Name</th>
+                          <th>No of Clients</th>
+                        </tr>
+                      </thead>
+                      <tbody id="Agent_Table">
+                        <tr *ngFor="let a of topAgent">
+                          <th>{{a.name}}</th>
+                          <td>{{a.count}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+<div *ngIf="topAgent.length==0">
+<app-record-not-found></app-record-not-found>
+  </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="cards" id="Last_Card">
+                <div class="Last_Card_Child cardAnimation">
+                  <div class="agent-card">
+                    <div class="agent-card-head" style="padding-top: 10px;">
+                      <div class="agent-heading">
+                        <p>
+                          Top LLC States
+                        </p>
+                      </div>
+                      <div class="agent-link">
+                        <a routerLink="/states">See all</a>
+                      </div>
+                    </div>
+
+                    <div class="agent-card-text" style="padding-top: 5px; padding-bottom: 3px;">
+                      <p>
+                        Past Month <span> / Past 3 Months </span>
+                      </p>
+                    </div>
+
+                  </div>
+                  <div *ngFor="let s of topStates" class="col-lg-4">
+                    <div class="Task_status" style="padding-left:15px" id="Status1">
+                      <h2>{{s.name}}</h2>
+                      <p>{{s.count}}</p>
+                    </div>
+                  </div>
+                  <div *ngIf="topStates.length==0">
+                    <app-record-not-found></app-record-not-found>
+                      </div>
+                </div>
+                <div class="Last_Card_Child cardAnimation">
+                  <div class="agent-card">
+                    <div class="agent-card-head" style="padding-top: 20px;">
+                      <div class="agent-heading">
+                        <p>
+                          Top Package
+                        </p>
+                      </div>
+                      <div class="agent-link">
+                        <a routerLink="/packages">See all</a>
+                      </div>
+                    </div>
+
+                    <div class="agent-card-text" style="padding-top: 5px; padding-bottom: 3px;">
+                      <p>
+                        U.S.A <span> / United Kingdom </span>
+                      </p>
+                    </div>
+                    <div *ngFor="let p of topPackages" class="agent-card-head" style="padding-top: 20px;">
+                        <div class="agent-heading">
+                        <p>
+                          {{p.name}}
+                        </p>
+                      </div>
+                      <div class="agent-link">
+                        <p style="font-size: 40px; font-weight: 800;">
+                          {{p.count}}
+                        </p>
+                      </div>
+                    </div>
+                    <div *ngIf="topPackages.length==0">
+                      <app-record-not-found></app-record-not-found>
+                        </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </mat-card>
+          <!-- New Updated CArds  end-->
+          <mat-card class="example-card">
+            <mat-card-header>
+              <div class="Emp_Report">
+                <div class="Emp_Report_heading">
+                  <h1>
+                    Employees Report
+                  </h1>
+                </div>
+                <div class="Emp_Report_text">
+                  <p>
+                    <a>Tabular View</a><span> <a> / Graphical View </a></span>
+                  </p>
+                </div>
+              </div>
+
+            </mat-card-header>
+
+            <table>
+              <thead id="emm-table-head">
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Assigned Orders</th>
+                  <th>Completed Orders</th>
+                  <th> Pending Orders</th>
+                  <th>% Completed</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rep of allEmployeesReport; let i=index">
+                  <td style="text-transform:capitalize">{{rep.emp_fname}} {{rep.emp_lname}}</td>
+                  <td>{{rep.emp_email}}</td>
+                  <td>{{rep.totalAssignOrders}}</td>
+                  <td>{{rep.completedOrders}}</td>
+                  <td>{{rep.inProgressOrders}}</td>
+                  <td *ngIf="rep.totalAssignOrders != 0">{{rep.completedOrders / rep.totalAssignOrders * 100 |
+                    number:'1.2-2'}} %</td>
+                  <td *ngIf="rep.totalAssignOrders == 0">0 %</td>
+                </tr>
+              </tbody>
+            </table>
+<div *ngIf="allEmployeesReport.length==0">
+<app-record-not-found></app-record-not-found>
+  </div>
+          </mat-card>
+          <form [formGroup]="myForm">
+            <mat-card class="example-card">
+              <mat-card-header id="daily_Report">
+                <div class="daily_Report">
+                  <div class="daily_Report_heading">
+                    <h1>
+                      Daily Report
+                    </h1>
+                  </div>
+                </div>
+              </mat-card-header>
+              <div class="filtersBlock">
+                <div class="selectBox col-lg-2">
+                  <label style="color:white">
+                    Search by user
+                  </label>
+                  <select formControlName="employeeId" (change)="dailyAdvanceSearch()">
+                    <option value="0">Select User</option>
+                    <option *ngFor="let e of allEmployee" [value]="e.tbl_employee_id">
+                      {{e.emp_fname}}
+                    </option>
+                  </select>
+                </div>
+                <div class="selectBox col-lg-2">
+                  <label style="color:white">
+                    Search by service
+                  </label>
+                  <select formControlName="serviceName" (change)="dailyAdvanceSearch()">
+                    <option value="0">Select Service</option>
+                    <option *ngFor="let s of allServices" [value]="s.service_title">
+                      <span *ngIf="s.service_title === 'serviceMashrBusinessAddress'">
+                        Business Address
+                      </span>
+                      <span *ngIf="
+                                  s.service_title === 'serviceMashrRegisteredAgent'
+                                ">
+                        Registered Agent
+                      </span>
+                      <span *ngIf="s.service_title === 'serviceMashrCompanyFormation'">
+                        Company Formation
+                      </span>
+                      <span *ngIf="s.service_title === 'serviceMashrEINwithoutSSN'">
+                        EIN
+                      </span>
+                      <span *ngIf="s.service_title === 'serviceMashrResellerCertificate'">
+                        Reseller Certificate
+                      </span>
+                      <span *ngIf="s.service_title === 'serviceMashrBankAccount'">
+                        Bank Account
+                      </span>
+                      <span *ngIf="s.service_title === 'serviceMashrAmazon'">
+                        Amazon
+                      </span>
+                      <span *ngIf="s.service_title === 'serviceMashrTaxFiling'">
+                        Tax Filing
+                      </span>
+                      <span *ngIf="s.service_title === 'serviceMashrAmendment'">
+                        Amendment
+                      </span>
+                      <span *ngIf="s.service_title === 'serviceMashrPayoneer'">
+                        Payoneer
+                      </span>
+                      <span *ngIf="s.service_title === 'serviceMashrWise'">
+                        Wise
+                      </span>
+                    </option>
+                  </select>
+                </div>
+                <div class="selectBox col-lg-2">
+                  <label>
+                  Start date
+                  </label>
+                  <input type="date" formControlName="startDate" (dateChange)="dailyAdvanceSearch()"
+                    data-date-format="mm/dd/yyyy" class="custom-datepicker">
+                </div>
+                <div class="selectBox col-lg-2">
+                  <label style="color:white">
+                    End date
+                  </label>
+                  <input type="date" formControlName="endDate" (dateChange)="dailyAdvanceSearch()"
+                    data-date-format="mm/dd/yyyy" class="custom-datepicker">
+                </div>
+                <div class="col-lg-1" style="margin-top:23px; width:100px; padding:0px!important">
+                  <button matToolTip="Export" type="button" class="btn btn-primary col-lg-1">Export
+                    <i style="margin-left:10px" class='fa-solid fa-file-export'></i>
+                  </button>
+                </div>
+              </div>
+
+              <table>
+                <thead id="Report_Table_head">
+                  <tr>
+                    <th class="test">Employee Name</th>
+                    <th>Order ID</th>
+                    <th>Service Provided</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="Report_Table_body">
+                  <tr *ngFor="let d of allDailyProgressReport | paginate
+                : {
+                    itemsPerPage: 30,
+                    currentPage: p_daily,
+                    totalItems: totallength_daily
+                  }; let i=index">
+                    <th>{{d.emp_fname}}</th>
+                    <td>{{d.customId}}</td>
+                    <td>
+                      <span *ngIf="d.service_title === 'serviceMashrBusinessAddress'">
+                        Business Address
+                      </span>
+                      <span *ngIf="
+                                  d.service_title === 'serviceMashrRegisteredAgent'
+                                ">
+                        Registered Agent
+                      </span>
+                      <span *ngIf="d.service_title === 'serviceMashrCompanyFormation'">
+                        Company Formation
+                      </span>
+                      <span *ngIf="d.service_title === 'serviceMashrEINwithoutSSN'">
+                        EIN
+                      </span>
+                      <span *ngIf="d.service_title === 'serviceMashrResellerCertificate'">
+                        Reseller Certificate
+                      </span>
+                      <span *ngIf="d.service_title === 'serviceMashrBankAccount'">
+                        Bank Account
+                      </span>
+                      <span *ngIf="d.service_title === 'serviceMashrAmazon'">
+                        Amazon
+                      </span>
+                      <span *ngIf="d.service_title === 'serviceMashrTaxFiling'">
+                        Tax Filing
+                      </span>
+                      <span *ngIf="d.service_title === 'serviceMashrAmendment'">
+                        Amendment
+                      </span>
+                    </td>
+                    <td>{{ d.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                    <td>{{d.task_status}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="allDailyProgressReport.length==0">
+                <app-record-not-found></app-record-not-found>
+                  </div>
+              <div class="d-flex justify-content-end" style="text-align: end">
+                <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="p = $event">
+                </pagination-controls>
+              </div>
+            </mat-card>
+          </form>
+          <form [formGroup]="orderProgressMyForm">
+
+            <mat-card class="example-card">
+              <mat-card-header id="daily_Report">
+                <div class="daily_Report">
+                  <div class="daily_Report_heading">
+                    <h1>
+                      Order Report
+                    </h1>
+                  </div>
+                </div>
+
+              </mat-card-header>
+
+              <div class="filtersBlock">
+                <div class="selectBox col-lg-2">
+                  <label style="color:white">
+                    Search by user
+                  </label>
+                  <select formControlName="employeeId"  (change)="orderAdvanceSearch()">
+                  <option value="0">Select User</option>
+                    <option *ngFor="let e of allEmployee" [value]="e.tbl_employee_id">
+                      {{e.emp_fname}}
+                    </option>
+                  </select>
+                </div>
+                <div class="selectBox col-lg-2">
+                  <label style="color:white">
+                    Search by status
+                  </label>
+                  <select formControlName="status" (change)="orderAdvanceSearch()">
+                    <option value="0">Select User</option>
+
+                    <option *ngFor="let s of allStatus" [value]="s.order_status_name">
+                      <span *ngIf="s.order_status_name === 'not_assign'">
+                        Not Started
+                      </span>
+                      <span *ngIf="
+                s.order_status_name === 'in_progress'
+              ">
+                        Assign Order
+                      </span>
+                      <span *ngIf="s.order_status_name === 'blocked'">
+                        Block
+                      </span>
+                    </option>
+                  </select>
+                </div>
+                <div class="selectBox col-lg-2">
+                  <label>
+Start date
+                  </label>
+                  <input type="date" formControlName="startDate" (dateChange)="orderAdvanceSearch()"
+                    data-date-format="mm/dd/yyyy" class="custom-datepicker">
+                </div>
+                <div class="selectBox col-lg-2">
+                  <label style="color:white">
+                    End date
+                  </label>
+                  <input type="date" formControlName="endDate" (dateChange)="orderAdvanceSearch()"
+                    data-date-format="mm/dd/yyyy" class="custom-datepicker">
+                </div>
+                <div class="col-lg-1" style="margin-top:23px; width:100px; padding:0px!important">
+                  <button matToolTip="Export" type="button" class="btn btn-primary col-lg-1">Export
+                    <i style="margin-left:10px" class='fa-solid fa-file-export'></i>
+                  </button>
+                </div>
+              </div>
+              <table>
+                <thead id="Report_Table_head">
+                  <tr>
+                    <th>Order iD</th>
+                    <th>Employee</th>
+                    <th>Order Date</th>
+                    <th>Assigned Date</th>
+                    <th>Due Date</th>
+                    <th>Days Left</th>
+                    <th>Assign By</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="Report_Table_body">
+                  <tr *ngFor="let o of allOrdersProgressReport  | paginate
+                : {
+                    itemsPerPage: 30,
+                    currentPage: p,
+                    totalItems: totallength
+                  };
+            let i = index">
+                    <th>{{o.customId}}</th>
+                    <td>{{o.assignToName}}</td>
+                    <td>{{o.orderDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{o.taskAssignDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td>{{o.deadline_date | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                    <td
+                      [ngClass]="{'alert': o.daysLeft < 0 && o.order_status_name !== 'complete','warning' : o.daysLeft < 5 && o.order_status_name !== 'complete' }">
+                      {{o.daysLeft}}</td>
+                    <td>{{o.assignByName}}</td>
+                    <td>{{o.order_status_name}}</td>
+
+                  </tr>
+
+
+                </tbody>
+              </table>
+              <div *ngIf="allOrdersProgressReport.length==0">
+                <app-record-not-found></app-record-not-found>
+                  </div>
+              <div class="d-flex justify-content-end" style="text-align: end">
+                <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="p = $event">
+                </pagination-controls>
+              </div>
+            </mat-card>
+          </form>
+
+        </div>
+
+
+      </div>
+    </ng-template>
+    </div>
+    <!-- Main Wrapper -->
+  </main>
+  <!-- Page Content -->
+
+  <app-footernav></app-footernav>
+  <div class="cd-overlay"></div>
+  <!-- Javascripts -->
+  <!-- <script src="assets/js/pages/table-data.js"></script> -->
+</body>
+
+</html>

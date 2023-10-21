@@ -1,0 +1,38 @@
+
+@import url(../../assets/sharedMaterialStyles.css);
+
+/* notification loader css */
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+.skeleton-loader {
+  background-color: #e0e0e0; /* Placeholder color */
+  height: 20px; /* Adjust height as needed */
+  margin-bottom: 10px; /* Adjust margin as needed */
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.skeleton-loader{
+  animation: skeleton-loading 1s linear infinite alternate;
+
+}
+
+
+.mainHeading{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.loaderdiv{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

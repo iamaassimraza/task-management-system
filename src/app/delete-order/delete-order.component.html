@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+
+<body class="page-header-fixed">
+
+    <form class="search-form" action="#" method="GET">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control search-input" placeholder="Search...">
+            <span class="input-group-btn">
+                <button class="btn btn-default close-search waves-effect waves-button waves-classic" type="button"><i
+                        class="fa fa-times"></i></button>
+            </span>
+        </div><!-- Input Group -->
+    </form><!-- Search Form -->
+    <main class="page-content content-wrap">
+        <app-header></app-header>
+        <app-sidebar></app-sidebar>
+        <div class="page-inner">
+            <div class="page-title">
+                <h3>Delete Order</h3>
+                <div class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">Delete Order</a></li>
+
+                    </ol>
+                </div>
+            </div>
+
+
+            <div id="main-wrapper">
+                <form [formGroup]="myForm">
+
+                    <div class="row" [class.myOpacity]="display==='block'">
+                        <div class="col-md-12">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Delete Order</h4>
+
+                                </div>
+                                <div class="panel-body">
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Client Name</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Status</th>
+                                                <th>Manager</th>
+                                                <th>
+                                                    Progress
+                                                </th>
+                                                <th>
+                                                    Actions
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <ng-container *ngFor="let order of filteredOrders | paginate : {
+                                            itemsPerPage : 15,
+                                            currentPage : p,
+                                            totalItems : totallength}; let i=index">
+
+                                                <tr matRipple>
+                                                    <td> {{order.order_services[i].tbl_order_id}} </td>
+                                                    <td>{{order.order_services[i].contact_fname}}</td>
+                                                    <td>{{order.order_services[i].contact_phonenumber}}</td>
+                                                    <td>{{order.order_services[i].contact_email}}</td>
+
+                                                    <td>
+                                                        <div
+                                                            [ngClass]="{'in_progress':order.order_services[i].order_status_name==='in_progress','complete':order.order_services[i].order_status_name==='complete','blocked':order.order_services[i].order_status_name==='blocked','not_assign':order.order_services[i].order_status_name==='not_assign'}">
+                                                            {{order.order_services[i].order_status_name}}
+                                                        </div>
+                                                    </td>
+                                                    <td>{{order.emp_fname}}</td>
+                                                    <td>{{order.order_services[i].order_progress}}<b>%</b></td>
+                                                    <td>
+                                                        <a data-bs-toggle="modal" class="btn"
+                                                            (click)="delete_blog(order.order_services[i].tbl_order_id)">Delete</a>
+
+                                                    </td>
+
+                                                </tr>
+
+
+
+
+                                            </ng-container>
+                                        </tbody>
+
+                                    </table>
+                                    <h2 *ngIf="noRecordFound" class="noRecordFound">
+                                        No record found
+                                    </h2>
+                                    <div *ngIf="hidepagination" class="d-flex justify-content-end"
+                                        style="text-align: end;">
+                                        <pagination-controls previousLabel="Prev" nextLabel="Next"
+                                            (pageChange)="p=$event">
+                                        </pagination-controls>
+
+                                        <div *ngIf="!hidepagination">No Data Found</div>
+                                    </div>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div><!-- Row -->
+            <!-- Assign task Form -->
+
+
+
+
+        </div><!-- Main Wrapper -->
+
+    </main><!-- Page Content -->
+
+    <app-footernav></app-footernav>
+    <div class="cd-overlay"></div>
+</body>

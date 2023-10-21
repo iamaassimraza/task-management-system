@@ -1,0 +1,25 @@
+
+<form [formGroup]="myForm">
+  <mat-form-field appearance="fill">
+    <mat-label>Logo</mat-label>
+    <input matInput formControlName="logo"  />
+  </mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>price</mat-label>
+    <input matInput type="number" formControlName="price">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Pakage</mat-label>
+    <mat-select formControlName="package" required>
+        <mat-option *ngFor="let package of packages" [value]="package">{{ package }}</mat-option>
+      </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Details</mat-label>
+    <textarea matInput formControlName="details"></textarea>
+  </mat-form-field>
+  </form>

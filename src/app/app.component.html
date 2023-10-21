@@ -1,0 +1,10 @@
+<ng-container *ngIf="loading; else content">
+  <!-- Skeleton loader -->
+  <!-- <ngx-skeleton-loader count="10" appearance="line"></ngx-skeleton-loader> -->
+</ng-container>
+<ng-template #content>
+  <router-outlet></router-outlet>
+</ng-template>
+
+
+

@@ -1,0 +1,352 @@
+<body class="page-header-fixed">
+    <main class="page-content content-wrap">
+        <app-header (sendUserName)="receiveUserName($event)"></app-header>
+        <app-sidebar></app-sidebar>
+        <div class="page-inner">
+
+
+          <ng-container *ngIf="loading; else content">
+    <div class="skeleton-loader-heading">
+      <span style="width: 100%"></span>
+    </div>
+    <div class="cards">
+      <div *ngFor="let i of cardlist" class="skeleton-loader" style="margin-left: 70px; height: 25px; width: 250px; margin-top: 40px; margin-right: 30px;">
+        <span style="width: 100%; height: 100%;"></span></div>
+    </div>
+    <div class="skeleton-loader" style="margin-left: 25px; height: 280px; width: 95%; margin-top: 40px;">
+      <span style="width: 100%"></span></div>
+    <div class="skeleton-loader" style="margin-left: 25px; height: 280px; width: 95%; margin-top: 40px;">
+      <span style="width: 100%"></span></div>
+  </ng-container>
+
+
+          <ng-template #content>
+           <div id="main-wrapper">
+                <app-breadcrumb (passUserType)="receiveUserType($event)"></app-breadcrumb>
+                <div class="heading">
+                    <h1 style="text-transform:capitalize">{{greeting}} {{userName}} </h1>
+                </div>
+                <div class="row" *ngIf="userType==='Admin' || userType==='Manager'">
+                    <div id="card-body" class="col-lg-3 col-md-6 card">
+                        <div class="panel info-box panel-white">
+                            <div class="cardAnimation">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">Active Orders</span>
+                                    <p><span class="counter">{{total_orders}}</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 card">
+                        <div class="panel info-box panel-white">
+                            <div class="cardAnimation">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">Complete Orders</span>
+                                    <p><span class="counter">{{completed_orders}} </span>
+                                        <span class="material-icons" style="color: rgba(42, 211, 82, 1);
+                                        ">check_circle</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 card">
+                        <div class="panel info-box panel-white">
+                            <div class="cardAnimation">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">In-Progress Orders</span>
+                                    <p><span class="counter">{{in_progress_orders}}</span></p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 card">
+                        <div class="panel info-box panel-white">
+                            <div class="cardAnimation">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">Not Assigned Orders</span>
+                                    <p><span class="counter">{{not_assign_orders}}</span>
+                                        <span class="material-icons " style="color: rgba(255, 248, 205, 1);
+                                        ;
+                                        ; padding-left: 13px;
+                                        font-size: 24px
+                                        ;">warning</span>
+
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 card">
+                        <div class="panel info-box panel-white">
+                            <div class="cardAnimation">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">Blocked Orders</span>
+                                    <p><span class="counter">{{blocked_orders}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 card">
+                        <div class="panel info-box panel-white">
+                            <div class="cardAnimation">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">Partial Orders</span>
+                                    <p><span class="counter">{{incomplete_orders}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- change here/// -->
+                    <div class="col-lg-3 col-md-6 card">
+                        <div class="panel info-box panel-white">
+                            <div class="cardAnimation">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">Late Orders</span>
+                                    <p><span class="counter">{{total_users}}</span>
+                                        <span class="material-icons " style="color:rgba(253, 58, 105, 1);
+                                        ; padding-left: 13px;
+                                        font-size: 24px
+                                        ;">warning</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row" *ngIf="userType==='Team'">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel info-box panel-white">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">Rejections of Services</span>
+                                    <p><span class="counter">{{toal_rejected_order_services}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel info-box panel-white">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">Late Submissions</span>
+                                    <p><span class="counter">{{late_order_services_complete}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel info-box panel-white">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">On Time Submissions</span>
+                                    <p><span class="counter">{{ontime_order_services_complete}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel info-box panel-white">
+                            <div class="panel-body">
+                                <div class="info-box-stats">
+                                    <span class="info-box-title">Early Submissions</span>
+                                    <p><span class="counter">{{early_order_service_complete}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row -->
+                <div class="row" #topOfTasks>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="panel panel-white">
+                            <div class="main">
+                                <div class="panel-heading"
+                                    style="padding-top:20px !important; padding: 20px 20px 0px 20px">
+                                    <h4 class="panel-title">Order Status</h4>
+                                </div>
+                                <div class="chart">
+                                    <div class="heading">
+                                        <div class="text" style="margin-top: 160px;">Total Orders</div>
+                                        <div class="text">In Process</div>
+                                        <div class="text">Completed</div>
+                                        <div class="text">Not Assigned</div>
+                                        <div class="text">Pending Approvel</div>
+                                    </div>
+                                    <div class="bars">
+                                        <div class="bar-1">
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                            <div class="vertical-line"></div>
+                                        </div>
+                                        <div class="bar" style=" background-color: #ddc2ff; margin-top: 0px;" [ngStyle]="{'width': total_orders + '%'}" [style]="getAnimationStyleTotal()">&nbsp;</div>
+                                        <div class="bar" style=" background-color: #c2ffcf;" [ngStyle]="{'width':in_progress_orders + '%'}" [style]="getAnimationStyleInProgress()" >&nbsp;</div>
+                                        <div class="bar" style=" background-color: #ffeb80;" [ngStyle]="{'width':completed_orders + '%'}" [style]="getAnimationStyleCompleted()">&nbsp;</div>
+                                        <div class="bar" style="background-color: #ffb199;" [ngStyle]="{'width':not_assign_orders + '%'}" [style]="getAnimationStyleNotAssign()">&nbsp;</div>
+                                        <div class="bar" style=" background-color: #99a9ff;" [ngStyle]="{'width':incomplete_orders + '%'}" [style]="getAnimationStyleIncompletes()">&nbsp;</div>
+                                        <div class="bar0"
+                                            style="display: flex; flex-direction: row; justify-content: space-between;">
+                                            <div>10</div>
+                                            <div>20</div>
+                                            <div>30</div>
+                                            <div>40</div>
+                                            <div>60</div>
+                                            <div>80</div>
+                                            <div>100</div>
+                                            <div>150</div>
+                                            <div>300</div>
+                                            <div>500 </div>
+                                            <div>700</div>
+                                            <div>1000</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-12">
+                        <div id="panel-white-custom" class="panel panel-white">
+                            <div class="panel-heading" style="padding-top:20px !important; padding: 20px 20px 0px 20px">
+                                <h4 class="panel-title">Recent Tasks</h4>
+                            </div>
+                            <div id="panel-body" class="panel-body"
+                                style=" margin-bottom: 30px; height: auto;padding: 0px !important;">
+                                <div id="table-responsive" class="table-responsive project-stats recentOrdersTable"
+                                    style="border-radius: 20px;">
+                                    <table>
+                                        <thead>
+                                            <tr class="table-custom">
+                                                <th style="width:130px">Order Id
+                                                </th>
+                                                <th style="width:130px">Package
+                                                </th>
+                                                <th style="width:130px">Status
+                                                </th>
+                                                <th style="width:130px">Manager
+                                                </th>
+                                                <th
+                                                    style="text-align: center;color: #7C7C7C; font-weight: 500; font-size: 14px;width:300px">
+                                                    Progress</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="downside-table">
+                                            <tr class="last-custom" *ngFor="let item of orders | slice:0:limit">
+                                                <td style="color: #FFFFFF;font-weight: 500; font-size: 14px;"
+                                                    scope="row">
+                                                    <span
+                                                        *ngIf="item.order_services[0].customId!=0">{{item.order_services[0].customId}}</span>
+                                                    <span
+                                                        *ngIf="item.order_services[0].customId==0">{{item.tbl_order_id}}</span>
+                                                </td>
+
+                                                <td style="text-align: center;">
+                                                    <span *ngIf="item.pkg_title">{{item.pkg_title}}</span>
+                                                    <span
+                                                        *ngIf="!item.pkg_title">{{item.order_services[0].service_title.slice(12)}}</span>
+                                                </td>
+
+                                                <td>
+                                                    <span *ngIf="item.task_status" class="label" [ngClass]="{
+                                                        'in_progress':
+                                                        item.task_status === 'in_progress',
+                                                        'complete':
+                                                        item.task_status === 'complete',
+                                                        'blocked':
+                                                        item.task_status === 'blocked',
+                                                        'not_assign':
+                                                        item.task_status === 'not_assign',
+                                                        'assign':
+                                                        item.task_status === 'assign'
+                                                      }">
+                                                        {{
+                                                        item.task_status
+                                                        }}</span>
+                                                    <span *ngIf="!item.task_status">New Order</span>
+
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <span *ngIf="item.assign_to_name">{{item.assign_to_name}}</span>
+                                                    <span *ngIf="!item.assign_to_name">Not Assigned</span>
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <div class="progress-bar" matTooltipPosition="left"
+                                                        [matTooltip]="getTooltipServices(item.tbl_order_id)"
+                                                        [style.background]="getProgressBarBackground(item.order_services[0]?.order_progress)"
+                                                        [style.width.%]="item.order_services[0]?.order_progress"
+                                                        aria-valuemin="0" aria-valuemax="100">
+
+                                                    </div>
+
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div *ngIf="orders.length === 0">
+                                        <app-record-not-found></app-record-not-found>
+                                    </div>
+                                    <div class="showBtn" *ngIf="orders.length > 5">
+                                        <button *ngIf="limit == 5 " (click)="showMore()" class="btn showMore">
+                                            <span
+                                                style="display:flex; justify-content: space-around; align-items: center;">
+                                                See More</span>
+                                        </button>
+
+                                        <button #bottomofPage *ngIf="limit !== 5 " (click)="showLess()"
+                                            class="btn showMore">
+                                            <span
+                                                style="display:flex; justify-content: space-around; align-items: center;">
+                                                See Less
+                                            </span>
+
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Main Wrapper -->
+          </ng-template>
+        </div><!-- Page Inner -->
+    </main><!-- Page Content -->
+    <!-- <app-footernav></app-footernav> -->
+    <!-- <div class="cd-overlay"></div> -->
+
+</body>

@@ -1,0 +1,239 @@
+<body class="page-header-fixed">
+    <main class="page-content content-wrap">
+        <app-header (sendUserName)="onloggedInUserId($event)"></app-header>
+        <app-sidebar></app-sidebar>
+        <div class="page-inner">
+          <ng-container *ngIf="loading; else content">
+            <div class="loaderdiv">
+            <div class="mainHeading">
+              <div class=" skelton-loader-circle">
+                <span style="width: 100%; border-radius: 50px;"></span>
+              </div>
+            <div class="skeleton-loader-heading">
+              <span style="width: 100%"></span>
+            </div>
+          </div>
+
+          <div class="mainHeading">
+            <div class="skeleton-loader-rightside">
+              <span style="width: 100%"></span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngFor="let i of tablelist" class="skeleton-loader" style="margin-left: 25px; height: 20px; width: 95%; margin-top: 20px;">
+          <span style="width: 100%"></span></div>
+          </ng-container>
+
+
+          <ng-template #content>
+            <div id="main-wrapper">
+                <div>
+                    <div class="col-lg-4">
+                        <app-breadcrumb></app-breadcrumb>
+                    </div>
+                    <div class="col-lg-8">
+                        <button type="button" style="display: flex; align-items: center;"
+                            class="btn btn-success col-2 btn1" data-toggle="modal" data-target="#myModal"
+                            (click)="clearbox()">
+                            <span class="material-icons">control_point</span>
+                            Add New </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-white">
+                            <form id="add-row-form" [formGroup]="employeeForm" (ngSubmit)="submit()">
+                                <div class="modal" id="myModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel"> Employee</h4>
+                                            </div>
+                                            <div class="modal-body modalBodyRow">
+                                                <div class=" col-lg-6">
+                                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                                        <mat-label> First Name</mat-label>
+                                                        <input matInput formControlName="emp_fname">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class=" col-lg-6">
+                                                    <mat-form-field appearance="outline" style="width: 100%; ">
+                                                        <mat-label>Last Name</mat-label>
+                                                        <input matInput formControlName="emp_lname">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class=" col-lg-6">
+                                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                                        <mat-label>Phone Number</mat-label>
+                                                        <input matInput type="number"
+                                                            formControlName="emp_phone_number">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class=" col-lg-6">
+                                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                                        <mat-label>Email</mat-label>
+                                                        <input matInput formControlName="emp_email">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class=" col-lg-4 ">
+                                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                                        <mat-label>Employee Type</mat-label>
+                                                        <mat-select formControlName="emp_type">
+                                                            <mat-option value="Manager">Manager</mat-option>
+                                                            <mat-option value="Team">Team Member</mat-option>
+                                                            <mat-option *ngIf="empType === 'Admin' || empType === 'SuperAdmin'"
+                                                            value="Admin">Admin</mat-option>
+                                                            <mat-option *ngIf="empType === 'SuperAdmin'"
+                                                            value="Super Admin">Super Admin</mat-option>
+
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class=" col-lg-4">
+                                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                                        <mat-label>User Name</mat-label>
+                                                        <input matInput formControlName="emp_username">
+                                                    </mat-form-field>
+                                                </div>
+
+                                                <div class=" col-lg-4">
+                                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                                        <mat-label>Password</mat-label>
+                                                        <input matInput [type]="hide ? 'password' : 'text'"
+                                                            formControlName="emp_password">
+                                                        <button mat-icon-button matSuffix (click)="hide = !hide"
+                                                            [attr.aria-label]="'Hide password'"
+                                                            [attr.aria-pressed]="hide">
+                                                        </button>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer d-flex justify-content-between">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Cancel</button>
+                                                <button type="submit"
+                                                    [attr.data-dismiss]="employeeForm.valid ? 'modal' : null"
+                                                    (click)="submit()"id="add-row"
+                                                    class="btn btn-success btn1">{{btn}}</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="example" class="display table" style="width: 100%; ">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:70px">Id</th>
+                                                <th style="width:200px">Name</th>
+                                                <th style="width:200px">Email</th>
+                                                <th style="width:100px">Role</th>
+                                                <th style="width:150px">Username</th>
+                                                <th style="width:150px">Password</th>
+                                                <th style="text-align: center;width:200px">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ng-container *ngFor="let emp of allEmployee">
+                                                <tr>
+                                                    <td>{{emp.tbl_employee_id}}</td>
+                                                    <td style="text-transform: capitalize;">{{emp.emp_fname}} {{emp.emp_lname}}</td>
+                                                    <td>{{emp.emp_email}}</td>
+
+                                                    <td>
+                                                        <span *ngIf="emp.emp_type === 'Team'"> Team Member</span>
+                                                        <span *ngIf="emp.emp_type !== 'Team'"> {{emp.emp_type}}</span>
+                                                    </td>
+                                                    <td>{{emp.emp_username
+                                                        }}</td>
+                                                    <td>{{emp.emp_password}}</td>
+                                                    <td class="" style="text-align: center;">
+                                                        <a class="btn edit" data-toggle="modal" data-target="#myModal"
+                                                            (click)="edit(emp.tbl_employee_id)">Edit</a>
+                                                        <a (click)="emp.expanded = !emp.expanded">View Details</a>
+                                                    </td>
+
+                                                </tr>
+                                                <ng-container *ngIf="emp.expanded">
+                                                    <tr
+                                                        style="height: 100px; background-color: #130E13; padding: 20px;
+                                                        ">
+                                                        <td colspan="7" style="border-radius: 15px;">
+                                                            <div class="row"
+                                                                style="display:flex; justify-content: space-between; align-items: center;width:100%">
+                                                                <div class="imageBox col-lg-2 col-md-4 col-sm-6" style="justify-content: center;">
+                                                                    <img *ngIf="emp.emp_image"
+                                                                        src="{{img_url}}employer_images/{{emp.emp_image}}">
+                                                                    <img *ngIf="!emp.emp_image"
+                                                                        class="img-circle avatar"
+                                                                        src="assets/images/profile-menu-image.png">
+                                                                </div>
+                                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                                    <div class="col-lg-12">
+                                                                        <label>
+                                                                            Name:</label>
+                                                                        <p>{{emp.emp_fname}}</p>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <label>
+                                                                            Email:</label>
+                                                                        <p>{{emp.emp_email}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-5 col-md-4 col-sm-6">
+                                                                    <div class="col-lg-12">
+                                                                        <label>
+                                                                            Address:</label>
+                                                                        <p>{{emp.emp_address}}</p>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <label>
+                                                                            Phone No:</label>
+                                                                        <p>{{emp.emp_phone_number}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-4 col-sm-6">
+                                                                    <div class="col-lg-12">
+                                                                        <label>
+                                                                            City:</label>
+                                                                        <p>{{emp.emp_city}}</p>
+                                                                    </div>
+                                                                    <div class="col-lg-12">
+                                                                        <button type="button" [routerLink]="['/dashboard']" [queryParams]="{id:emp.tbl_employee_id}"
+                                                                            style="display: flex; align-items: center;"
+                                                                            class="btn btn-success col-2 btn1" style="font-size: 14px;">
+                                                                            View Dashboard</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+
+                                            </ng-container>
+
+                                        </tbody>
+                                    </table>
+                                    <div *ngIf="allEmployee.length === 0">
+                                        <app-record-not-found></app-record-not-found>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div><!-- Main Wrapper -->
+          </ng-template>
+        </div><!-- Page Inner -->
+    </main><!-- Page Content -->
+    <app-footernav></app-footernav>
+</body>

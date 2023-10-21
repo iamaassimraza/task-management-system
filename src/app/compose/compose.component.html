@@ -1,0 +1,124 @@
+    <body class="page-header-fixed">
+        <main class="page-content content-wrap">
+            <app-header></app-header>
+            <app-sidebar></app-sidebar>
+           <!-- navbar -->
+            <!-- Page Sidebar -->
+            <div class="page-inner">
+                <div id="main-wrapper">
+                    <div class="row m-t-md">
+                        <div class="col-md-12">
+                            <div class="row mailbox-header">
+                                <div class="col-md-2">
+                                    <a href="inbox.html" class="btn btn-success btn-block">Back to Inbox</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <h2>Compose</h2>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="compose-options">
+                                        <div class="pull-right">
+                                            <a href="inbox.html" class="btn btn-default"><i class="fa fa-file-text-o m-r-xs"></i>Draft</a>
+                                            <a href="inbox.html" class="btn btn-danger"><i class="fa fa-trash m-r-xs"></i>Discard</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <ul class="list-unstyled mailbox-nav">
+                                <li><a href="/mail"><i class="fa fa-inbox"></i>Inbox <span class="badge badge-success pull-right">4</span></a></li>
+                                <li><a ><i class="fa fa-sign-out"></i>Sent</a></li>
+                                <li><a ><i class="fa fa-file-text-o"></i>Draft</a></li>
+                                <li><a ><i class="fa fa-exclamation-circle"></i>Spam</a></li>
+                                <li><a ><i class="fa fa-trash"></i>Trash</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="mailbox-content">
+                                <div class="compose-body">
+                                    <form class="form" [formGroup]="mailForm">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked formControlName="userType" name="userType"[value]="'user'" [(ngModel)]="selectedOption" (ngModelChange)="changeOption()" >
+                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                        User
+                                                    </label>
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" formControlName="userType" name="userType" [value]="'employee'" [(ngModel)]="selectedOption" (ngModelChange)="changeOption()" >
+                                                    <label class="form-check-label" for="flexRadioDefault2">
+                                                      Employee
+                                                    </label>
+                                                  </div>
+                                                  <div class="form-group" *ngIf="selectedOption === 'user'">
+                                                    <label for="to" class="col-sm-2 control-label">To</label>
+                                                    <div class="col-sm-10">
+                                                        <select class="form-control" formControlName="to_id" (change)="onSelectOfToUser($event)">
+                                                            <option value="0">Users</option>
+                                                            <option *ngFor="let user of allUsers" value="{{user.tbl_user_id}}">
+                                                                {{ user.fname }}{{user.lname}}
+                                                              </option>
+                                                          </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" *ngIf="selectedOption === 'employee'">
+                                                    <label for="to" class="col-sm-2 control-label">To</label>
+                                                    <div class="col-sm-10">
+                                                        <select class="form-control" formControlName="to_id" (change)="onSelectOfToUser($event)">
+                                                            <option value="0">employee</option>
+                                                            <option *ngFor="let employee of allemployees" value = {{employee.tbl_employee_id}}>
+                                                                {{ employee.emp_fname }}{{employee.emp_lname}}
+                                                              </option>
+                                                          </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="subject" class="col-sm-2 control-label" >Subject</label>
+                                                    <div class="col-sm-10" style="
+                                                    margin-top: 8px;">
+                                                        <input type="text" class="form-control" id="subject" formControlName="subject">
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="compose-message">
+                                                <div class="summernote">
+                                                    <div class="row">
+                                                        <div class=" col-lg-12 " style="" >
+                                                            <mat-form-field appearance="outline" style="padding-top: 8px;width: 96.5%;height: 326px;padding-left: 182px;">
+                                                                <mat-label>Message</mat-label>
+                                                                <textarea matInput formControlName="message"></textarea>
+                                                              </mat-form-field>
+                                                        </div>
+                                                      
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      <div class="row" style="
+                                      margin-right: 18px;">
+                                        <div class="compose-options">
+                                            <div class="pull-right">
+                                                <a  class="btn btn-success" (click)="submit(mailForm.value)" ><i class="fa fa-send m-r-xs"></i>{{btn}}</a>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </form>
+                                </div>
+                        
+                                
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                </div><!-- Main Wrapper -->
+                <div class="page-footer">
+                    <p class="no-s">2015 &copy; Modern by Steelcoders.</p>
+                </div>
+            </div><!-- Page Inner -->
+        </main><!-- Page Content -->
+       <app-footernav></app-footernav>>
+        <div class="cd-overlay"></div>
+    </body>

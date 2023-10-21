@@ -1,0 +1,104 @@
+<body class="page-header-fixed">
+    <main class="page-content content-wrap">
+        <app-header></app-header>
+        <app-sidebar></app-sidebar>
+        <div class="page-inner">
+          <ng-container *ngIf="loading; else content">
+            <div class="loaderdiv">
+            <div class="mainHeading">
+              <div class="skelton-loader-circle" >
+                <span style="width: 100%; border-radius: 50px;"></span>
+              </div>
+            <div class="skeleton-loader-heading" >
+              <span style="width: 100%"></span>
+            </div>
+          </div>
+
+          <div class="mainHeading">
+            <div class="skeleton-loader-rightside" >
+              <span style="width: 100%"></span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngFor="let i of tablelist" class="skeleton-loader-Arraylist">
+          <span style="width: 100%"></span>
+        </div>
+          </ng-container>
+
+          <ng-template #content>
+           <div id="main-wrapper">
+                <div>
+                    <div class="col-lg-4">
+                        <app-breadcrumb (passUserType)="receiveUserType($event)"></app-breadcrumb>
+                    </div>
+                    <div class="col-lg-8">
+                        <form [formGroup]="myForm">
+                            <div class="filter-outer col-lg-12"
+                                style="display:flex; justify-content: flex-end;padding: 0px 20px 0px 0px !important;">
+                                <div class="filters" (click)="activeFilter = !activeFilter">
+                                    <span class="fas fa-search glyphicon-search" aria-hidden="true"></span>
+                                </div>
+                                <div class="form-group ">
+                                    <input (keyup)="filterNotifications($event)" type="text"
+                                        class="form-control search-input" formControlName="title"
+                                        placeholder="Search by message title" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-white">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="example" class="display table" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: start; width: 45px;">Id</th>
+                                                <th style="text-align: start;">Title</th>
+                                                <th style="text-align: start;width:320px">Detail</th>
+                                                <th style="text-align: start;">Status</th>
+                                                <th style="text-align: start;width:200px">From</th>
+                                                <th style="text-align: start;width:200px">To</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let notif of filteredNotifications">
+                                                <td>{{notif.notification_id}}</td>
+                                                <td>{{notif.messageTitle}}</td>
+                                                <td style="padding-right:30px !important;">{{notif.messageDetail}}</td>
+                                                <td>
+                                                    <span *ngIf="notif.status==0">Not Read</span>
+                                                    <span *ngIf="notif.status==1">Read</span>
+                                                </td>
+                                                <td>{{notif.messageBy}}</td>
+                                                <td>{{notif.messageFor}}</td>
+                                                <td style="color:#fff; cursor: pointer;" *ngIf="notif.status==0"
+                                                    (click)="readNotifications(notif.notification_id,'readSingleMessage')">
+                                                    Mark as read</td>
+                                                <td style="color:#fff;cursor: pointer;" *ngIf="notif.status==1"
+                                                    (click)="readNotifications(notif.notification_id,'unReadSingleMessage')">
+                                                    Mark as not read</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div *ngIf="allNotifications.length === 0">
+                                        <app-record-not-found></app-record-not-found>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+        </div>
+          </ng-template>
+
+        </div>
+    </main>
+    <app-footernav></app-footernav>
+
+</body>

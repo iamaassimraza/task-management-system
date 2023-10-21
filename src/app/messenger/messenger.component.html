@@ -1,0 +1,233 @@
+
+
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+
+
+
+
+<div class="mainMessenger ">
+
+  <div style="display: inline-block;" class="col-lg-12 tabHeader">
+    <button style="height: 40px; margin: 4px 10px;" [ngClass]="{'active': activeTab === 'All Messages'}" (click)="setActiveTab('All Messages')" mat-raised-button>All Messages</button>
+    <button style="height: 40px; margin: 4px 10px;" [ngClass]="{'active': activeTab === 'Messenger'}" (click)="setActiveTab('Messenger')" mat-raised-button>Messenger</button>
+    <button style="height: 40px; margin: 4px 10px;" [ngClass]="{'active': activeTab === 'Instagram'}" (click)="setActiveTab('Instagram')" mat-raised-button>Instagram</button>
+    <button style="height: 40px; margin: 4px 10px;" [ngClass]="{'active': activeTab === 'Whatsapp'}" (click)="setActiveTab('Whatsapp')" mat-raised-button>Whatsapp</button>
+    <button style="height: 40px; margin: 4px 10px;" [ngClass]="{'active': activeTab === 'Facebook Comments'}" (click)="setActiveTab('Facebook Comments')" mat-raised-button>Facebook Comments</button>
+    <button style="height: 40px; margin: 4px 10px;" [ngClass]="{'active': activeTab === 'Instagram Comments'}" (click)="setActiveTab('Instagram Comments')" mat-raised-button>Instagram Comments</button>
+    
+    <!-- <mat-tab-group class="tabGroup">
+      <mat-tab  class="tabLabel"  label="All Messages"></mat-tab>
+      <mat-tab label="Messenger"></mat-tab>
+      <mat-tab label="Instagram"></mat-tab>
+      <mat-tab label="Whatsapp"></mat-tab>
+      <mat-tab label="Facebook Comments"> </mat-tab>
+      <mat-tab label="Instagram Comments"></mat-tab>
+    </mat-tab-group> -->
+</div>
+
+<div class="col-lg-12 mainCard">
+
+<div class="cardRight col-lg-4">
+  <div class="chat-list">
+    <div class="List-header">
+      <div class="leftHeader">
+      <div class="search-box">
+        <input  style="width: 270px; border: 1px solid white;" type="text" placeholder="Search...">
+      </div>
+
+      <div class="manage-button">
+        <!-- <img class="fiter" style="cursor: pointer; height: 12px; width: 12px; margin-right: 10px; margin-top: 10px; color: white; background: white;" src="assets/images/order/filter.png" alt=""> -->
+        <button style="cursor: pointer; color: white; width: 30px; font-size: 10px; align-items: center; background-color: #174994; height: 35px;" mat-stroked-button> Manage</button>
+
+      </div>
+      </div>
+
+
+    <div class="buttons">
+      <button  mat-stroked-button class="list-buttons"> Unread </button>
+      <button style="width: 80px;"  mat-stroked-button class="list-buttons"> Important </button>
+      <button  mat-stroked-button class="list-buttons"> Label</button>
+      <!-- <img class="fiter" style="cursor: pointer; height: 12px; width: 12px; margin-right: 10px; color: white; background: white; margin-top: 15px;" src="assets/images/order/filter.png" alt=""> -->
+      <span class="filter-icon">
+        <i style="margin-top: 14px; font-size: 15px;" class="material-icons">tune</i>
+      </span>
+     
+     
+      <span class="dropdown-icon">
+        <i style="margin-top: 10px;" class="material-icons">arrow_drop_down</i>
+      </span>
+      <!-- <img class="dropdown" style="cursor: pointer; height: 15px; width: 15px; color: white; background: white; margin-top: 15px;" src="assets/images/order/icons8-dropdown-30.png" alt=""> -->
+    </div>
+
+
+
+    </div>
+    <div class="chat-items">
+      <!-- Chat item example -->
+      <div *ngFor="let index of repeatArray(100)"  class="chat-item">
+        <div class="profile-picture">
+          <img src="assets/images/order/pexels-pixabay-415829.jpg" alt="">
+        </div>
+        <div class="chat-info">
+          <div class="chat-name">John Doe
+            <span class="online-status"></span>
+            <div class="last-message">Hello, how are you?</div>
+            </div>
+             <div style="font-size: 10px;" class="chat-date">Sept 14</div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+      <!-- Repeat chat items for other people's chats -->
+    </div>
+  </div>
+
+
+
+
+
+
+</div>
+
+<div class="cardLeft col-lg-8">
+
+
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="profile-picture">
+      <img style="height: 60px; width: 60px;" src="assets/images/order/photo-1573496359142-b8d87734a5a2.jpeg" alt="">
+      <div class="profile-name">
+        Jennifer Lawrence
+        <br>
+        <span style="margin-left: -2px;">
+        <button style="font-size: 10px; margin-top: 5px; color:  white; background-color: #174994;" class="list-buttons"  mat-stroked-button>Assign Conversation</button>
+      </span>
+    </div>
+    </div>
+    <!-- <div class="profile-name">
+      Jennifer Lawrence
+      <br>
+      <span style="margin-left: -2px;">
+      <button style="font-size: 10px; margin-top: 5px; color:  white; background-color: #174994;" class="list-buttons"  mat-stroked-button>Assign Conversation</button>
+    </span>
+  </div> -->
+    <div class="headerButton">
+      <!-- <button style="margin-right: 10px; color: white; background-color: #174994;" class="list-buttons" mat-stroked-button (click)="openDialog()" >  ... </button> -->
+      <button style="color: white; background-color: #174994;" class="list-buttons"  mat-stroked-button>See Contact</button>
+    </div>
+    <!-- <div style="border: 1px solid white; border-radius: 10px; height: 70px;" *ngIf="isDialogOpen" class="Dialog">
+      <p>This is a simple dialog box with a paragraph of content.</p>
+      <button style="background-color: green;"  (click)="onAccept()">Accept</button>
+      <button style="background-color: red;"  (click)="onDecline()">Decline</button>
+    </div> -->
+
+
+  </div>
+
+
+
+  <div class="chat-messages">
+    <!-- User messages -->
+    <div class="myMessage">
+    <div class="chat-message user-message">
+      <p style="margin: 5px 0px" >User message 1 hello how are you dear </p>
+      </div>
+    <div class="chat-message user-message">
+      <p style="margin: 5px 0px" >User message 1 hello how are you dear </p>
+    </div>
+    <div class="chat-message user-message">
+      <p style="margin: 5px 0px" >User message 1 hello how are you dear </p>
+    </div>
+    <div class="chat-message user-message">
+      <p style="margin: 5px 0px" >User message 1 hello how are you dear </p>
+    </div>
+    <div class="message-info">
+      <span style="font-size: 10px; padding-right: 5px; font-weight: 20;" class="sender">Sent by</span>
+      <span style="font-size: 10px; padding-right: 5px; cursor: pointer;"  class="edit-icon">✎</span>
+      <span style="font-size: 11px; padding-right: 5px; cursor: pointer;"  class="date">Owais Khan</span>
+      <span style="font-size: 10px; padding-right: 5px; color: white !important; cursor: pointer;" class="question-icon">❓</span>
+      
+    </div>
+  </div>
+
+  <div class="messageDate">
+    <span style="font-size: 11px; color: white;" class="date">September 15, 2023, 10:30 AM</span>
+  </div>
+
+    <!-- Bot messages -->
+    <div class="chat-message bot-message">
+      <div class="profile-picture">
+        <img style="height: 40px; width: 40px; margin-bottom: 10px; cursor: pointer;" src="assets/images/order/photo-1573496359142-b8d87734a5a2.jpeg" alt="Bot Profile">
+      </div>
+      <p class="botResponse">Bot response 1 i'm fine Thank you! </p>
+    </div>
+
+    <div class="chat-message bot-message">
+      <div class="profile-picture">
+        <img style="height: 40px; width: 40px; margin-bottom: 10px; cursor: pointer;" src="assets/images/order/photo-1573496359142-b8d87734a5a2.jpeg" alt="Bot Profile">
+      </div>
+      <p class="botResponse">Bot response 1 i'm fine Thank you!</p>
+    </div>
+
+    <div class="chat-message bot-message">
+      <div class="profile-picture">
+        <img style="height: 40px; width: 40px; margin-bottom: 10px; cursor: pointer;" src="assets/images/order/photo-1573496359142-b8d87734a5a2.jpeg" alt="Bot Profile">
+      </div>
+      <p class="botResponse">Bot response 1 i'm fine Thank you!</p>
+    </div>
+
+    <div class="chat-message bot-message">
+      <div class="profile-picture">
+        <img style="height: 40px; width: 40px; margin-bottom: 10px; cursor: pointer;" src="assets/images/order/photo-1573496359142-b8d87734a5a2.jpeg" alt="Bot Profile">
+      </div>
+      <p class="botResponse">Bot response 1 i'm fine Thank you!</p>
+    </div>
+
+    <div class="messageDate">
+      <span style="font-size: 11px; color: white;" class="date">September 18, 2023, 6:15 PM</span>
+    </div>
+
+  </div>
+
+  
+  <div class="chat-input">
+    <input type="text" placeholder="Type your message...">
+    <div class="calendar">
+      <mat-icon style="cursor: pointer; color: white;">settings_voice</mat-icon>
+    </div>
+    <div class="attachFile">
+      <mat-icon style="cursor: pointer; color:white;">attach_file</mat-icon>
+      </div>
+      <div class="message">
+        <mat-icon style="cursor: pointer; color: white;"> send</mat-icon>
+      </div>
+
+
+  </div>
+
+</div>
+
+
+
+
+
+</div>
+</div>
+
+
+
+
+</div>
+
+
+
+

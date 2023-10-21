@@ -1,0 +1,311 @@
+<body class="page-header-fixed">
+  <main class="page-content content-wrap">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+    <div class="page-inner">
+      <ng-container *ngIf="loading; else content">
+        <div class="loaderdiv">
+        <div class="mainHeading">
+          <div class="skelton-loader-circle" >
+            <span style="width: 100%; border-radius: 50px;"></span>
+          </div>
+        <div class="skeleton-loader-heading" >
+          <span style="width: 100%"></span>
+        </div>
+      </div>
+
+      <div class="mainHeading">
+        <div class="skeleton-loader-rightside" >
+          <span style="width: 100%"></span>
+        </div>
+        <div class="skeleton-loader-rightside" >
+          <span style="width: 100%"></span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngFor="let i of tablelist" class="skeleton-loader-Arraylist">
+      <span style="width: 100%"></span>
+    </div>
+      </ng-container>
+
+      <ng-template #content>
+      <div id="main-wrapper">
+        <div>
+          <div class="col-lg-4">
+              <app-breadcrumb></app-breadcrumb>
+          </div>
+          <div class="col-lg-8">
+            <a class="indicator" [ngClass]="{'active' : addCategoryFormOpened}" mat-stroked-button
+            (click)="add_category()">Add
+            Category</a>
+          <a class="indicator" [ngClass]="{'active' : addServiceFormOpened}" mat-stroked-button
+            (click)="add_service()">Add
+            Service</a>
+          </div>
+      </div>
+
+        <div class="row" [class.myOpacity]="display==='block'">
+          <div class="col-md-12" style="padding:0px">
+            <div class="panel panel-white">
+              <div class="panel-body">
+                <form [formGroup]="addCategoryForm">
+
+                <div *ngIf="addCategoryFormOpened" class=" form">
+                    <h2 class="cat">Add Category</h2>
+                    <div class="modal-body modalBodyRow">
+                        <div class="col-lg-12 col-md-12 col-sm-12 ">
+                          <mat-form-field appearance="outline" style="width: 100%!important;height:50px !important;"
+                            >
+                            <mat-label>Category Name</mat-label>
+                              <input type="text" formControlName="categoryName"  matInput />
+                          </mat-form-field>
+                          <mat-error *ngIf="categoryName?.hasError('required')">This field is required.</mat-error>
+                        </div>
+
+                        <div class="col-lg-12 form-Buttons">
+                          <button class="stroked" (click)="addCategoryFormOpened=false" mat-stroked-button>Cancel</button>
+                          &nbsp;
+                          &nbsp;
+                          &nbsp;
+                          <button mat-raised-button (click)="saveCategory()" >Save</button>
+                        </div>
+                    </div>
+
+                </div>
+              </form>
+
+                <form [formGroup]="addServiceForm" (ngSubmit)="addServiceForClientDashboard()">
+                  <div *ngIf="addServiceFormOpened" class="form">
+                    <!-- <div class="div">
+                      Hello world
+                      <p>
+                        {{addServiceForm.controls.service_detail.value}}
+                        <quill-editor formControlName="service_detail">
+
+                        </quill-editor>
+                      </p>
+                    </div> -->
+                    <h2 class="cat">{{serviceFormTitle}} Service</h2>
+                    <p class="note-heading">Note:</p>
+
+                    <p class="note">
+                      When you add a new service, it will be displayed on your client dashboard based on the selected
+                      category. Please take note of the following:
+
+                      <li>
+                        <b>Category Selection:</b>Choose the category that best fits your service. The service will be
+                        shown under this category in the client dashboard.
+                      </li>
+
+                      <li>
+                        <b>Client Dashboard Location:</b> The service will appear in the "Services" section of your
+                        client dashboard under the selected category. This helps clients easily find and access services
+                        related to their needs.
+                      </li>
+                      <li>
+                        <b> Visibility: </b>Keep in mind that your service's visibility is influenced by the selected
+                        category. Make sure to select the most relevant category to reach your target audience
+                        effectively.
+                      </li>
+
+                      Feel free to contact our support team(Mitsol Incorporation) if you have any questions or need
+                      further assistance regarding service categorization and display.
+                    </p>
+
+                    <div class="modal-body modalBodyRow">
+                        <div class="col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field appearance="outline" style="width: 100%;"
+                            >
+                            <mat-label>Service Name</mat-label>
+                              <input type="text" matInput [readonly]="readonlyIfServicesNameExistOnPortal()" formControlName="service_title" />
+                          </mat-form-field>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field appearance="outline" class="col-lg-12" style="height:50px !important;width: 100%;">
+                            <mat-label>Business Days</mat-label>
+                              <input matInput type="number" formControlName="business_days" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12">
+                          <mat-form-field appearance="outline" style="width: 100%;"
+                             >
+                            <mat-label>Service Fee</mat-label>
+                            <div class="date-input-container">
+                              <input matInput type="number" formControlName="service_fee" />
+                            </div>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 ">
+                          <quill-editor [styles]="{height: '200px'}"  formControlName="service_detail">
+
+                          </quill-editor>
+                          <!-- <mat-form-field appearance="outline" style="width: 100%;"
+                             >
+                            <mat-label>Description</mat-label>
+                              <textarea matInput style="height:50px" formControlName="service_detail"></textarea>
+                          </mat-form-field> -->
+                        </div>
+
+                        <div class="check col-lg-12" style="margin-top:30px">
+                          <label class="select-category">
+                            Select the Category/Categories of above service.
+                          </label>
+                          <span class="alert" *ngIf="invalidCategories">Please Select any Category.</span>
+                          <section class="example-section">
+                            <mat-checkbox class="example-margin1" formControlName="selectAllCats"
+                              (click)="addChackBox('all')">Select All</mat-checkbox>
+                          </section>
+                        </div>
+                        <div class="col-lg-12 tick-box">
+                          <div *ngFor="let cat of allCategories" class="col-lg-3 check-section1">
+                            <mat-checkbox (change)="addChackBox(cat.categoryID)"
+                              [checked]="isCategorySelected(cat.categoryID)" value="{{cat.categoryID}}"
+                              class="example-margin">
+                              {{cat.categoryName}}
+                            </mat-checkbox>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-12 form-Buttons">
+                          <button class="stroked" (click)="addServiceFormOpened=false" mat-stroked-button>Cancel</button>
+                          &nbsp;
+                          &nbsp;
+                          &nbsp;
+                          <button type="submit" mat-raised-button>{{btn}}</button>
+                        </div>
+
+                    </div>
+                  </div>
+                </form>
+                <!-- All categories -->
+                <div class="expansionpanel">
+                  <mat-accordion>
+                    <mat-expansion-panel *ngFor="let cat of allServices" (opened)="panelOpenState = true"
+                      (closed)="panelOpenState = false">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <div class="d-flex col-lg-12">
+                            <div class=" row2">
+                              <div class="col-lg-6">
+                                <span class="register"> <img class="service-icons"
+                                    src="assets/images/service-card-img/tax.png">
+                                  &nbsp; {{cat.categoryName}} <img class="service-edit"
+                                    (click)="addCategoryFormOpened=!addCategoryFormOpened"
+                                    src="assets/images/service-card-img/Edit.png">
+                                </span>
+                              </div>
+                              <div class="col-lg-6 time">
+                                <p class="txt-edit"><span style="color:#fff; font-weight: 500;">Last modified:</span> {{cat.lastModified}}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="div">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Id</th>
+                              <th> Service Name</th>
+                              <th>Fee</th>
+                              <th> Days</th>
+                              <th>Status</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+
+                          <tbody class="body">
+                            <ng-container *ngFor="let service of cat.services">
+                              <tr>
+                                <td> {{service.tbl_service_id}} </td>
+                                <td>
+                                  {{service.service_title.slice(12)}}
+                                </td>
+
+                                <td><b>$</b>{{service.service_fee}}</td>
+                                <td>{{service.business_days}}</td>
+                                <td>
+                                  <div [ngClass]="getClassOf(service.service_status)">
+                                    {{service.service_status}}
+                                  </div>
+                                </td>
+                                <td>
+                                  <!-- <a class=" btn edit" data-toggle="modal" data-target="#myModal"
+                                    (click)="edit(service.tbl_service_id)">Edit</a> -->
+                                    <a class=" btn edit"
+                                    (click)="edit(service.tbl_service_id)">Edit</a>
+                                  <!-- <a class=" btn edit" style="cursor: not-allowed;">Edit</a> -->
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+      <form id="add-row-form" [formGroup]="addServiceForm">
+        <div class="modal" id="myModal" >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"> Service</h4>
+              </div>
+              <div class="modal-body modalBodyRow">
+                  <div class="col-lg-6">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                      <mat-label>Service Name1</mat-label>
+                      <input matInput [errorStateMatcher]="matcher" formControlName="service_title" readonly>
+                      <mat-error *ngIf="service_title?.hasError('required')">This field is required.</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-6">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                      <mat-label>Service fee</mat-label>
+                      <input matInput type="number" formControlName="service_fee">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-6">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                      <mat-label>Buisness Days</mat-label>
+                      <input matInput type="number" formControlName="business_days">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-6">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                      <mat-label>Status</mat-label>
+                      <input matInput formControlName="service_status" readonly>
+                    </mat-form-field>
+                  </div>
+              </div>
+              <div class="modal-footer d-flex justify-content-between">
+                <button style="color:black;" type="button" (click)="addServiceFormOpened=false" class="btn btn-default">Cancel</button>
+                <button type="button" [attr.data-dismiss]="addServiceForm.valid ? 'modal' : null"
+                  (click)="submit(addServiceForm.value)" style id="add-row"
+                  class="btn btn-success btn1">{{btn}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div><!-- Main Wrapper -->
+
+  </main><!-- Page Content -->
+
+  <app-footernav></app-footernav>
+  <div class="cd-overlay"></div>
+  <!-- Javascripts -->
+  <!-- <script src="../../assets/js/pages/table-service.js"></script> -->
+</body>

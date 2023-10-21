@@ -1,0 +1,210 @@
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCj6wOkEBY2_hwqGVAjtQtjCCDuDe02TEU&libraries=places"></script>
+
+
+<div class="overlay"></div>
+
+
+
+
+
+<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s1">
+    <h3><span class="pull-left">Chat</span><a href="javascript:void(0);" class="pull-right" id="closeRight"><i
+                class="fa fa-times"></i></a></h3>
+    <div class="slimscroll">
+        <h3>Employees</h3>
+        <a class="showRight2" *ngFor="let emp of allemployees" (click)="toggleEmployeesNav(emp.tbl_employee_id)">
+            <span>{{emp.emp_fname}}<small>{{emp.emp_type}}</small></span>
+        </a>
+
+        <mat-divider style="margin-top:5px"></mat-divider>
+        <h3>Users</h3>
+        <a class="showRight2" *ngFor="let user of allUsers" (click)="toggleClientsNav(user.tbl_user_id)">
+            <img style="height:50px" src="https://www.w3schools.com/howto/img_avatar.png"><span>{{user.fname}}
+                <small>Hi! How're you?</small></span></a>
+    </div>
+</nav>
+
+<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2">
+    <h3><span class="pull-left">{{empName1}}</span> <a href="javascript:void(0);" class="pull-right" id="closeRight2"><i
+                class="fa fa-angle-right"></i></a></h3>
+    <div class="slimscroll chat">
+        <div *ngFor="let c of allChat; let i=index">
+            <div class="chat-item chat-item-right" *ngIf="c.from_id === mailForm.controls.from_id.value">
+                <div class="chat-message">
+                    {{c.message}}
+                </div>
+            </div>
+            <div class="chat-item chat-item-left" *ngIf="c.from_id === mailForm.controls.to_id.value">
+                <div class="chat-image">
+                </div>
+                <div class="chat-message">
+                    {{c.message}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="chat-write">
+        <form class="form-horizontal" action="javascript:void(0);" [formGroup]="mailForm">
+            <input type="text" class="form-control" formControlName="message" (keyup.enter)="onSubmit('emp_emp')"
+                placeholder="Say something">
+        </form>
+    </div>
+</nav>
+
+<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s3" #rightNav>
+    <h3><span class="pull-left">{{userName}}</span> <a href="javascript:void(0);" class="pull-right"
+            (click)="closeNav()" id="closeRight2"><i class="fa fa-angle-right"></i></a></h3>
+    <div class="slimscroll chat">
+        <div *ngFor="let c of allChat; let i=index">
+            <div class="chat-item chat-item-right" *ngIf="c.from_id === mailForm.controls.from_id.value">
+                <div class="chat-message">
+                    {{c.message}}
+                </div>
+            </div>
+            <div class="chat-item chat-item-left" *ngIf="c.from_id === mailForm.controls.to_id.value">
+                <div class="chat-image">
+                    <img style="height:50px" src="https://www.w3schools.com/howto/img_avatar.png">
+                </div>
+                <div class="chat-message">
+                    {{c.message}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-write">
+        <form class="form-horizontal" action="javascript:void(0);" [formGroup]="mailForm">
+            <input type="text" class="form-control" formControlName="message"
+                (keyup.enter)="onSubmitUserChat('user_emp')" placeholder="Say something">
+        </form>
+    </div>
+
+</nav>
+
+
+
+<div class="menu-wrap">
+    <nav class="profile-menu">
+        <div class="profile"><img src="assets/images/profile-menu-image.png" width="60" alt="David Green" /><span>Davids
+                Green</span></div>
+        <div class="profile-menu-list">
+            <a><i class="fa fa-star"></i><span>Favorites</span></a>
+            <a><i class="fa fa-bell"></i><span>Alerts</span></a>
+            <a><i class="fa fa-envelope"></i><span>Messages</span></a>
+            <a><i class="fa fa-comment"></i><span>Comments</span></a>
+        </div>
+    </nav>
+    <button class="close-button" id="close-button">Close Menu</button>
+</div>
+
+
+
+<div class="navbar">
+
+  <div *ngIf="loading else content" class="loader-container">
+    <div class="col-lg-4 col-md-8 col-sm-12">
+      <div class="skeleton-loader" style="height: 30px; width: 100px; margin-left: 35px;">
+        <span style="width: 100%"></span></div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-right: 38px;" class="col-lg-2 col-md-12 col-sm-12">
+      <div class="skeleton-loader" style=" border-radius: 50px; height: 30px; width: 30px; margin-top: 10px; ">
+        <span style="width: 100%; border-radius: 50px;"></span></div>
+      <div class="skeleton-loader" style="height: 25px; width: 90px; margin-top: 13px; ">
+        <span style="width: 100%"></span></div>
+      <div class="skeleton-loader" style="height: 25px; width: 90px; margin-top: 13px;">
+        <span style="width: 100%"></span></div>
+
+    </div>
+    <!-- <div class="col-lg-3 col-md-12 col-sm-12">
+      <div class="skeleton-loader" style="width: 60%; margin-left: 100px;"></div>
+    </div> -->
+
+</div>
+
+
+
+
+<ng-template #content>
+
+  <div class="navbar-inner">
+        <div class="sidebar-pusher">
+            <a href="javascript:void(0);" class="waves-effect waves-button waves-classic push-sidebar">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+        <div class="logo-box" style="background-color: #46002A;">
+            <a href="index.html" class="logo-text"><img src="assets/images/logo/mashrlogo.png"
+                    style="width: 64%; height: 39px;margin-left: -30px;"></a>
+        </div><!-- Logo Box -->
+        <div class="search-button">
+            <a href="javascript:void(0);" class="waves-effect waves-button waves-classic show-search"><i
+                    class="fa fa-search"></i></a>
+        </div>
+        <div class="topmenu-outer">
+            <div class="top-menu">
+                <ul class="nav navbar-nav navbar-left">
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="demo-section" style="margin-top:20px; cursor:pointer" [matMenuTriggerFor]="messages">
+                        <mat-icon [matBadge]="totalNotifications" yPosition="above" matBadgeColor="warn"
+                            style="cursor:pointer">notifications</mat-icon>
+                        <span class="cdk-visually-hidden">
+                            Example with a home icon with overlaid badge showing the number 15
+                        </span>
+                    </li>
+                    <mat-menu #messages="matMenu" style="margin-right:20px">
+                        <div *ngFor="let n of allNotifications; let i=index" class="notificationMessage">
+                            <span class="time">
+                                {{n.timestamp | date:'shortTime'}} &nbsp; &nbsp; {{n.timestamp | date}} </span>
+                            <p class="notificationTitle">
+                                {{n.messageTitle}}
+                            </p>
+
+                            <span class="notificationDetail">
+                                {{n.messageDetail}}
+                            </span>
+                            <p class="notificationDetail" style="font-weight: 500;margin-top:15px">
+                                Reload your page to fetch updated records.
+                            </p>
+                            <span class="time" style="text-decoration: underline; cursor:pointer; color:#fff"
+                                (click)="readNotifications(n.notification_id,'readSingleMessage')">
+                                Make as read </span>
+                        </div>
+                        <div *ngIf="allNotifications.length === 0">
+                            <app-record-not-found></app-record-not-found>
+                        </div>
+                        <span class="d-flex justify-content-center more" routerLink="/notifications"> See More</span>
+                    </mat-menu>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                            <span class="user-name" style="text-transform:uppercase">{{empName}}<i
+                                    class="fa fa-angle-down"></i></span>
+                            <img *ngIf="empImg" class="img-circle avatar" src="{{img_url}}employer_images/{{empImg}}"
+                                width="40" height="40">
+                            <i *ngIf="!empImg" class="fa fa-user"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-list" role="menu">
+                            <li role="presentation"><a routerLink="/profile"><i class="fa fa-user"></i>Profile</a></li>
+                            <li role="presentation"><a (click)="logOut()"><i class="fa fa-sign-out m-r-xs"></i>Log
+                                    out</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="log-out waves-effect waves-button waves-classic" (click)="logOut()">
+                            <span><i class="fa fa-sign-out m-r-xs"></i>Log out</span>
+                        </a>
+                    </li>
+                </ul><!-- Nav -->
+            </div><!-- Top Menu -->
+        </div>
+    </div>
+  </ng-template>
+
+
+</div>
+
+
+
+

@@ -1,0 +1,55 @@
+    <body class="page-header-fixed">
+        <main class="page-content content-wrap">
+            <app-header></app-header>
+            <!-- Navbar -->
+            <app-sidebar></app-sidebar><!-- Page Sidebar -->
+            <div class="page-inner">
+                <div class="page-title">
+                    <h3>File Upload</h3>
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="#">Forms</a></li>
+                            <li class="active">File Upload</li>
+                        </ol>
+                    </div>
+                </div>
+                <div id="main-wrapper">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Dropzone</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <form action="/file-upload" class="dropzone">
+                                        <div class="fallback">
+                                            <input name="file" type="file" multiple />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Plupload</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div id="uploader">
+                                        <p>Your browser doesn't have Flash, Silverlight or HTML5 support.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                </div><!-- Main Wrapper -->
+                <div class="page-footer">
+                    <p class="no-s">2015 &copy; Modern by Steelcoders.</p>
+                </div>
+            </div><!-- Page Inner -->
+        </main><!-- Page Content -->
+      <app-footernav></app-footernav>
+        <div class="cd-overlay"></div>
+        <script src="../../assets/js/pages/form-plupload.js"></script>
+    </body>

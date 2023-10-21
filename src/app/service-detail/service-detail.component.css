@@ -1,0 +1,40 @@
+h2 {
+    color: #fff;
+    display: block;
+    font-size: 1.5em !important;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: 500 !important;
+  }
+
+.use{
+    font-size: 20px;
+    margin: 0px 0px 2px 0px;
+
+}
+
+.docs{
+     font-size: 20px;
+     margin: 25px 0px -5px 0px;
+
+}
+
+::ng-deep .mat-dialog-container{
+  background-color: #260216 !important;
+}
+
+.mat-typography{
+
+    color: #fff;
+
+}
+
+.mat-button{
+  color: white;
+}
+
+.UploadFiles{
+  margin-top: 15px;
+}

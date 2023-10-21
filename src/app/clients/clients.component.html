@@ -1,0 +1,254 @@
+<body class="page-header-fixed">
+    <main class="page-content content-wrap">
+        <app-header></app-header>
+        <app-sidebar></app-sidebar>
+        <div class="page-inner">
+          <ng-container *ngIf="loading; else content">
+            <div class="loaderdiv">
+            <div class="mainHeading">
+              <div class="skelton-loader-circle">
+                <span style="width: 100%; border-radius: 50px;"></span>
+              </div>
+            <div class="skeleton-loader-heading">
+              <span style="width: 100%"></span>
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngFor="let i of tablelist" class="skeleton-loader-Arraylist">
+          <span style="width: 100%"></span>
+        </div>
+          </ng-container>
+
+
+          <ng-template #content>
+            <div id="main-wrapper">
+                <div>
+                    <div class="col-lg-4">
+                        <app-breadcrumb></app-breadcrumb>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-white">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="example" class="display table" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>First Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <ng-container *ngFor="let user of filteredusers| paginate : {
+                                                            itemsPerPage : 15,
+                                                            currentPage : p,
+                                                            totalItems : totallength}; let i=index">
+                                                <tr
+                                                    [ngClass]="{'activeTableRow':user.expanded, 'inActiveTableRow': !user.expanded}">
+                                                    <td>{{user.tbl_user_id}}</td>
+                                                    <td>{{user.fname}}</td>
+                                                    <td>{{user.email}}</td>
+                                                    <td>{{user.phone_number}}</td>
+                                                    <!-- <td class=""style="
+                                                               text-align: center;
+                                                            ">
+                                                                    <a class="btn" *ngIf="user.status === '1'" (click)="Blockuser(user.tbl_user_id)" style="color:red;">Block</a>
+                                                                    <a class="btn" *ngIf="user.status === '0'" (click)="unBlockuser(user.tbl_user_id)" style=" color: green;" >Unblock</a>
+                                                                  </td> -->
+                                                    <td style="cursor:pointer" (click)="user.expanded = !user.expanded">
+                                                        <span *ngIf="!user.expanded" class='material-icons'
+                                                            style="color:#adadad">expand_more</span>
+                                                        <span *ngIf="user.expanded" class='material-icons'>expand_less</span>
+                                                    </td>
+                                                </tr>
+                                                <ng-container *ngIf="user.expanded">
+                                                    <tr id="detail-row" [ngClass]="{'active': user.expanded}">
+                                                        <td colspan="8">
+                                                            <div class="form-row" style="padding:0px; margin:0px">
+                                                                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12"
+                                                                    id="form-row-main">
+                                                                    <fieldset class="form-row detailRow"
+                                                                        style="display:flex; justify-content:flex-start;margin-bottom: 20px;margin-top: 15px;">
+                                                                        <legend style="display: none;">
+                                                                            <b style="text-transform: capitalize;color:#ffff">{{user.fname}}
+                                                                                Detail</b>
+                                                                        </legend>
+                                                                        <div class="row" style="width: 100%;">
+                                                                            <div class="col-lg-10 col-md-10 col-sm-12"
+                                                                                style="flex-direction: column; padding-left: 34px;">
+                                                                                <div class="row">
+                                                                                    <div id="first-title"
+                                                                                        class="col-lg-3 col-md-4 col-sm-6">
+                                                                                        <label
+                                                                                            [ngClass]="{'active': user.expanded}"><b>First
+                                                                                                Name:</b></label>
+                                                                                        <br>
+                                                                                        <p>{{user.fname}}</p>
+                                                                                    </div>
+                                                                                    <div id="second-title"
+                                                                                        class="col-lg-3 col-md-4 col-sm-6">
+                                                                                        <label
+                                                                                            [ngClass]="{'active': user.expanded}"><b>Last
+                                                                                                Name:</b></label>
+                                                                                        <p>{{user.lname}}</p>
+                                                                                    </div>
+                                                                                    <div id="third-title"
+                                                                                        class="col-lg-3 col-md-4 col-sm-6">
+                                                                                        <label><b>Client ID:</b></label>
+                                                                                        <p>123</p>
+                                                                                    </div>
+                                                                                    <div id="four-title"
+                                                                                        class="col-lg-3 col-md-4 col-sm-6">
+                                                                                        <label><b>Assigned To:</b></label>
+                                                                                        <p>XYZ Manager</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div id="five-title"
+                                                                                        class="col-lg-3 col-md-4 col-sm-6">
+                                                                                        <label
+                                                                                            [ngClass]="{'active': user.expanded}"><b>Email:</b></label>
+                                                                                        <p>{{user.email}}</p>
+                                                                                    </div>
+                                                                                    <div id="six-title"
+                                                                                        class="col-lg-2 col-md-4 col-sm-6">
+                                                                                        <label
+                                                                                            [ngClass]="{'active': user.expanded}"><b>Address:</b></label>
+                                                                                        <p>{{user.lname}}</p>
+                                                                                    </div>
+                                                                                    <div id="seven-title"
+                                                                                        class="col-lg-2 col-md-4 col-sm-6">
+                                                                                        <label
+                                                                                            [ngClass]="{'active': user.expanded}"><b>State:
+                                                                                                <br>Kamal123</b></label>
+                                                                                        <p>{{user.state}}</p>
+                                                                                    </div>
+                                                                                    <div id="eight-title"
+                                                                                        class="col-lg-2 col-md-4 col-sm-6">
+                                                                                        <label
+                                                                                            [ngClass]="{'active': user.expanded}"><b>ZipCode:</b></label>
+                                                                                        <p>{{user.zip_code}}</p>
+                                                                                    </div>
+                                                                                    <div id="nine-title"
+                                                                                        class="col-lg-3 col-md-4 col-sm-6">
+                                                                                        <label
+                                                                                            [ngClass]="{'active': user.expanded}"><b>Contact
+                                                                                                No:</b></label>
+                                                                                        <p>{{user.phone_number}}</p>
+                                                                                    </div>
+
+
+
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                            <div id="last-title-custom"
+                                                                                class="col-lg-2 col-md-2 col-sm-12">
+                                                                                <div>
+                                                                                    <p>
+                                                                                        Orders Genrated:
+                                                                                        1425 <br>
+                                                                                        2540 <br>
+                                                                                        1125 <br>
+                                                                                        1452
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                        </div>
+
+
+
+                                                                    </fieldset>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+
+                                            </ng-container>
+
+
+                                        </tbody>
+                                    </table>
+                                    <div *ngIf="filteredusers.length==0">
+                                        <app-record-not-found></app-record-not-found>
+                                    </div>
+                                    <div *ngIf="filteredusers.length==0" class="d-flex justify-content-end"
+                                        style="text-align: end;">
+                                        <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="p=$event">
+                                        </pagination-controls>
+
+                                    </div>
+                                </div>
+
+                <form id="add-row-form" [formGroup]="clientForm">
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel"> Block User</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class=" col-lg-12">
+                                            <mat-form-field appearance="outline" style="width: 100%;">
+                                                <mat-label>Description</mat-label>
+                                                <textarea matInput formControlName="Description"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class=" col-lg-12">
+                                            <mat-form-field appearance="outline" style="width: 100%;">
+                                                <mat-label>Reason</mat-label>
+                                                <mat-select>
+                                                    <mat-option *ngFor="let i of arrayOfNumbers "
+                                                        value="{{i}}">{{i}}%</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" [attr.data-dismiss]="clientForm.valid ? 'modal' : null"
+                                        (click)="submit(clientForm.value)" style="background-color: #34425a;"
+                                        id="add-row" class="btn btn-success">{{btn}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+
+
+
+                <!-- </div>
+
+
+                    </div>
+                </div> -->
+            </div><!-- Main Wrapper -->
+          </ng-template>
+        </div><!-- Page Inner -->
+    </main><!-- Page Content -->
+    <app-footernav></app-footernav>
+
+</body>

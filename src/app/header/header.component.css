@@ -1,0 +1,239 @@
+::ng-deep .mat-badge-medium .mat-badge-content {
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 20px !important;
+    font-size: 11px !important;
+    font-weight: 550 !important;
+}
+::ng-deep .mat-badge-medium.mat-badge-above .mat-badge-content {
+    top: -9px !important;
+}
+
+::ng-deep .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
+    right: -18px !important;
+}
+
+p {
+    margin: 0;
+  }
+
+/* Notifications Css Start */
+.notificationMessage {
+    background-color: white;
+    padding: 5px 10px;
+    margin: 2px;
+    font-size: 12px;
+    max-width: 600px;
+    line-height: normal;
+  }
+
+  .notificationMessage:hover {
+    background-color: none;
+
+  }
+
+  ::ng-deep .mat-mdc-menu-panel.mat-mdc-menu-panel {
+  min-width: 112px;
+  max-width: 280px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  background-color: #130E13;
+  border: 1px solid #656565;
+  }
+
+  .notificationMessage{
+  background-color: #130E13;
+  border-bottom:  1px solid #656565;
+  }
+
+  .time{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 9px;
+    color: #a1a1a1;
+  }
+
+  .notificationTitle{
+    font-weight: bold;
+    font-size: 13px;
+    color: #fff;
+
+  }
+
+
+  .notificationDetail{
+    font-size: 12px;
+    font-weight: 100;
+    color: white;
+  }
+
+  .more{
+    display: flex;
+    justify-content: center;
+  padding: 5px 0px 0px 0px;
+  color: #FFF;
+  font-size: 12px;
+  }
+::ng-deep .mat-menu-panel{
+    min-width: 112px;
+    max-width: 280px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    background-color: #130E13;
+    border: 1px solid #656565;
+  }
+
+
+
+
+/* loader css of header   */
+
+/* CSS to style the header bar */
+.header-bar {
+  display: flex;
+}
+
+.vertical-line {
+  width: 100vw; /* Full viewport width */
+  height: 59px; /* Height of the vertical line */
+  background-color: white; /* Placeholder color */
+  border-radius: 5px;
+}
+
+.vertical-line {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+
+/* .overlay {
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+} */
+
+/* .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+} */
+
+
+.navbar {
+
+  background-color: #46002A;
+  color: white;
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.loader-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-loader {
+  background: linear-gradient(90deg, hsl(200, 20%, 80%), hsl(200, 20%, 95%), hsl(200, 20%, 80%));
+  background-size: 200% 100%;
+  height: 20px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  animation: skeleton-loading 1s linear infinite alternate;
+  box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.skeleton-loader > span {
+  display: block;
+  height: 100%;
+  /* border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px; */
+  border-radius: 5px;
+  background-color: rgb(183, 187, 185);
+  background-image: linear-gradient(
+    center bottom,
+    hsl(200, 20%, 10%) 37%,
+      hsl(200, 20%, 95%) 69%
+    /* rgb(43,194,83) 37%,
+    rgb(84,240,84) 69% */
+  );
+  box-shadow:
+    inset 0 2px 9px  rgba(255,255,255,0.3),
+    inset 0 -2px 6px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-loader > span:after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, .2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, .2) 50%,
+    rgba(255, 255, 255, .2) 75%,
+    transparent 75%,
+    transparent
+  );
+  z-index: 1;
+  background-size: 50px 50px;
+  animation: move 2s linear infinite;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  overflow: hidden;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+

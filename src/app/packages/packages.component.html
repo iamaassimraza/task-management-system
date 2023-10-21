@@ -1,0 +1,248 @@
+<body class="page-header-fixed">
+  <main class="page-content content-wrap">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+    <div class="page-inner">
+      <ng-container *ngIf="loading; else content">
+        <div class="loaderdiv">
+        <div class="mainHeading">
+          <div class="skelton-loader-circle" >
+            <span style="width: 100%; border-radius: 50px;"></span>
+          </div>
+        <div class="skeleton-loader-heading" >
+          <span style="width: 100%"></span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="bigCards">
+    <div class="skeleton-loader" style="margin-left: 25px; height: 350px; width: 46.6%; margin-top: 20px;">
+      <span style="width: 100%"></span></div>
+    <div class="skeleton-loader" style="margin-left: 25px; height: 350px; width: 46.6%; margin-top: 20px;">
+      <span style="width: 100%"></span></div>
+  </div>
+
+  <div class="bigCards">
+    <div class="skeleton-loader" style="margin-left: 25px; height: 350px; width: 46.6%; margin-top: 20px;">
+      <span style="width: 100%"></span></div>
+    <div class="skeleton-loader" style="margin-left: 25px; height: 350px; width: 46.6%; margin-top: 20px;">
+      <span style="width: 100%"></span></div>
+  </div>
+
+
+  <div class="bigCards">
+    <div class="skeleton-loader" style="margin-left: 25px; height: 350px; width: 46.6%; margin-top: 20px;">
+      <span style="width: 100%"></span></div>
+    <div class="skeleton-loader" style="margin-left: 25px; height: 350px; width: 46.6%; margin-top: 20px;">
+      <span style="width: 100%"></span></div>
+  </div>
+
+
+  <!-- <div class="smallCards">
+  <div class="skeleton-loader" style="margin-left: 25px; height: 110px; width: 30%; margin-top: 20px;"></div>
+  <div class="skeleton-loader" style="margin-left: 25px; height: 110px; width: 30%; margin-top: 20px;"></div>
+</div> -->
+
+
+      </ng-container>
+
+
+      <ng-template #content>
+       <div id="main-wrapper" style="display: flex; flex-direction: column;">
+        <div>
+          <div class="col-lg-4">
+            <app-breadcrumb></app-breadcrumb>
+          </div>
+          <div class="col-lg-8">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel panel-white">
+
+              <div class="panel-body">
+
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12 ">
+                    <div *ngFor="let p of usaPackages; let i=index" class="package-1 cardAnimation">
+                      <div style="display: flex; justify-content: center;">
+                        <label class="pkgTitle">
+                          {{ p.pkg_title }}
+                          <span style="cursor: pointer;" (click)="edit(p.tbl_pkg_id)" data-toggle="modal"
+                            data-target="#myModal" class="material-icons" style="font-size: 17px;">mode</span>
+                        </label>
+                      </div>
+                      <div class="paragraph ">
+                        <div class="headings"
+                          style="display: flex; justify-content: space-between; margin: 0px 25px 25px 25px;">
+                          <div class="text-1">
+                            <div>Country:</div>
+                            <div> <img style="height: 40px; width: 40px; margin-right: 5px;" src="assets/images/logo/united-states.png" alt=""> United States of America </div>
+                          </div>
+                          <div class="text-2">
+                            <div>Package Price:</div>
+                            <div>${{ p.pkg_fee }}</div>
+                          </div>
+                        </div>
+                        <div class="lists" style="margin: 0px 0px 0px 25px;">
+                          Features:
+                          <ul>
+                            <li *ngFor="let inc of getUSAIncludes(i)">{{inc}}</li>
+                          </ul>
+                          Free Services:
+                          <ul>
+                            <li *ngFor="
+                            let ser of p.included_services;
+                            let i= index
+                            ">{{ser.service_title.slice(12)}}</li>
+                          </ul>
+                          Add on Services:
+                          <ul>
+                            <li *ngFor="
+                                            let ser of p.addon_services;
+                                            let i= index
+                                            ">{{ser.service_title.slice(12)}}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div *ngFor="let p of ukPackages; let i=index" class="package-1 cardAnimation">
+                      <div style="display: flex; justify-content: center;">
+                        <h5> </h5>
+                        <label class="pkgTitle">
+                          {{ p.pkg_title }}
+                          <span style="cursor: pointer;" (click)="edit(p.tbl_pkg_id)" data-toggle="modal"
+                            data-target="#myModal" class="material-icons" style="font-size: 17px;">mode</span>
+                        </label>
+                      </div>
+                      <div class="paragraph">
+                        <div class="headings"
+                          style="display: flex; justify-content: space-between; margin: 0px 25px 25px 25px;">
+                          <div class="text-1">
+                            <div>Country:</div>
+                            <div> <img style="height: 40px; width: 40px; margin-right: 5px;" src="assets/images/logo/united-kingdom.png" alt=""> United Kingdom</div>
+                          </div>
+                          <div class="text-2">
+                            <div>Package Price:</div>
+                            <div>${{ p.pkg_fee }}</div>
+                          </div>
+                        </div>
+                        <div class="lists" style="margin: 0px 0px 0px 25px;">
+                          Features:
+                          <ul>
+                            <li *ngFor="let inc of getUKIncludes(i)">{{inc}}</li>
+                          </ul>
+                          Free Services:
+                          <ul>
+                            <li *ngFor="
+                            let ser of p.included_services;
+                            let i= index
+                            ">{{ser.service_title.slice(12)}}</li>
+                          </ul>
+                          Add on Services:
+                          <ul>
+                            <li *ngFor="
+                                          let ser of p.addon_services;
+                                          let i= index
+                                          ">{{ser.service_title.slice(12)}}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <form id="add-row-form" [formGroup]="packageForm">
+                  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h4 class="modal-title" id="myModalLabel"><span
+                              style="text-transform:uppercase;">{{packageForm.controls.country.value}}</span>&nbsp;Package
+                          </h4>
+                        </div>
+                        <div class="modal-body modalBodyRow">
+                          <div class="col-lg-6">
+                            <mat-form-field appearance="outline" style="width: 100%">
+                              <mat-label>Title</mat-label>
+                              <input matInput readonly formControlName="pkg_title" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-6">
+                            <mat-form-field appearance="outline" style="width: 100%">
+                              <mat-label>Fee</mat-label>
+                              <input matInput type="number" formControlName="pkg_fee" [value]="totalFee" />
+                            </mat-form-field>
+                          </div>
+                          <div class="col-lg-12">
+                            <quill-editor [styles]="{height: '150px'}" formControlName="pkg_detail">
+
+                            </quill-editor>
+                            <!-- <mat-form-field appearance="outline" style="width: 100%;">
+                              <mat-label>Detail</mat-label>
+                              <textarea matInput formControlName="pkg_detail" style="height:45px"></textarea>
+                            </mat-form-field> -->
+                          </div>
+                          <p style="margin-bottom:20px !important;">
+                            Please enter package features and their respective prices below, following this format:
+
+                            Feature Name: Price, Feature Name: Price etc
+                          </p>
+                          <div class="col-lg-12">
+                            <!-- <quill-editor [styles]="{height: '150px'}" formControlName="pkg_includes">
+
+                            </quill-editor> -->
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                              <mat-label>Package Features </mat-label>
+                              <textarea matInput formControlName="pkg_includes" style="height:120px"></textarea>
+                            </mat-form-field>
+                          </div>
+
+                          <!-- <span style="padding: 10px">Add Ons</span> -->
+                          <div class="col-lg-12 row" style="margin-left:5px">
+                            <mat-label style="margin-bottom:10px">Add On Services</mat-label>
+                            <mat-checkbox class="col-lg-3" (change)="
+                                updateAddOnServices(
+                                ser.tbl_service_id
+                                )
+                                " *ngFor="let ser of allServices; let i= index"
+                              [checked]="checkExistedServices(ser.service_title)">
+                              {{ ser.service_title.slice(12)}}
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Cancel
+                          </button>
+
+                          <button type="button" [attr.data-dismiss]="
+                            packageForm.valid ? 'modal' : null
+                            " (click)="submit(packageForm.value)" class="btn btn-success btn1">
+                            {{ btn }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Row -->
+      </div>
+    </ng-template>
+      <!-- Main Wrapper -->
+    </div>
+    <!-- Page Inner -->
+  </main>
+  <!-- Page Content -->
+  <app-footernav></app-footernav>
+</body>

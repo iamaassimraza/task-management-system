@@ -1,0 +1,29 @@
+<ng-template #noRejections>
+  <div style="color: #28A0A2;">
+    No Rejections found
+  </div>
+</ng-template>
+<div class="bottom-sheet-content">
+  <!-- Content of the bottom sheet -->
+  <table class="table" *ngIf="Rejections.length > 0; else noRejections">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Reject By</th>
+        <th>Rejection Reason</th>
+        <th style="text-align: center">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container>
+        <tr *ngFor="let r of Rejections; let i = index;">
+          <td>{{ i }}</td>
+          <td>{{ r.reject_by }}</td>
+          <td>{{ r.rejection_reason }}</td>
+          <td>{{ r.timestamps | date }}</td>
+        </tr>
+      
+      </ng-container>
+    </tbody>
+  </table>
+</div>

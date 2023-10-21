@@ -1,0 +1,96 @@
+.page-content {
+    background: #260216;
+    /* background: #11000b; */
+    color: #999999;
+    /* border: 1px solid red; */
+}
+
+.navbar .logo-box {
+    /* background: #13445d; */
+    background: #11000b;
+    color: #999999;
+    /* opacity: 0.5; */
+}
+
+.navbar .logo-box a {
+    color: #fff;
+}
+
+.sidebar {
+    /* background: #0b2938; */
+    /* background: #260216; */
+    color: #999999;
+
+    /* opacity: 0.5; */
+}
+
+.sidebar-header {
+    /* background: #11000b; */
+    /* background: #260216; */
+    color: #999999;
+
+    /* opacity: 0.5; */
+}
+
+.sidebar-profile span small {
+    /* color: #899dc1; */
+    color: #999999;
+}
+
+.menu {
+    /* background: #0b2938; */
+    background: #11000b;
+    /* border-radius: 20px; */
+    color: #999999;
+    /* opacity: 0.5; */
+}
+
+.menu.accordion-menu a {
+    /* color: #899dc1; */
+    color: #999999;
+
+}
+
+.menu.accordion-menu > li > a:hover {
+	/* background: #0f364a; */
+    background: #11000b;
+    color: #fff;
+}
+
+.menu.accordion-menu > li.active > a,
+.menu.accordion-menu > li.active.open > a {
+	/* background: #0f364a; */
+    background: #11000b;
+    color: #fff;
+    /* color: #999999; */
+
+    /* opacity: 0.5; */
+}
+
+.small-sidebar:not(.page-sidebar-fixed) .accordion-menu li.droplink:hover > a,
+.horizontal-bar .accordion-menu > li.droplink:hover > a,
+.menu.accordion-menu ul,
+.menu.accordion-menu li.open > a,
+.hover-menu .accordion-menu > li.droplink:hover > a {
+    /* background: #0f364a; */
+    background: #11000b;
+    /* color: #999999; */
+    color: #fff;
+
+    /* opacity: 0.5; */
+}
+
+.menu.accordion-menu ul li a:hover,
+.menu.accordion-menu ul li.active a {
+	/* background: #0b2938; */
+    background: #11000b;
+    /* color: #999999; */
+
+    opacity: 0.5;
+    color: #fff;
+}
+
+.menu.accordion-menu ul li a {
+    /* color: #899dc1; */
+    color: #999999;
+}

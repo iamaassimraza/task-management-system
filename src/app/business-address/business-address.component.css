@@ -1,0 +1,61 @@
+.ro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* width: 300px; */
+}
+.form-group input{
+  margin-left: 10px;
+}
+
+  /* pagination color */
+   :host /deep/ .ngx-pagination {
+    padding-left: 0px;
+    color: white;
+  }
+  :host /deep/ .ngx-pagination .current {
+    color: white;
+    border-radius: 4px;
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+  
+  :host /deep/ .ngx-pagination a:hover,
+  .ngx-pagination button:hover {
+    background: #174994 !important;
+    color: white;
+    border-radius: 3px;
+    padding-left: 9px;
+    padding-right: 9px;
+    text-decoration: none;
+  }
+  
+  :host /deep/ .ngx-pagination a:focus,
+  .ngx-pagination button:focus {
+    outline: none;
+    background: #174994 !important;
+    color: white;
+  }
+  :host /deep/ .ngx-pagination a {
+    color: white;
+  }
+  :host /deep/ .ngx-pagination a,
+  button {
+    color: white;
+  }
+  
+  :host /deep/ .ngx-pagination .ngx-pagination-controls {
+    color: white;
+  }
+  :host /deep/.ngx-pagination .current,
+  .btn-info {
+    background: #174994 !important;
+    border: transparent;
+  }
+  
+  :host /deep/.ngx-pagination .current:hover {
+    background: #174994 !important;
+    border: transparent;
+  } 
+
+/* pagination color end */

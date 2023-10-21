@@ -1,0 +1,166 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<body class="page-header-fixed">
+    <main class="page-content content-wrap">
+        <app-header></app-header>
+        <app-sidebar></app-sidebar>
+        <div class="page-inner">
+          <ng-container *ngIf="loading; else content">
+            <div class="loaderdiv">
+            <div class="mainHeading">
+              <div class="skelton-loader-circle">
+                <span style="width: 100%; border-radius: 50px;"></span>
+              </div>
+            <div class="skeleton-loader-heading" >
+              <span style="width: 100%"></span>
+            </div>
+          </div>
+
+          <div class="mainHeading">
+            <div class="skeleton-loader-rightside" >
+              <span style="width: 100%"></span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngFor="let i of tablelist" class="skeleton-loader-Arraylist" >
+          <span style="width: 100%"></span>
+        </div>
+          </ng-container>
+
+          <ng-template #content>
+            <div id="main-wrapper">
+                <div>
+                    <div class="col-lg-4">
+                        <app-breadcrumb></app-breadcrumb>
+                    </div>
+                    <div class="col-lg-8">
+                        <button type="button" style="display: flex; align-items: center;"
+                            class="btn btn-success col-2 btn1" data-toggle="modal" data-target="#myModal"
+                            (click)="clearbox()"><span class="material-icons">control_point</span>Add
+                            New </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-white">
+                            <form id="add-row-form" [formGroup]="agentForm">
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel"> Commission Agent</h4>
+                                            </div>
+                                            <div class="modal-body modalBodyRow">
+                                                    <div class=" col-lg-6">
+                                                        <mat-form-field appearance="outline" style="width: 100%;">
+                                                            <mat-label>First Name</mat-label>
+                                                            <input matInput formControlName="commission_agent_fname">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class=" col-lg-6">
+                                                        <mat-form-field appearance="outline" style="width: 100%; ">
+                                                            <mat-label>Last Name</mat-label>
+                                                            <input matInput formControlName="commission_agent_lname">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class=" col-lg-6">
+                                                        <mat-form-field appearance="outline" style="width: 100%;">
+                                                            <mat-label>Email</mat-label>
+                                                            <input matInput type="email"
+                                                                formControlName="commission_agent_email">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class=" col-lg-6">
+                                                        <mat-form-field appearance="outline" style="width: 100%;">
+                                                            <mat-label>Phone Number</mat-label>
+                                                            <input matInput type="number"
+                                                                formControlName="commission_agent_phone_number">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class=" col-lg-8">
+                                                        <mat-form-field appearance="outline" style="width: 100%;">
+                                                            <mat-label>Address</mat-label>
+                                                            <input matInput formControlName="commission_agent_address">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class=" col-lg-4">
+                                                        <mat-form-field appearance="outline" style="width: 100%;">
+                                                            <mat-label>Commission %</mat-label>
+                                                            <input matInput type="number"
+                                                                formControlName="agent_commission">
+                                                        </mat-form-field>
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer d-flex justify-content-between">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Cancel</button>
+                                                <button type="submit"
+                                                    [attr.data-dismiss]="agentForm.valid ? 'modal' : null"
+                                                    (click)="submit(agentForm.value)" style="" id="add-row"
+                                                    class="btn btn-success btn1">{{btn}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table id="example" class="display table" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Address</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Commision</th>
+                                                <th style="text-align: center;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let agent of allAgents">
+                                                <td>{{agent.tbl_commission_agent_id}}</td>
+                                                <td>{{agent.commission_agent_fname}}</td>
+                                                <td>{{agent.commission_agent_lname}}</td>
+                                                <td>{{agent.commission_agent_address}}</td>
+                                                <td>{{agent.commission_agent_email}}</td>
+                                                <td>{{agent.commission_agent_phone_number}}</td>
+                                                <td>{{agent.agent_commission}}%</td>
+                                                <td class="d-flex justify-content-end gap-3  align-items-center" style="
+                                                display: flex;
+                                                justify-content: center;
+                                                align-items: center;
+                                            ">
+                                                    <a class=" btn edit" data-toggle="modal" data-target="#myModal"
+                                                        (click)="edit(agent.tbl_commission_agent_id)">Edit</a>
+                                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                        class="btn delete"
+                                                        (click)="deleteAgent(agent.tbl_commission_agent_id)">Delete</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div *ngIf="allAgents.length === 0">
+                                        <app-record-not-found></app-record-not-found>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div><!-- Row -->
+            </div>
+          </ng-template>
+
+        </div><!-- Page Inner -->
+    </main><!-- Page Content -->
+    <app-footernav></app-footernav>
+
+</body>

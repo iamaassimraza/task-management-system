@@ -1,0 +1,2472 @@
+<body class="page-header-fixed">
+  <main class="page-content content-wrap">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+    <div class="page-inner">
+      <ng-container *ngIf="loading; else content">
+        <div class="loaderdiv">
+        <div class="mainHeading">
+          <div class="skelton-loader-circle">
+            <span style="width: 100%; border-radius: 50px;"></span>
+          </div>
+        <div class="skeleton-loader-heading">
+          <span style="width: 100%"></span>
+        </div>
+      </div>
+
+      <div class="mainHeading">
+        <div class="skeleton-loader-rightside" >
+          <span style="width: 100%"></span>
+        </div>
+        <div class="skeleton-loader-rightside" >
+          <span style="width: 100%"></span>
+        </div>
+        <div class="skeleton-loader-rightside" >
+          <span style="width: 100%"></span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngFor="let i of tablelist" class="skeleton-loader-Arraylist">
+      <span style="width: 100%"></span>
+    </div>
+      </ng-container>
+
+
+      <ng-template #content>
+        
+      <div id="main-wrapper">
+       
+        <div>
+          <div class="col-lg-4">
+            <app-breadcrumb></app-breadcrumb>
+          </div>
+          <form [formGroup]="myForm">
+            <div class="col-lg-8 actions-row"
+              style="display: flex; justify-content:space-between; align-items: center;">
+              <div class="filter-outer col-lg-6"
+                style="display:flex; justify-content: flex-end;padding: 0px 20px 0px 0px !important;">
+                <div class="filters" (click)="activeFilter = !activeFilter">
+                  <span class="fas fa-search glyphicon-search"
+                    aria-hidden="true"></span>
+                </div>
+
+                <!-- <ngx-skeleton-loader count="{{totalcount}}" appearance="line" *ngIf="loader"></ngx-skeleton-loader> -->
+
+                <div class="form-group ">
+                  <input (keyup)="searchByCFID($event)" type="text"
+                    class="form-control search-input" id="pwd"
+                    formControlName="tbl_state_id" placeholder="Search by CFID"
+                    name="pwd" (blur)="onBlur()" />
+                </div>
+              </div>
+              <div class="col-lg-3"
+                style="display:flex; justify-content: start;">
+                <mat-form-field appearance="outline" class="full-widt1h"
+                  style="width:150px !important; ">
+                  <mat-label>Select Manager</mat-label>
+                  <mat-select [(value)]="selectedManager"
+                    formControlName="searchByManager"
+                    (selectionChange)="getAllOrdersOfEmployee($event.value)">
+                    <mat-option value="none">None</mat-option>
+                    <mat-option *ngFor="let employee of allEmployee"
+                      value="{{ employee.tbl_employee_id }}">
+                      {{ employee.emp_fname }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" style="display:flex; justify-content:start;">
+                <mat-form-field appearance="outline" class="full-widt1h"
+                  style="width:150px !important">
+                  <mat-label>Select Status</mat-label>
+                  <mat-select [(value)]="selectedStatus"
+                    (selectionChange)="filterOrders($event.value)">
+                    <mat-option value="all">
+                      All
+                    </mat-option>
+                    <mat-option value="not_assign">
+                      Not-Assigned
+                    </mat-option>
+                    <mat-option value="in_progress">
+                      In-Progress
+                    </mat-option>
+                    <mat-option value="complete">
+                      Completed
+                    </mat-option>
+                    <mat-option value="blocked">
+                      Blocked
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="row" [class.myOpacity]="display === 'block'">
+          <div class="col-md-12 col-lg-12">
+            <form [formGroup]="myForm">
+
+              <div class="panel panel-white">
+                <div class="panel-body">
+                  <table matSort (matSortChange)="sortData($event)"
+                    class="table">
+                    <thead>
+                      <tr>
+                        <th mat-sort-header="customId" style="width:90px">Order
+                          Id</th>
+                        <th mat-sort-header="name" style="width:90px">Package</th>
+                        <th mat-sort-header="email" style="width:100px">Days
+                          Left</th>
+                        <th mat-sort-header="status" style="width:100px">Status</th>
+                        <th mat-sort-header="approval" style="width:100px">Appr.
+                          Req.</th>
+                        <th mat-sort-header="manager" style="width:100px">Assign
+                          To</th>
+                        <th class="progress-header">Progress </th>
+                        <th style="width:100px"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="
+                            let order of filteredOrders
+                            | paginate
+                                : {
+                                    itemsPerPage: 15,
+                                    currentPage: p,
+                                    totalItems: totallength
+                                  };
+                            let i = index
+                          ">
+                        <tr style="height:40px"
+                          [ngClass]="{'activeTableRow':order.expanded, 'inActiveTableRow': !order.expanded}">
+                          <td style="cursor:pointer">
+                            <span *ngIf="!iswantToEditCustomIdClicked[i]"
+                              (click)="wantToEditCustomId('show',order.order_services[i]?.customId, i)">
+                              {{ order.order_services[0]?.customId}}
+                            </span>
+                            <span *ngIf="iswantToEditCustomIdClicked[i]"
+                              (click)="wantToEditCustomId('show',order.order_services[i]?.customId,  i)">
+                              <input type="text" class="customIdInput" #customId
+                                formControlName="customId"
+                                [readOnly]="!iswantToEditCustomIdClicked[i]">
+                              <mat-error
+                                *ngIf="customIdGetter?.hasError('required')">
+                                This field is required
+                              </mat-error>
+                              <mat-error
+                                *ngIf="customIdGetter?.hasError('pattern')">
+                                Format should be like CFID2001
+                              </mat-error>
+                              <span class="CrossTickRow">
+                                <img
+                                  (click)="updateCustomId(order.tbl_order_id, customId.value, i)"
+                                  style="margin-right: 30px;"
+                                  src="assets/images/tick.png">
+                                <img
+                                  (click)="wantToEditCustomId('hide',order.order_services[i]?.customId, i)"
+                                  src="assets/images/cross.png">
+                              </span></span>
+                          </td>
+
+                          <td>
+                            <span *ngIf="order.pkg_title">
+                              {{order.pkg_title}}
+                            </span>
+                            <span *ngIf="!order.pkg_title">
+                              without pkg
+                            </span>
+                          </td>
+
+                          <!-- <td>
+                            {{ order.order_services[0]?.timestamp | date }}
+                          </td> -->
+                          <td
+                            style="font-size: 12px; font-weight: 300; color: #FFFFFF; padding-left: 0px;"
+                            class="col5">
+                            <span>
+                              <span
+                                [ngClass]="{'negative-days': +getRemainingDays(order.deadline_date) < 0}"
+                                *ngIf="getRemainingDays(order.deadline_date) !== 'Today' && getRemainingDays(order.deadline_date) !== 'Tmrw'">
+                                {{ getRemainingDays(order.deadline_date)}} days
+                              </span>
+                              <span style="color:#FFEB80"
+                                *ngIf="getRemainingDays(order.deadline_date) === 'Today'">
+                                Today
+                              </span>
+                              <span style="color:#34761D"
+                                *ngIf="getRemainingDays(order.deadline_date) === 'Tmrw'">
+                                Tmrw
+                              </span>
+                            </span>
+                          </td>
+                          <td>
+                            <span class="label" matTooltipPosition="left"
+                              [matTooltip]="getTooltipServices(order.tbl_order_id)"
+                              [ngClass]="{
+                                  'in_progress':
+                                    order.order_services[0]
+                                      ?.order_status_name === 'in_progress',
+                                  'complete':
+                                    order.order_services[0]
+                                      ?.order_status_name === 'complete',
+                                  'blocked':
+                                    order.order_services[0]
+                                      ?.order_status_name === 'blocked',
+                                  'not_assign':
+                                    order.order_services[0]
+                                      ?.order_status_name === 'not_assign'
+                                }">
+                              <span
+                                *ngIf="order.order_services[0]?.order_status_name === 'not_assign'">Not
+                                Assigned</span>
+                              <span
+                                *ngIf="order.order_services[0]?.order_status_name === 'in_progress'">In
+                                Process</span>
+                              <span
+                                *ngIf="order.order_services[0]?.order_status_name === 'complete'">Completed</span>
+                              <span
+                                *ngIf="order.order_services[0]?.order_status_name === 'blocked'">Blocked</span>
+                            </span>
+                          </td>
+                          <td>
+                            <span *ngIf="order.need_assigner_approval">
+                              {{ order.need_assigner_approval}}
+                            </span>
+                            <span *ngIf="!order.need_assigner_approval">
+                              not set
+                            </span>
+                          </td>
+                          <td>
+                            <span *ngIf="order.emp_fname">
+                              {{ order.emp_fname }}
+                            </span><span *ngIf="!order.emp_fname">
+                              not assigned
+                            </span>
+                          </td>
+                          <td>
+                            <div class="progress-bar" matTooltipPosition="left"
+                              [matTooltip]="getTooltipServices(order.tbl_order_id)"
+                              [style.background]="getProgressBarBackground(order.order_services[0]?.order_progress)"
+                              [style.width.%]="order.order_services[0]?.order_progress"
+                              aria-valuemin="0"
+                              aria-valuemax="100"></div>
+                          </td>
+                          <td>
+                            <div class="viewOrderDivg">
+                              <span class="col-lg-10">
+                                <button mat-raised-button
+                                  [matMenuTriggerFor]="menu"
+                                  style="background-color: #174994; color: white; height:30px">Actions</button>
+                                <mat-menu id="ss" #menu="matMenu">
+                                  <button *ngFor="let s of allStatus" (click)="
+                                  actions(
+                                    s.order_status_name,
+                                    order.tbl_order_id
+                                  )
+                                " mat-menu-item >
+                                    <span
+                                      *ngIf="s.order_status_name === 'not_assign'">
+                                      Not Started
+                                    </span>
+                                    <span *ngIf="
+                                    s.order_status_name === 'in_progress'
+                                  ">
+                                      Assign Order
+                                    </span>
+                                    <span
+                                      *ngIf="s.order_status_name === 'blocked'">
+                                      Block
+                                    </span>
+                                  </button>
+                                </mat-menu>
+                              </span>
+                              <span class="col-lg-2 "
+                                style="cursor: pointer; text-align: end"
+                                (click)="order.expanded = !order.expanded"
+                                (click)="expand(order.tbl_order_id)">
+                                <span *ngIf="!order.expanded"
+                                  class="material-icons view_errow"
+                                  style="color:#fff">expand_more</span>
+                                <span *ngIf="order.expanded"
+                                  class="material-icons view_errow">expand_less</span>
+                              </span>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <ng-container *ngIf="order.expanded">
+                          <tr id="detail_row">
+                            <td colspan="9">
+                              <div class="form-row"
+                                style="padding: 0px; margin: 0px">
+                                <div
+                                  class="col-lg-12 col-xl-12 col-md-12 col-sm-12 orderDetailView">
+
+                                  <div *ngFor="
+                                        let data of order.order_services;
+                                        let i = index
+                                      " style="margin-top: 30px"
+                                    class="box-container box-container-desk overflow-section">
+                                    <div class="box-container__heading">
+                                      <span style="
+                                            display: flex;
+                                            align-items: flex-end;
+                                          ">
+                                        <img class="inline" *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrBusinessAddress'
+                                            "
+                                          src="assets/images/business-address.png"
+                                          alt />
+                                        <img class="inline" *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrRegisteredAgent'
+                                            " src="assets/images/ra-agent.png"
+                                          alt />
+                                        <img class="inline" *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrCompanyFormation'
+                                            "
+                                          src="assets/images/company-formation.png"
+                                          alt />
+                                        <img class="inline" *ngIf="
+                                              data.service_title ==
+                                                'serviceMashrEINwithSSN' ||
+                                              data.service_title ==
+                                                'serviceMashrEINwithoutSSN'
+                                            " src="assets/images/ein.png" alt />
+                                        <img class="inline" *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrPayoneer'
+                                            " src="assets/images/bank.png" alt />
+                                        <img class="inline" *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrWise'
+                                            " src="assets/images/bank.png" alt />
+                                        <img class="inline" *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrAmazon'
+                                            " src="assets/images/amazon.png" alt />
+                                        <img class="inline" *ngIf="
+                                            data.service_title ==
+                                            'serviceMashrResellerCertificate'
+                                          " src="assets/images/tasks.png" alt />
+
+                                        <img class="inline" *ngIf="
+                                          data.service_title ==
+                                          'serviceMashrTaxFiling'
+                                        " src="assets/images/tax.png" alt />
+                                        <img class="inline" *ngIf="
+                                        data.service_title ==
+                                        'serviceMashrAmendment'
+                                      " src="assets/images/amendment.png" alt />
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrBusinessAddress'
+                                            " class="serviceName">business
+                                          address info</span>
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrRegisteredAgent'
+                                            " class="serviceName">registered
+                                          agent info</span>
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrCompanyFormation'
+                                            " class="serviceName">Company Filing
+                                          Details</span>
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrEINwithSSN'
+                                            " class="serviceName">EIN with SSN
+                                          info</span>
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrEINwithoutSSN'
+                                            " class="serviceName">EIN without
+                                          SSN info</span>
+                                        <span
+                                          *ngIf=" data.service_title =='serviceMashrPayoneer'"
+                                          class="serviceName">Payoneer info</span>
+                                        <span *ngIf="
+                                            data.service_title ==
+                                            'serviceMashrWise'
+                                          " class="serviceName">Wise info</span>
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrAmazon'
+                                            " class="serviceName">amazon info</span>
+                                        <span *ngIf="
+                                            data.service_title ==
+                                            'serviceMashrResellerCertificate'
+                                          " class="serviceName">reseller
+                                          certificate info</span>
+                                        <span *ngIf="
+                                          data.service_title ==
+                                           'serviceMashrTaxFiling'
+                                        " class="serviceName">Annual Tax
+                                          Compliance info</span>
+                                        <span *ngIf="
+                                        data.service_title ==
+                                        'serviceMashrAmendment'
+                                      " class="serviceName">amendment info</span>
+
+                                      </span>
+
+                                      <button mat-stroked-button
+                                        style="background-color: #174994;color: #fff;"
+                                        (click)=" openBottomSheet(
+                  order.order_services[i].tbl_order_service_id)">Revisions</button>
+                                    </div>
+                                    <hr />
+                                    <div class="box-container__content">
+                                      <div
+                                        class="row-data flex center content-between"
+                                        style="
+                                            flex-wrap: wrap;
+                                            justify-content: space-between;
+                                          ">
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrBusinessAddress'
+                                            " class="col-lg-12">
+                                          <div class="col-lg-7 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <div>
+                                                <label> Address:</label>
+                                                <p>{{
+                                                  data.purchasedBusinessAddress
+                                                  }}</p>
+                                              </div>
+                                              <div>
+                                                <label> Status:</label>
+                                                <p [ngClass]="{
+                                                      statusNotAssign:
+                                                        data.status ===
+                                                        'Not-Assign',
+                                                      statusInProgress:
+                                                        data.status ===
+                                                        'In-Progress',
+                                                      statuApproved:
+                                                        data.status ===
+                                                        'complete',
+                                                      statusReject:
+                                                        data.status ===
+                                                        'reject',
+                                                      statusNeedToReview:
+                                                        data.status ===
+                                                        'pending'
+                                                    }">
+                                                  <span *ngIf="
+                                                        data.status !=
+                                                        'Not-Assign'
+                                                      ">
+                                                    {{ data.status }}</span>
+                                                  <span *ngIf="
+                                                        data.status ==
+                                                        'Not-Assign'
+                                                      ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <button class="open-document"
+                                                  (click)="
+                                                      openServiceDetailDialog(
+                                                        data.detail,
+                                                        data.documents,
+                                                        data.service_title,
+                                                        data.customId
+                                                      )
+                                                    ">
+                                                  Click here to view documents
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-5 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>
+                                                  ${{ data.service_fee }}
+
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Duration:</label>
+                                                <p>
+                                                  {{ data.business_days }}
+                                                  days
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Email:</label>
+                                                <p>{{data.email}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Password:</label>
+                                                <p>{{data.password}}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                        <!-- Business Address End -->
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrRegisteredAgent'
+                                            " class="col-lg-12">
+                                          <div class="col-lg-7 data-field">
+
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+
+                                              <div>
+                                                <label> Name:</label>
+                                                <p>
+                                                  {{ data.mashr_agent_fname }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Phone:</label>
+                                                <p>
+                                                  {{
+                                                  data.mashr_agent_phone_number
+                                                  }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Status:</label>
+                                                <p [ngClass]="{
+                                                      statusNotAssign:
+                                                        data.status ===
+                                                        'Not-Assign',
+                                                      statusInProgress:
+                                                        data.status ===
+                                                        'In-Progress',
+                                                      statuApproved:
+                                                        data.status ===
+                                                        'complete',
+                                                      statusReject:
+                                                        data.status ===
+                                                        'reject',
+                                                      statusNeedToReview:
+                                                        data.status ===
+                                                        'pending'
+                                                    }">
+                                                  <span *ngIf="
+                                                        data.status !=
+                                                        'Not-Assign'
+                                                      ">
+                                                    {{ data.status }}</span>
+                                                  <span *ngIf="
+                                                        data.status ==
+                                                        'Not-Assign'
+                                                      ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    (click)="
+                                                        openServiceDetailDialog(
+                                                          data.detail,
+                                                          data.documents,
+                                                          data.service_title, data.customId
+                                                        )
+                                                      ">
+                                                    Click here to view documents
+                                                  </button>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-5 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>
+                                                  ${{ data.service_fee }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Duration:</label>
+                                                <p>
+                                                  {{ data.business_days }}
+                                                  days
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Email:</label>
+                                                <p>{{data.email}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Password:</label>
+                                                <p>{{data.password}}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                        <!-- Registered Agent End -->
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrCompanyFormation'
+                                            " class="col-lg-12">
+                                          <div class="col-lg-7 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <div>
+                                                <label>1st Name:</label>
+                                                <p>
+                                                  {{ data.company_name_1 }}
+                                                </p>
+                                                <span *ngIf="
+                                                      data.company_final_name ==
+                                                      data.company_name_1
+                                                    " class="material-icons">done</span>
+                                              </div>
+                                              <div>
+                                                <label>2nd Name:</label>
+                                                <p>
+                                                  {{ data.company_name_2 }}
+                                                </p>
+                                                <span *ngIf="
+                                                      data.company_final_name ==
+                                                      data.company_name_2
+                                                    " class="material-icons">done</span>
+                                              </div>
+                                              <div>
+                                                <label>3rd Name:</label>
+                                                <p>
+                                                  {{ data.company_name_3 }}
+                                                </p>
+                                                <span *ngIf="
+                                                      data.company_final_name ==
+                                                      data.company_name_3
+                                                    " class="material-icons">done</span>
+                                              </div>
+                                              <div>
+                                                <label>Final Name:</label>
+                                                <p>
+                                                  {{
+                                                  data.company_final_name
+                                                  }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Address:</label>
+                                                <p>{{
+                                                  data.purchasedBusinessAddress
+                                                  }}</p>
+                                              </div>
+                                              <div>
+                                                <label> Status:</label>
+                                                <p [ngClass]="{
+                                                      statusNotAssign:
+                                                        data.status ===
+                                                        'Not-Assign',
+                                                      statusInProgress:
+                                                        data.status ===
+                                                        'In-Progress',
+                                                      statuApproved:
+                                                        data.status ===
+                                                        'complete',
+                                                      statusReject:
+                                                        data.status ===
+                                                        'reject',
+                                                      statusNeedToReview:
+                                                        data.status ===
+                                                        'pending'
+                                                    }">
+                                                  <span *ngIf="
+                                                        data.status !=
+                                                        'Not-Assign'
+                                                      ">
+                                                    {{ data.status }}</span>
+                                                  <span *ngIf="
+                                                        data.status ==
+                                                        'Not-Assign'
+                                                      ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    (click)="
+                                                        openServiceDetailDialog(
+                                                          data.detail,
+                                                          data.documents,
+                                                          data.service_title,
+                                                          data.customId
+                                                        )
+                                                      ">
+                                                    Click here to view documents
+                                                  </button>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-5 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <div>
+                                                <label>Country:</label>
+                                                <p>
+                                                  {{ data.contact_country }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>State:</label>
+                                                <p>{{ data.state_name }}</p>
+                                              </div>
+                                              <div>
+                                                <label>Entity Type:</label>
+                                                <p>{{ data.entity_name }}</p>
+                                              </div>
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>
+                                                  ${{ data.service_fee }}
+
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Duration:</label>
+                                                <p>
+                                                  {{ data.business_days }}
+                                                  days
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Email:</label>
+                                                <p>{{data.email}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Password:</label>
+                                                <p>{{data.password}}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                        <!-- Company Info End -->
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrEINwithSSN'
+                                            " class="col-lg-12">
+                                          <div class="col-lg-7 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <div>
+                                                <label> SSN:</label>
+                                                <p>{{ data.company_EIN }}</p>
+                                              </div>
+                                              <div>
+                                                <label> First Name:</label>
+                                                <p>
+                                                  {{ data.SSN_holder_fname }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Last Name:</label>
+                                                <p>
+                                                  {{ data.SSN_holder_lname }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Address:</label>
+                                                <p>
+                                                  {{
+                                                  data.SSN_holder_address
+                                                  }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Zip Code:</label>
+                                                <p>
+                                                  {{
+                                                  data.SSN_holder_zipcode
+                                                  }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> City:</label>
+                                                <p>
+                                                  {{ data.SSN_holder_city }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> State:</label>
+                                                <p>
+                                                  {{ data.SSN_holder_state }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Status:</label>
+                                                <p [ngClass]="{
+                                                      statusNotAssign:
+                                                        data.status ===
+                                                        'Not-Assign',
+                                                      statusInProgress:
+                                                        data.status ===
+                                                        'In-Progress',
+                                                      statuApproved:
+                                                        data.status ===
+                                                        'complete',
+                                                      statusReject:
+                                                        data.status ===
+                                                        'reject',
+                                                      statusNeedToReview:
+                                                        data.status ===
+                                                        'pending'
+                                                    }">
+                                                  <span *ngIf="
+                                                        data.status !=
+                                                        'Not-Assign'
+                                                      ">
+                                                    {{ data.status }}</span>
+                                                  <span *ngIf="
+                                                        data.status ==
+                                                        'Not-Assign'
+                                                      ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    (click)="
+                                                        openServiceDetailDialog(
+                                                          data.detail,
+                                                           data.documents,
+                                                          data.service_title,
+                                                          data.customId
+                                                        )
+                                                      ">
+                                                    Click here to view documents
+                                                  </button>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-5 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>
+                                                  ${{ data.service_fee }}
+
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Duration:</label>
+                                                <p>
+                                                  {{ data.business_days }}
+                                                  days
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                        <!-- EIN With SSN END -->
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrEINwithoutSSN'
+                                            " class="col-lg-12">
+                                          <div class="col-lg-7 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <!-- <div>
+                                                <label> SSN:</label>
+                                                <p>{{ data.company_EIN }}</p>
+                                              </div> -->
+                                              <div>
+                                                <label> Status:</label>
+                                                <p [ngClass]="{
+                                                      statusNotAssign:
+                                                        data.status ===
+                                                        'Not-Assign',
+                                                      statusInProgress:
+                                                        data.status ===
+                                                        'In-Progress',
+                                                      statuApproved:
+                                                        data.status ===
+                                                        'complete',
+                                                      statusReject:
+                                                        data.status ===
+                                                        'reject',
+                                                      statusNeedToReview:
+                                                        data.status ===
+                                                        'pending'
+                                                    }">
+                                                  <span *ngIf="
+                                                        data.status !=
+                                                        'Not-Assign'
+                                                      ">
+                                                    {{ data.status }}</span>
+                                                  <span *ngIf="
+                                                        data.status ==
+                                                        'Not-Assign'
+                                                      ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    (click)="
+                                                        openServiceDetailDialog(
+                                                          data.detail,
+                                                          data.documents,
+                                                          data.service_title,
+                                                          data.customId
+                                                        )
+                                                      ">
+                                                    Click here to view documents
+                                                  </button>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-5 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>
+                                                  ${{ data.service_fee }}
+
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Duration:</label>
+                                                <p>
+                                                  {{ data.business_days }}
+                                                  days
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                        <!-- EIN Without SSN END -->
+                                        <span
+                                          *ngIf="data.service_title=='serviceMashrPayoneer'"
+                                          class="col-lg-12">
+
+                                          <div class="col-lg-7 data-field">
+
+                                            <div class="detailRow "
+                                              style="margin:0px ; padding: 0px;">
+
+                                              <div>
+                                                <label> Status:</label>
+                                                <p
+                                                  [ngClass]="{'statusNotAssign':data.status==='Not-Assign','statusInProgress':data.status==='In-Progress','statuApproved':data.status==='complete','statusReject':data.status==='reject', 'statusNeedToReview':data.status==='pending'}">
+                                                  <span
+                                                    *ngIf="data.status != 'Not-Assign' ">
+                                                    {{data.status}}</span>
+                                                  <span
+                                                    *ngIf="data.status == 'Not-Assign' ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    mat-button
+                                                    (click)="openServiceDetailDialog(data.detail, data.documents, data.service_title,data.customId)">Click
+                                                    here to view documents</button>
+                                                </p>
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class=" col-lg-5 data-field">
+                                            <div class="detailRow "
+                                              style="margin:0px ; padding: 0px;">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>${{data.service_fee}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Duration:</label>
+                                                <p>{{data.business_days}}
+                                                  days
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Email:</label>
+                                                <p>{{data.email}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Password:</label>
+                                                <p>{{data.password}}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                        </span>
+                                        <span
+                                          *ngIf="data.service_title=='serviceMashrWise'"
+                                          class="col-lg-12">
+
+                                          <div class="col-lg-7 data-field">
+
+                                            <div class="detailRow "
+                                              style="margin:0px ; padding: 0px;">
+
+                                              <div>
+                                                <label> Status:</label>
+                                                <p
+                                                  [ngClass]="{'statusNotAssign':data.status==='Not-Assign','statusInProgress':data.status==='In-Progress','statuApproved':data.status==='complete','statusReject':data.status==='reject', 'statusNeedToReview':data.status==='pending'}">
+                                                  <span
+                                                    *ngIf="data.status != 'Not-Assign' ">
+                                                    {{data.status}}</span>
+                                                  <span
+                                                    *ngIf="data.status == 'Not-Assign' ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    mat-button
+                                                    (click)="openServiceDetailDialog(data.detail, data.documents, data.service_title,data.customId)">Click
+                                                    here to view documents</button>
+                                                </p>
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class=" col-lg-5 data-field">
+                                            <div class="detailRow "
+                                              style="margin:0px ; padding: 0px;">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>${{data.service_fee}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Duration:</label>
+                                                <p>{{data.business_days}}
+                                                  days
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Email:</label>
+                                                <p>{{data.email}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Password:</label>
+                                                <p>{{data.password}}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                        </span>
+                                        <!--  Bank Accout END -->
+                                        <span *ngIf="
+                                              data.service_title ==
+                                              'serviceMashrAmazon'
+                                            " class="col-lg-12">
+                                          <div class="col-lg-7 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+
+                                              <div>
+                                                <label> Status:</label>
+                                                <p [ngClass]="{
+                                                      statusNotAssign:
+                                                        data.status ===
+                                                        'Not-Assign',
+                                                      statusInProgress:
+                                                        data.status ===
+                                                        'In-Progress',
+                                                      statuApproved:
+                                                        data.status ===
+                                                        'complete',
+                                                      statusReject:
+                                                        data.status ===
+                                                        'reject',
+                                                      statusNeedToReview:
+                                                        data.status ===
+                                                        'pending'
+                                                    }">
+                                                  <span *ngIf="
+                                                        data.status !=
+                                                        'Not-Assign'
+                                                      ">
+                                                    {{ data.status }}</span>
+                                                  <span *ngIf="
+                                                        data.status ==
+                                                        'Not-Assign'
+                                                      ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    (click)="
+                                                        openServiceDetailDialog(
+                                                          data.detail,
+                                                          data.documents,
+                                                          data.service_title,
+                                                          data.customId
+                                                        )
+                                                      ">
+                                                    Click here to view documents
+                                                  </button>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-5 data-field">
+                                            <div class="detailRow" style="
+                                                  margin: 0px;
+                                                  padding: 0px;
+                                                ">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>
+                                                  ${{ data.service_fee }}
+
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Duration:</label>
+                                                <p>
+                                                  {{ data.business_days }}
+                                                  days
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Email:</label>
+                                                <p>{{ data.email }}</p>
+                                              </div>
+                                              <div>
+                                                <label>Password:</label>
+                                                <p>{{ data.password }}</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                        <!-- Amazon Service END -->
+                                        <span *ngIf="
+                                        data.service_title ==
+                                        'serviceMashrResellerCertificate'
+                                      " class="col-lg-12">
+                                          <div class="col-lg-7 data-field">
+                                            <div class="detailRow" style="
+                                            margin: 0px;
+                                            padding: 0px;
+                                          ">
+                                              <div>
+                                                <label>User Name:</label>
+                                                <p>{{ data.username }}</p>
+                                              </div>
+                                              <div>
+                                                <label>Password:</label>
+                                                <p>{{ data.password }}</p>
+                                              </div>
+                                              <div>
+                                                <label> Status:</label>
+                                                <p [ngClass]="{
+                                                statusNotAssign:
+                                                  data.status ===
+                                                  'Not-Assign',
+                                                statusInProgress:
+                                                  data.status ===
+                                                  'In-Progress',
+                                                statuApproved:
+                                                  data.status ===
+                                                  'complete',
+                                                statusReject:
+                                                  data.status ===
+                                                  'reject',
+                                                statusNeedToReview:
+                                                  data.status ===
+                                                  'pending'
+                                              }">
+                                                  <span *ngIf="
+                                                  data.status !=
+                                                  'Not-Assign'
+                                                ">
+                                                    {{ data.status }}</span>
+                                                  <span *ngIf="
+                                                  data.status ==
+                                                  'Not-Assign'
+                                                ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    (click)="
+                                                  openServiceDetailDialog(
+                                                    data.detail,
+                                                    data.documents,
+                                                    data.service_title,
+                                                    data.customId
+                                                  )
+                                                ">
+                                                    Click here to view documents
+                                                  </button>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-5 data-field">
+                                            <div class="detailRow" style="
+                                            margin: 0px;
+                                            padding: 0px;
+                                          ">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>
+                                                  ${{ data.service_fee }}
+
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Duration:</label>
+                                                <p>
+                                                  {{ data.business_days }}
+                                                  days
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Email:</label>
+                                                <p>{{data.email}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Password:</label>
+                                                <p>{{data.password}}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                        <!-- Reseller certificate Service END -->
+                                        <span *ngIf="
+                                        data.service_title ==
+                                        'serviceMashrTaxFiling'
+                                      " class="col-lg-12">
+                                          <div class="col-lg-7 data-field">
+                                            <div class="detailRow" style="
+                                            margin: 0px;
+                                            padding: 0px;
+                                          ">
+                                              <div>
+                                                <label>Tax Type:</label>
+                                                <p>{{ data.TaxFilingType
+                                                  }}</p>
+                                              </div>
+                                              <ng-container
+                                                *ngIf="data.TaxFilingType==='Business Level'">
+                                                <div>
+                                                  <label>Company Name:</label>
+                                                  <p>{{ data.company_name_1 }}
+                                                  </p>
+                                                </div>
+                                                <div>
+                                                  <label>State:</label>
+                                                  <p>{{ data.state_name }}
+                                                  </p>
+                                                </div>
+                                              </ng-container>
+
+                                              <div>
+                                                <label>Tax Filing:</label>
+                                                <p>{{ data.taxFiling }}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Status:</label>
+                                                <p [ngClass]="{
+                                                statusNotAssign:
+                                                  data.status ===
+                                                  'Not-Assign',
+                                                statusInProgress:
+                                                  data.status ===
+                                                  'In-Progress',
+                                                statuApproved:
+                                                  data.status ===
+                                                  'complete',
+                                                statusReject:
+                                                  data.status ===
+                                                  'reject',
+                                                statusNeedToReview:
+                                                  data.status ===
+                                                  'pending'
+                                              }">
+                                                  <span *ngIf="
+                                                  data.status !=
+                                                  'Not-Assign'
+                                                ">
+                                                    {{ data.status }}</span>
+                                                  <span *ngIf="
+                                                  data.status ==
+                                                  'Not-Assign'
+                                                ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    (click)="
+                                                  openServiceDetailDialog(
+                                                    data.detail,
+                                                    data.documents,
+                                                    data.service_title,
+                                                    data.customId
+                                                  )
+                                                ">
+                                                    Click here to view documents
+                                                  </button>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-5 data-field">
+                                            <div class="detailRow" style="
+                                            margin: 0px;
+                                            padding: 0px;
+                                          ">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>
+                                                  ${{ data.service_fee }}
+
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Duration:</label>
+                                                <p>
+                                                  {{ data.business_days }}
+                                                  days
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Email:</label>
+                                                <p>{{data.email}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Password:</label>
+                                                <p>{{data.password}}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                        <!-- Tax filing Service END -->
+                                        <span *ngIf="
+                                        data.service_title ==
+                                        'serviceMashrAmendment'
+                                      " class="col-lg-12">
+                                          <div class="col-lg-7 data-field">
+                                            <div class="detailRow" style="
+                                            margin: 0px;
+                                            padding: 0px;
+                                          ">
+                                              <div>
+                                                <label>Company Name:</label>
+                                                <p>{{ data.company_name_1 }}</p>
+                                              </div>
+                                              <div>
+                                                <label>Company State:</label>
+                                                <p>{{ data.tbl_state_id }}</p>
+                                              </div>
+                                              <ng-container
+                                                *ngIf="data.newOwnerFname">
+                                                <div>
+                                                  Client request to change &nbsp; <b>New
+                                                    Owner</b> &nbsp; of his company.
+                                                </div>
+
+                                                <div style="margin-top: 20px;">
+New Owner Detail.
+                                                </div>
+
+                                                <div>
+                                                  <label>First Name:</label>
+                                                  <p>{{ data.newOwnerFname }}</p>
+                                                </div>
+
+                                                <div>
+                                                  <label>Last Name:</label>
+                                                  <p>{{ data.newOwnerLname }}</p>
+                                                </div>
+                                                <div>
+                                                  <label>Address:</label>
+                                                  <p>{{ data.newOwnerAddress }}</p>
+                                                </div>
+
+                                                <div>
+                                                  <label>City:</label>
+                                                  <p>{{ data.newOwnerCity }}</p>
+                                                </div>
+
+                                                <div>
+                                                  <label>State:</label>
+                                                  <p>{{ data.newOwnerState }}</p>
+                                                </div>
+                                                <div>
+                                                  <label>Zip Code:</label>
+                                                  <p>{{ data.newOwnerZip }}</p>
+                                                </div>
+                                                <div>
+                                                  <label>Country:</label>
+                                                  <p>{{ data.newOwnerCountry }}</p>
+                                                </div>
+                                              </ng-container>
+                                                <ng-container
+                                                  *ngIf="data.clientAddress_city">
+                                                  <label>
+                                                    Client request to change &nbsp; <b>Business
+                                                      Address</b> &nbsp; for his company.
+                                                  </label>
+                                                  <label style="margin-top:20px">
+                                                    New Address detail:
+                                                  </label>
+                                                  <div>
+                                                    <label>Address:</label>
+                                                    <p>{{
+                                                      data.clientAddress_street
+                                                      }}</p>
+                                                  </div>
+                                                  <div>
+                                                    <label>City:</label>
+                                                    <p>{{
+                                                      data.clientAddress_city }}</p>
+                                                  </div>
+                                                  <div>
+                                                    <label>State:</label>
+                                                    <p>{{
+                                                      data.clientAddress_state
+                                                      }}</p>
+                                                  </div>
+                                                  <div>
+                                                    <label>Zip Code:</label>
+                                                    <p>{{
+                                                      data.clientAddress_zipcode
+                                                      }}</p>
+                                                  </div>
+                                                  <div>
+                                                    <label>Country:</label>
+                                                    <p>{{
+                                                      data.clientAddress_country
+                                                      }}</p>
+                                                  </div>
+                                                </ng-container>
+
+                                              <ng-container
+                                              *ngIf="data.WhatYouWantToAmend" >
+                                              <div style="margin-top:20px; margin-bottom: 10px;">
+                                                Client request &nbsp; <b>Other change
+                                                  </b> &nbsp; for his company.
+                                              </div>
+                                              <div>
+                                                <label>What to Amend?</label>
+                                                <p>{{ data.WhatYouWantToAmend }}</p>
+                                              </div>
+                                              <div>
+                                                <label>Amendment Detail?</label>
+                                                <p>{{ data.ReasonOfAmendment }}</p>
+                                              </div>
+                                            </ng-container>
+                                              <div>
+                                                <label> Status:</label>
+                                                <p [ngClass]="{
+                                                statusNotAssign:
+                                                  data.status ===
+                                                  'Not-Assign',
+                                                statusInProgress:
+                                                  data.status ===
+                                                  'In-Progress',
+                                                statuApproved:
+                                                  data.status ===
+                                                  'complete',
+                                                statusReject:
+                                                  data.status ===
+                                                  'reject',
+                                                statusNeedToReview:
+                                                  data.status ===
+                                                  'pending'
+                                              }">
+                                                  <span *ngIf="
+                                                  data.status !=
+                                                  'Not-Assign'
+                                                ">
+                                                    {{ data.status }}</span>
+                                                  <span *ngIf="
+                                                  data.status ==
+                                                  'Not-Assign'
+                                                ">
+                                                    Not Yet Started
+                                                  </span>
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>Documents:</label>
+                                                <p>
+                                                  <button class="open-document"
+                                                    (click)="
+                                                  openServiceDetailDialog(
+                                                    data.detail,
+                                                    data.documents,
+                                                    data.service_title,
+                                                    data.customId
+                                                  )
+                                                ">
+                                                    Click here to view documents
+                                                  </button>
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-5 data-field">
+                                            <div class="detailRow" style="
+                                            margin: 0px;
+                                            padding: 0px;
+                                          ">
+                                              <div>
+                                                <label> Fee:</label>
+                                                <p>
+                                                  ${{ data.service_fee }}
+
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label> Duration:</label>
+                                                <p>
+                                                  {{ data.business_days }}
+                                                  days
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Email:</label>
+                                                <p>{{data.email}}
+                                                </p>
+                                              </div>
+                                              <div>
+                                                <label>
+                                                  Password:</label>
+                                                <p>{{data.password}}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </span>
+                                        <!-- Amendment Service END -->
+
+                                      </div>
+                                      <div style="
+                                            display: flex;
+                                            justify-content: flex-end;
+                                          ">
+                                        <section>
+                                          <div class="example-button-row">
+                                            <button mat-stroked-button style="
+                                                  background-color: #4bb543;
+                                                  color: #fff;
+                                                " color="primary" *ngIf="
+                                                  data.status === 'pending' ||
+                                                  data.status === 'reject'
+                                                " (click)="
+                                                  onApprove(
+                                                    order.tbl_order_id,
+                                                    data.tbl_order_service_id
+                                                  )
+                                                ">
+                                              Approve
+                                            </button>
+                                            <button mat-stroked-button style="
+                                                  background-color: red;
+                                                  color: #fff;
+                                                " color="warn" *ngIf="
+                                                  data.status === 'pending' ||
+                                                  data.status === 'complete'
+                                                " (click)="
+                                                  onReject(
+                                                    order.tbl_order_id,
+                                                    data.tbl_order_service_id
+                                                  )
+                                                ">
+                                              Reject
+                                            </button>
+
+                                          </div>
+                                        </section>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div
+                                    *ngIf="!order.tbl_pkg_id
+                                    && (order.order_services[i].service_title !== 'serviceMashrPayoneer'
+                                    || order.order_services[i].service_title !== 'serviceMashrWise'
+                                    || order.order_services[i].service_title !== 'serviceMashrAmendment'
+                                    || order.order_services[i].service_title !== 'serviceMashrTaxFiling')"
+                                    style="margin-top: 30px"
+                                    class="box-container box-container-desk overflow-section">
+                                    <div class="box-container__heading">
+                                      <span style="
+                                            display: flex;
+                                            align-items: flex-end;
+                                          ">
+                                        <img class="inline"
+                                          src="assets/images/other.png" alt />
+                                        <span class="serviceName">Other Detail</span></span>
+                                    </div>
+                                    <hr />
+                                    <div class="box-container__content">
+                                      <div
+                                        class="row-data flex center content-between"
+                                        style="
+                                            flex-wrap: wrap;
+                                            justify-content: space-between;
+                                          ">
+                                        <div class="col-lg-7 data-field">
+                                          <div class="detailRow"
+                                            style="margin: 0px; padding: 0px">
+                                            <div>
+                                              <label>Company:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .company_name_1
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>Entity:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .entity_name
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>State:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .state_name
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>Country:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .country_name
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div
+                                              *ngIf="order.order_services[0].service_title==='serviceMashrPayoneer'">
+                                              <label>Bank Type:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .bank_type
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div
+                                              *ngIf="order.order_services[0].service_title==='serviceMashrEINwithSSN'||order.order_services[0].service_title==='serviceMashrEINwithSSN'|| order.order_services[0].service_title==='serviceMashrBusinessAddress'">
+                                              <label>EIN:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .company_EIN
+                                                }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- other Info End -->
+                                  <div style="margin-top: 20px" *ngIf="order.deadline_date"
+                                    class="box-container box-container-desk overflow-section">
+                                    <div class="box-container__heading">
+                                      <span style="
+                                          display: flex;
+                                          align-items: flex-end;
+                                        ">
+                                        <img class="inline"
+                                          src="assets/images/tasks.png" alt />
+                                        <span class="serviceName">Task
+                                          Instructions</span></span>
+                                    </div>
+                                    <hr />
+                                    <div class="box-container__content">
+                                      <div
+                                        class="row-data flex center content-between"
+                                        style="
+                                          flex-wrap: wrap;
+                                          justify-content: space-between;
+                                        ">
+                                        <div class="col-lg-7 data-field">
+                                          <div class="detailRow"
+                                            style="margin: 0px; padding: 0px">
+                                            <div>
+                                              <label>Read Me:</label>
+                                              <p>{{ order.task_detail }}</p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-lg-5 data-field">
+                                          <div class="detailRow"
+                                            style="margin: 0px; padding: 0px">
+                                            <div>
+                                              <label>Deadline:</label>
+                                              <p>
+                                                {{
+                                                order.deadline_date | date
+                                                }}
+                                              </p>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- Task Information End -->
+                                  <div style="margin-top: 30px"
+                                    *ngIf="order.members.length > 0"
+                                    class="box-container box-container-desk overflow-section">
+                                    <div class="box-container__heading">
+                                      <span style="
+                                            display: flex;
+                                            align-items: flex-end;
+                                          ">
+                                        <img class="inline"
+                                          src="assets/images/members.png" alt />
+                                        <span class="serviceName">Company
+                                          Members/Managers Detail
+                                        </span></span>
+                                    </div>
+                                    <hr />
+                                    <div class="box-container__content" *ngFor="
+                                          let member of order.members;
+                                          let i = index
+                                        ">
+                                      <!-- <div class="box-container__content"> -->
+                                      <div class="b-member flex" style="
+                                            display: flex;
+                                            align-items: center;
+                                          ">
+                                        <div class="m-number text-medium"
+                                          style="
+                                              display: flex;
+                                              align-items: center;
+                                              justify-content: center;
+                                              max-width: 10%;
+                                            ">
+                                          {{ i + 1 }}
+                                        </div>
+                                        <div class="m-info col-lg-10">
+                                          <p class="text-black capitalize">
+                                            &nbsp; {{member.mem_fname}} |
+                                            {{member.mem_lname}} |
+                                            {{member.mem_street_address}} |
+                                            {{member.mem_city}} |
+                                            {{member.mem_state}} |
+                                            {{member.mem_country}} |
+                                            {{member.mem_zipcode}}<br>
+                                          </p>
+                                        </div>
+                                        <div class="m-pull-right">
+                                          <div class="type flex center m-t-15">
+                                            <div class="text">Type:</div>
+                                            <div class="label-type">
+                                              {{ member.mem_type }}
+                                            </div>
+                                          </div>
+                                          <div class="type flex center m-t-15">
+                                            <div class="text">Equity:</div>
+                                            <div class="label-type">
+                                              {{member.no_of_share}}%
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!-- </div> -->
+                                    </div>
+                                  </div>
+                                  <!-- Company Mebbers END -->
+
+                                  <div style="margin-top: 30px"
+                                    class="box-container box-container-desk overflow-section">
+                                    <div class="box-container__heading">
+                                      <span style="
+                                            display: flex;
+                                            align-items: flex-end;
+                                          ">
+                                        <img class="inline"
+                                          src="assets/images/contactInfo.png"
+                                          alt />
+                                        <span class="serviceName">Client Detail</span></span>
+                                    </div>
+                                    <hr />
+                                    <div class="box-container__content">
+                                      <div
+                                        class="row-data flex center content-between"
+                                        style="
+                                            flex-wrap: wrap;
+                                            justify-content: space-between;
+                                          ">
+                                        <div class="col-lg-7 data-field">
+                                          <div class="detailRow"
+                                            style="margin: 0px; padding: 0px">
+                                            <div>
+                                              <label>First Name:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .contact_fname
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>Last Name:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .contact_lname
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>Email:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .contact_email
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>Phone:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .contact_phonenumber
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>Country:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .contact_country
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>State:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .contact_state
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>City:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .contact_city
+                                                }}
+                                              </p>
+                                            </div>
+                                            <div>
+                                              <label>Address:</label>
+                                              <p>
+                                                {{
+                                                order.order_services[0]
+                                                .contact_street_address}} |
+                                                {{order.order_services[0]
+                                                .contact_zipcode
+                                                }}
+                                              </p>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                        <div class="col-lg-5 data-field">
+                                          <div class="detailRow"
+                                            style="margin: 0px; padding: 0px">
+                                            <div>
+                                              <label>Order Date:</label>
+                                              <p>
+                                                {{ order.timestamp | date }}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- Client Info End -->
+                                  <div style="margin-top:30px"
+                                    class="box-container
+                                  box-container-desk
+                                  overflow-section">
+                                    <div class="box-container__heading">
+                                      <span
+                                        style="display:flex;align-items:flex-end">
+                                        <img class="inline"
+                                          src="assets/images/client-docs.png"
+                                          alt>
+                                        <span class="serviceName">
+                                          Client Personal Documents</span></span>
+                                    </div>
+                                    <hr>
+                                    <div class="box-container__content">
+                                      <div class="UploadFiles">
+                                        <ng-container *ngIf="order.tbl_pkg_id">
+
+                                          <div id="upload_Img" class="col-lg-3">
+                                            <div class="upload_Img_div">
+                                              <button type="button">
+                                                <div>
+                                                  <img
+                                                    *ngIf="!myForm.controls.pass_img_1.value"
+                                                    class="beforeUpload"
+                                                    src="assets/images/UploadFile.png"
+                                                    alt>
+                                                  <img
+                                                    *ngIf="myForm.controls.pass_img_1.value"
+                                                    class="afterUpload"
+                                                    src="{{imgBasePath}}/{{myForm.controls.pass_img_1.value}}"
+                                                    alt>
+                                                </div>
+                                              </button>
+                                            </div>
+                                            <div class="Uploadtext">
+                                              <div class="upload_Img_text"
+                                                [ngStyle]="{'text-align': !myForm.controls.pass_img_1.value ? 'center':'left'}">
+                                                passpt info image
+                                                <!-- <button type="button">
+                                                  <a href="javascript:void(0)"
+                                                    *ngIf="myForm.controls.pass_img_1.value"
+                                                    (click)="downloadPdf('passport_images_2/',myForm.controls.pass_img_1.value)">
+                                                    <img src="assets/images/download.png" alt="">
+                                                  </a>
+                                                </button> -->
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div id="upload_Img" class="col-lg-3">
+                                            <div class="upload_Img_div">
+                                              <button type="button">
+                                                <div>
+                                                  <img
+                                                    *ngIf="!myForm.controls.pass_img_2.value"
+                                                    class="beforeUpload"
+                                                    src="assets/images/UploadFile.png"
+                                                    alt>
+                                                  <img
+                                                    *ngIf="myForm.controls.pass_img_2.value != ''"
+                                                    class="afterUpload"
+                                                    src="{{imgBasePath}}/{{myForm.controls.pass_img_2.value}}"
+                                                    alt>
+                                                </div>
+                                              </button>
+                                            </div>
+                                            <div class="Uploadtext">
+                                              <div class="upload_Img_text">
+                                                passpt signature image
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div id="upload_Img" class="col-lg-3">
+                                            <div class="upload_Img_div">
+                                              <button type="button">
+                                                <div>
+                                                  <img
+                                                    *ngIf="!myForm.controls.cnic_1.value"
+                                                    class="beforeUpload"
+                                                    src="assets/images/UploadFile.png"
+                                                    alt>
+                                                  <img
+                                                    *ngIf="myForm.controls.cnic_1.value"
+                                                    class="afterUpload"
+                                                    src="{{imgBasePath}}/{{myForm.controls.cnic_1.value}}"
+                                                    alt>
+                                                </div>
+                                              </button>
+                                            </div>
+                                            <div class="Uploadtext">
+                                              <div class="upload_Img_text">
+                                                cnic front
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div id="upload_Img" class="col-lg-3">
+                                            <div class="upload_Img_div">
+                                              <button type="button">
+                                                <div>
+                                                  <img
+                                                    *ngIf="!myForm.controls.cnic_2.value"
+                                                    class="beforeUpload"
+                                                    src="assets/images/UploadFile.png"
+                                                    alt>
+                                                  <img
+                                                    *ngIf="myForm.controls.cnic_2.value"
+                                                    class="afterUpload"
+                                                    src="{{imgBasePath}}/{{myForm.controls.cnic_2.value}}"
+                                                    alt>
+                                                </div>
+                                              </button>
+                                            </div>
+                                            <div class="Uploadtext">
+                                              <div class="upload_Img_text">
+                                                cnic back
+                                                <!-- <button type="button">
+                                                  <a href="javascript:void(0)"
+                                                    *ngIf="myForm.controls.cnic_2.value"
+                                                    (click)="downloadPdf('cnic_back_images/',myForm.controls.cnic_2.value)">
+                                                    <img src="assets/images/download.png" alt="">
+                                                  </a>
+                                                </button> -->
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div id="upload_Img" class="col-lg-3">
+                                            <div class="upload_Img_div">
+                                              <button type="button">
+                                                <div>
+                                                  <img
+                                                    *ngIf="!myForm.controls.driving_1.value"
+                                                    class="beforeUpload"
+                                                    src="assets/images/UploadFile.png"
+                                                    alt>
+                                                  <img
+                                                    *ngIf="myForm.controls.driving_1.value"
+                                                    class="afterUpload"
+                                                    src="{{imgBasePath}}/{{myForm.controls.driving_1.value}}"
+                                                    alt>
+                                                </div>
+                                              </button>
+                                            </div>
+                                            <div class="Uploadtext">
+                                              <div class="upload_Img_text"
+                                                [ngStyle]="{'text-align': !myForm.controls.driving_1.value ? 'center':'left'}">
+                                                driving license front
+                                                <!-- <button type="button">
+                                                  <a href="javascript:void(0)"
+                                                    *ngIf="myForm.controls.driving_1.value"
+                                                    (click)="downloadPdf('driving_license_images_1/',myForm.controls.driving_1.value)">
+                                                    <img src="assets/images/download.png" alt="">
+                                                  </a>
+                                                </button> -->
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div id="upload_Img" class="col-lg-3">
+                                            <div class="upload_Img_div">
+                                              <button type="button">
+                                                <div>
+                                                  <img
+                                                    *ngIf="!myForm.controls.driving_2.value"
+                                                    class="beforeUpload"
+                                                    src="assets/images/UploadFile.png"
+                                                    alt>
+                                                  <img
+                                                    *ngIf="myForm.controls.driving_2.value"
+                                                    class="afterUpload"
+                                                    src="{{imgBasePath}}/{{myForm.controls.driving_2.value}}"
+                                                    alt>
+                                                </div>
+                                              </button>
+                                            </div>
+                                            <div class="Uploadtext">
+                                              <div class="upload_Img_text"
+                                                [ngStyle]="{'text-align': !myForm.controls.driving_2.value ? 'center':'left'}">
+                                                driving license back
+                                                <!-- <button type="button">
+                                                  <a href="javascript:void(0)"
+                                                    *ngIf="myForm.controls.driving_2.value"
+                                                    (click)="downloadPdf('driving_license_images_2/',myForm.controls.driving_2.value)">
+                                                    <img src="assets/images/download.png" alt="">
+                                                  </a>
+                                                </button> -->
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div id="upload_Img" class="col-lg-3">
+                                            <div class="upload_Img_div">
+                                              <button type="button">
+                                                <div>
+                                                  <img
+                                                    *ngIf="!myForm.controls.utility_name.value"
+                                                    class="beforeUpload"
+                                                    src="assets/images/UploadFile.png"
+                                                    alt>
+                                                  <img
+                                                    *ngIf="myForm.controls.utility_name.value"
+                                                    class="afterUpload"
+                                                    src="{{imgBasePath}}/{{myForm.controls.utility_name.value}}"
+                                                    alt>
+                                                </div>
+                                              </button>
+                                            </div>
+                                            <div class="Uploadtext">
+                                              <div class="upload_Img_text">
+                                                utility bill
+                                                <!-- <button type="button">
+                                                  <a href="javascript:void(0)"
+                                                    *ngIf="myForm.controls.utility_name.value"
+                                                    (click)="downloadPdf('utility_bills/',myForm.controls.utility_name.value)">
+                                                    <img src="assets/images/download.png" alt="">
+                                                  </a>
+                                                </button> -->
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div id="upload_Img" class="col-lg-3">
+                                            <div class="upload_Img_div">
+                                              <button type="button">
+                                                <div>
+                                                  <img
+                                                    *ngIf="!myForm.controls.bank_statement.value"
+                                                    class="beforeUpload"
+                                                    src="assets/images/UploadFile.png"
+                                                    alt>
+                                                  <img
+                                                    *ngIf="myForm.controls.bank_statement.value"
+                                                    class="afterUpload"
+                                                    src="{{imgBasePath}}/{{myForm.controls.bank_statement.value}}"
+                                                    alt>
+                                                </div>
+                                              </button>
+                                            </div>
+                                            <div class="Uploadtext">
+                                              <div class="upload_Img_text">
+                                                Bank Statement
+                                                <!-- <button type="button">
+                                                  <a href="javascript:void(0)"
+                                                    *ngIf="myForm.controls.bank_statement.value"
+                                                    (click)="downloadPdf('bank_statement/',myForm.controls.bank_statement.value)">
+                                                    <img src="assets/images/download.png" alt="">
+                                                  </a>
+                                                </button> -->
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <!-- </span> -->
+                                        </ng-container>
+
+                                        <div *ngIf="!order.tbl_pkg_id"
+                                          id="upload_Img" class="col-lg-3">
+                                          <div class="upload_Img_div">
+                                            <button type="button">
+                                              <div>
+                                                <img
+                                                  *ngIf="order.order_services[0].CompanyDoc"
+                                                  class="beforeUpload"
+                                                  src="assets/images/UploadFile.png"
+                                                  alt>
+                                                <img
+                                                  *ngIf="!order.order_services[0].CompanyDoc"
+                                                  class="afterUpload"
+                                                  src="{{imgBasePath}}companyImageForIndividualService/{{order.order_services[0].CompanyDoc}}"
+                                                  alt>
+                                              </div>
+                                            </button>
+                                          </div>
+                                          <div class="Uploadtext">
+                                            <div class="upload_Img_text"
+                                              [ngStyle]="{'text-align': !order.order_services[0].CompanyDoc ? 'center':'left'}">
+                                              Company Image
+                                              <button type="button">
+                                                <a href="javascript:void(0)"
+                                                  *ngIf="order.order_services[0].CompanyDoc"
+                                                  (click)="downloadPdf('companyImageForIndividualService/',order.order_services[0].CompanyDoc)">
+                                                  <img
+                                                    src="assets/images/download.png"
+                                                    alt>
+                                                </a>
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div *ngIf="!order.tbl_pkg_id"
+                                          id="upload_Img" class="col-lg-3">
+                                          <div class="upload_Img_div">
+                                            <button type="button">
+                                              <div>
+                                                <img
+                                                  *ngIf="!order.order_services[0].EINDoc"
+                                                  class="beforeUpload"
+                                                  src="assets/images/UploadFile.png"
+                                                  alt>
+                                                <img
+                                                  *ngIf="order.order_services[0].EINDoc"
+                                                  class="afterUpload"
+                                                  src="{{imgBasePath}}EINForIndividualService/{{order.order_services[0].EINDoc}}"
+                                                  alt>
+                                              </div>
+                                            </button>
+                                          </div>
+                                          <div class="Uploadtext">
+                                            <div class="upload_Img_text"
+                                              [ngStyle]="{'text-align': !order.order_services[0].EINDoc ? 'center':'left'}">
+                                              EIN Image
+                                              <button type="button">
+                                                <a href="javascript:void(0)"
+                                                  *ngIf="order.order_services[0].EINDoc"
+                                                  (click)="downloadPdf('EINForIndividualService/',order.order_services[0].EINDoc)">
+                                                  <img
+                                                    src="assets/images/download.png"
+                                                    alt>
+                                                </a>
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+                                      <!-- new images -->
+                                    </div>
+                                  </div>
+                                  <!-- Client Documents End -->
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                  <div *ngIf="filteredOrders.length==0">
+                    <app-record-not-found></app-record-not-found>
+                  </div>
+                  <div *ngIf="filteredOrders.length==0"
+                    class="d-flex justify-content-end" style="text-align: end">
+                    <pagination-controls previousLabel="Prev" nextLabel="Next"
+                      (pageChange)="p = $event">
+                    </pagination-controls>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      
+      </div>
+    </ng-template>
+      <!-- Row -->
+      <!-- Assign task Form -->
+
+      <form id="add-row-form" [formGroup]="myForm">
+        <div class="modal" id="myModal" tabindex="-1" role="dialog"
+          [ngStyle]="{ display: display }">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                  aria-label="Close" (click)="onCloseModal()">
+                  <!-- <span aria-hidden="true">&times;</span> -->
+                  <span class='material-icons'>close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel" *ngIf="!wantToReject">
+                  Assign Order
+                </h4>
+                <h4 class="modal-title" id="myModalLabel" *ngIf="wantToReject">
+                  Reason
+                </h4>
+              </div>
+              <div class="modal-body">
+                <div class="modalBodyRow">
+                  <div class="col-lg-6 col-md-12 col-sm-12">
+                    <mat-form-field appearance="outline" class="col-lg-12"
+                      style="padding: 0px; margin: 0px"
+                      *ngIf="!wantToReject">
+                      <mat-label>Assign To</mat-label>
+                      <mat-select formControlName="assign_to">
+                        <mat-option *ngFor="let employee of allEmployee"
+                          value="{{ employee.tbl_employee_id }}">
+                          {{ employee.emp_fname }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-6 col-md-12 col-sm-12 dateField">
+                    <mat-form-field appearance="outline" *ngIf="!wantToReject"
+                      class="col-lg-12 date-field-container"
+                      style="height:50px !important">
+                      <mat-label>Deadline</mat-label>
+                      <div class="date-input-container">
+                        <input matInput [matDatepicker]="picker" [min]="minDate"
+                          formControlName="deadline_date" />
+                        <mat-datepicker-toggle style="color:#fff !important;
+                        position: relative;
+                        top: -12px;
+                        right: -8px;" matSuffix [for]="picker"></mat-datepicker-toggle>
+                      </div>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12"
+                    style="margin-top:18px">
+                    <quill-editor [styles]="{height: '200px'}"  formControlName="task_detail">
+
+                    </quill-editor>
+                    <!-- <mat-form-field appearance="outline"
+                      style="margin-top: 5px; padding: 0px; margin: 0px"
+                      class="col-lg-12 col-md-12 col-sm-12">
+                      <mat-label *ngIf="!wantToReject">Task Instructions</mat-label>
+                      <mat-label *ngIf="wantToReject">Reason of Rejection</mat-label>
+                      <textarea matInput formControlName="task_detail"
+                        style="height: 70px"
+                        placeholder="Enter Instructions for task"> </textarea>
+                    </mat-form-field> -->
+                  </div>
+                  <div class="col-lg-12 checkbox">
+                    <mat-checkbox style="font-size:22px"
+                      formControlName="need_assigner_approval"
+                      class="example-margin">
+                      <span style="font-size: 14px;">Admin approval required</span>
+                    </mat-checkbox>
+                  </div>
+
+                </div>
+              </div>
+              <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-default"
+                  data-dismiss="modal" style="color: black !important"
+                  (click)="onCloseModal()">
+                  Cancel
+                </button>
+                <button type="submit" *ngIf="!wantToReject"
+                  [attr.data-dismiss]="myForm.valid ? 'modal' : null"
+                  id="add-row" class="btn btn-success btn1" (click)="submit()">
+                  Save
+                </button>
+                <button type="submit" *ngIf="wantToReject"
+                  [attr.data-dismiss]="myForm.valid ? 'modal' : null"
+                  id="add-row" class="btn btn-success btn1"
+                  (click)="serviceRejectedByAdmin()">
+                  Reject
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+
+    <!-- Main Wrapper -->
+  </main>
+  <!-- Page Content -->
+
+  <!-- Javascripts -->
+  <!-- <script src="assets/js/pages/table-data.js"></script> -->
+</body>
+
+<!-- </html> -->

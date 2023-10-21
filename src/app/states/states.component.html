@@ -1,0 +1,190 @@
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css" />
+
+<body class="page-header-fixed">
+  <main class="page-content content-wrap">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+    <div class="page-inner">
+      <ng-container *ngIf="loading; else content">
+        <div class="loaderdiv">
+        <div class="mainHeading">
+          <div class="skelton-loader-circle">
+            <span style="width: 100%; border-radius: 50px;"></span>
+          </div>
+        <div class="skeleton-loader-heading">
+          <span style="width: 100%"></span>
+        </div>
+      </div>
+
+      <div class="mainHeading">
+        <div class="skeleton-loader-rightside">
+          <span style="width: 100%"></span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngFor="let i of tablelist" class="skeleton-loader-Arraylist">
+      <span style="width: 100%"></span>
+    </div>
+      </ng-container>
+
+
+      <ng-template #content>
+      <div id="main-wrapper">
+        <div>
+          <div class="col-lg-4">
+            <app-breadcrumb></app-breadcrumb>
+          </div>
+          <div class="col-lg-8">
+            <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+              <div class="filter-outer">
+                <div class="filters" (click)="activeFilter = !activeFilter">
+                  <span class="fas fa-search glyphicon-search" aria-hidden="true"></span>
+                </div>
+                <div class="form-group">
+                  <input (keyup)="searchAddress($event)" type="text" class="form-control search-input" id="pwd"
+                    formControlName="tbl_state_id" placeholder="Search by State" name="pwd" (blur)="onBlur()" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="d-flex row" [class.myOpacity]="display === 'block'">
+          <div class="col-md-12">
+            <div class="panel panel-white">
+              <div class="panel-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Name</th>
+                      <th>State Code</th>
+                      <th> Fee</th>
+                      <th>Business Days</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody style="color: white;">
+                    <ng-container *ngFor="
+                        let state of filteredStates
+                          | paginate
+                            : {
+                                itemsPerPage: 20,
+                                currentPage: p,
+                                totalItems: totallength
+                              }
+                          | async
+                      ">
+                      <tr matRipple>
+                        <td>{{ state.tbl_state_id }}</td>
+                        <td>{{ state.state_name }}</td>
+                        <td>{{ state.state_code }}</td>
+                        <td><b>$</b>{{ state.state_fee }}</td>
+                        <td>{{ state.state_business_days }}</td>
+                        <td>
+                          <a style="color: #fff;" data-toggle="modal" data-target="#myModal"
+                            (click)="edit(state.tbl_state_id)">Edit</a>
+                        </td>
+                      </tr>
+                    </ng-container>
+                    <ng-container *ngFor="
+                        let state of allStates
+                          | paginate
+                            : {
+                                itemsPerPage: 20,
+                                currentPage: p,
+                                totalItems: totallength
+                              }
+                      ">
+                      <tr matRipple>
+                        <td>{{ state.tbl_state_id }}</td>
+                        <td>{{ state.state_name }}</td>
+                        <td>{{ state.state_code }}</td>
+                        <td><b>$</b>{{ state.state_fee }}</td>
+                        <td>{{ state.state_business_days }}</td>
+                        <td>
+                          <a class="btn edit" data-toggle="modal" data-target="#myModal"
+                            (click)="edit(state.tbl_state_id)">Edit</a>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+                <div *ngIf="allStates.length === 0">
+                 <app-record-not-found></app-record-not-found>
+                </div>
+                <div *ngIf="hidepagination" class="d-flex justify-content-end" style="text-align: end">
+                  <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="p = $event">
+                  </pagination-controls>
+
+                  <div *ngIf="!hidepagination">No Data Found</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+      <!-- Row -->
+      <!-- Assign task Form -->
+
+      <form id="add-row-form" [formGroup]="stateForm">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">State</h4>
+              </div>
+              <div class="modal-body modalBodyRow">
+                  <div class="col-lg-6">
+                    <mat-form-field appearance="outline" style="width: 100%">
+                      <mat-label>State Name</mat-label>
+                      <input matInput formControlName="state_name" readonly />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-6">
+                    <mat-form-field appearance="outline" style="width: 100%">
+                      <mat-label>State fee</mat-label>
+                      <input matInput type="number" formControlName="state_fee" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-6">
+                    <mat-form-field appearance="outline" style="width: 100%">
+                      <mat-label>Buisness Days</mat-label>
+                      <input matInput type="number" formControlName="state_business_days" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-6">
+                    <mat-form-field appearance="outline" style="width: 100%">
+                      <mat-label>State Code</mat-label>
+                      <input matInput formControlName="state_code" readonly />
+                    </mat-form-field>
+                  </div>
+              </div>
+              <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="color: black;">
+                  Cancel
+                </button>
+                <button type="button" [attr.data-dismiss]="stateForm.valid ? 'modal' : null"
+                  (click)="submit(stateForm.value)" id="add-row" class="btn btn-success btn1">
+                  {{ btn }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- Main Wrapper -->
+  </main>
+  <!-- Page Content -->
+
+  <app-footernav></app-footernav>
+  <div class="cd-overlay"></div>
+  <!-- Javascripts -->
+  <!-- <script src="assets/js/pages/table-data.js"></script> -->
+</body>

@@ -1,0 +1,202 @@
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<body class="page-header-fixed">
+  <main class="page-content content-wrap">
+    <app-header></app-header>
+    <!-- navbar -->
+    <app-sidebar></app-sidebar>
+    <!-- Page Sidebar -->
+    <div class="page-inner">
+      <div id="main-wrapper" style="margin: 20px;">
+        <div>
+          <h1 style="margin-bottom: 0px; color: #FFFFFF;">Profile</h1> <a href="" style="color: #FFFFFF;">Admin</a>
+        </div>
+        <div class="container rounded bg-white mt-5 mb-5" style="width: 1170px;">
+          <form [formGroup]="userForm" style="
+                        padding-bottom: 0px; margin: 0;
+                    ">
+            <input (change)="onFileSelected($event)" style="display:none" #fileUpload class="d-none" type="file">
+            <div class="row" style="
+                        padding-right: 0px;
+                        display: flex;
+                        justify-content: center;
+                    ">
+              <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="flex-direction: column;display: flex;
+                                justify-content: cener;
+                                align-items: center;
+                                align-content: center;
+                                position: relative; margin-top: 8px;">
+                  <ng-container *ngIf="user_image; else defaultImage">
+                    <div class="position-relative" style="position:relative;">
+                      <img class="rounded mt-5" width="150px" src="{{img_url}}employer_images/{{user_image}}"
+                        alt="user_image" style="border-radius: 50%; object-fit: contain; height: 100%;">
+                      <!-- <span (click)="fileUpload.click()"
+                        class="position-absolute top-0 end-0 bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
+                        style="    width: 30px;
+                                        height: 30px;
+                                        transform: translate(50%, -50%);
+                                        cursor: pointer;
+                                        background-color: #34425a;
+                                        padding: 6px;
+                                        border-radius: 50%;
+                                        position: absolute;
+                                        top: 20%;
+                                        left: 74%;">
+                        <i class="bx bxs-camera-plus" style="
+                                          position: absolute;
+                                          transform: translate(50%, -50%);
+                                          top: 50%;
+                                          right: 50%;
+                                      "></i>
+                      </span> -->
+                    </div>
+                  </ng-container>
+                  <ng-template #defaultImage>
+                    <div class="position-relative">
+                      <img class="rounded mt-5" width="150px" src="https://www.w3schools.com/howto/img_avatar.png"
+                        alt="user_image" style="border-radius: 50%; object-fit: contain;">
+                      <!-- <span (click)="fileUpload.click()"
+                        class="position-absolute top-0 end-0 bg-primary text-white d-flex align-items-center justify-content-center rounded-circle"
+                        style="         width: 30px;
+                                        height: 30px;
+                                        transform: translate(50%, -50%);
+                                        cursor: pointer;
+                                        background-color: #174994;
+                                        padding: 6px;
+                                        border-radius: 50%;
+                                        position: absolute;
+                                        right: -35px;
+                                     
+                                        top: 20%;
+                                        left: 68%;">
+                        <i class="bx bxs-camera-plus" style="
+                                          position: absolute;
+                                          transform: translate(50%, -50%);
+                                          top: 50%;
+                                          right: 50%;
+                                      "></i>
+                      </span> -->
+                    </div>
+                  </ng-template>
+
+                  <span class="font-weight-bold mt-2" style=" color: #FFFFFF;
+                                        margin-top: 8px;font-size: 16px;font-weight: 600;
+                                    ">{{user_name}}</span><span class="text-black-50 mt-2" style="
+                                        margin-top: 8px;
+                                    ">{{user_email}}</span><span style=" color: #FFFFFF;
+                                        margin-top: 8px;">Registered On: {{data_string}} </span>
+                </div>
+              </div>
+
+              <div class="col-md-9 border-right" style="margin-right: 200px; margin-bottom: 0px;">
+
+
+                <div class="p-3 py-5">
+                  <div class="row mt-3" style="margin-top: 15px;  color: #FFFFFF;">
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline" class="example-full-width" style="height:50px !important; ">
+                        <mat-label>First Name</mat-label>
+                        <div class="date-input-container">
+                          <input matInput type="text" formControlName="emp_fname" />
+                        </div>
+                      </mat-form-field>
+
+                    </div>
+                    <div class="col-md-6">
+
+                      <mat-form-field appearance="outline" class="col-lg-12" style="height:50px !important">
+                        <mat-label>Last Name</mat-label>
+                        <div class="date-input-container">
+                          <input matInput type="text" formControlName="emp_lname" />
+                        </div>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row mt-3" style="margin-top: 15px; color: #FFFFFF; ">
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline" class="example-full-width" style="height:50px !important;">
+                        <mat-label>CNIC</mat-label>
+                        <div class="date-input-container">
+                          <input matInput type="number" formControlName="emp_cnic" />
+                        </div>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline" class="example-full-width" style="height:50px !important;">
+                        <mat-label>Moblie Number</mat-label>
+                        <div class="date-input-container">
+                          <input matInput type="number" formControlName="emp_phone_number" />
+                        </div>
+                      </mat-form-field>
+                    </div>
+
+
+                  </div>
+
+                  <div class="row mt-3" style="margin-top: 15px;  color: #FFFFFF;">
+                    <div class="col-md-6" style="margin-top: 0px;">
+                      <mat-form-field appearance="outline" class="example-full-width" style="height:50px !important;">
+                        <mat-label>Email</mat-label>
+                        <div class="date-input-container">
+                          <input matInput type="text" formControlName="emp_email" />
+                        </div>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline" class="example-full-width" style="height:50px !important;">
+                        <mat-label>State</mat-label>
+                        <div class="date-input-container">
+                          <input matInput type="text" formControlName="emp_state" />
+                        </div>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <div class="row mt-3" style="margin-top: 15px ;  color: #FFFFFF;">
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline" class="example-full-width" style="height:50px !important;">
+                        <mat-label>City</mat-label>
+                        <div class="date-input-container">
+                          <input matInput type="text" formControlName="emp_city" />
+                        </div>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline" class="example-full-width" style="height:50px !important;">
+                        <mat-label>Zip Code</mat-label>
+                        <div class="date-input-container">
+                          <input matInput type="text" formControlName="emp_zipcode" />
+                        </div>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+
+                  <div class="row mt-3"
+                    style="margin-top: 15px;  margin-right: 16px; margin-bottom: 30px; color: #FFFFFF;">
+                    <div class="col-md-12" style="margin-left: 16px;">
+                      <mat-form-field appearance="outline" class="example-full-width" style="height:50px !important;">
+                        <mat-label>Street Address</mat-label>
+                        <div class="date-input-container">
+                          <textarea matInput style="height:50px" formControlName="emp_address"></textarea>
+                        </div>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+
+                  <div class="mt-5 text-right" style="margin-top: 50px;"><button class="btn btn-primary" type="button"
+                      style="background-color: #174994; border-radius: 5px;" (click)="submit(userForm.value)">Update
+                      Profile</button></div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div><!-- Page Inner -->
+  </main><!-- Page Content -->
+  <app-footernav></app-footernav>
+  <div class="cd-overlay"></div>
+</body>

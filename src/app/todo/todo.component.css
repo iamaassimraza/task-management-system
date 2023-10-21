@@ -1,0 +1,30 @@
+@import url(../../assets/sharedMaterialStyles.css);
+
+.rowWithMargin{
+    margin-right: 10px;
+   }
+  .row, .form-row{
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+
+  .myOpacity{
+    opacity: 0.5;
+    z-index: auto;
+  }
+  .mat-button-toggle-group .mat-form-field {
+    margin-top: 0 !important;
+    margin-right: 8px !important;  /* adjust as needed */
+  }
+
+    .img_div{
+      height: 100px;
+      width: 150px;
+      z-index: 0;
+      border-top-left-radius:4px;
+      border-top-right-radius:4px;
+      z-index: 0;
+    }
+.modalBodyRow .mt-1{
+  margin-top: 10px;
+}

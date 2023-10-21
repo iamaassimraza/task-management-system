@@ -1,0 +1,74 @@
+    <body class="page-header-fixed">
+        <main class="page-content content-wrap">
+            <app-header></app-header>
+            <app-sidebar></app-sidebar>
+          <!-- Page Sidebar -->
+            <div class="page-inner">
+                <div class="page-title">
+                    <h3>Image Zoom</h3>
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="#">Forms</a></li>
+                            <li class="active">Image Zoom</li>
+                        </ol>
+                    </div>
+                </div>
+                <div id="main-wrapper">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Basic Zoom</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <img id="zoom_01" src="assets/images/zoom/small/image1.jpg" data-zoom-image="assets/images/zoom/large/image1.jpg" style="width: 100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Inner Zoom</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <img id="zoom_02" src="assets/images/zoom/small/image2.jpg" data-zoom-image="assets/images/zoom/large/image2.jpg" style="width: 100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Lens Zoom</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <img id="zoom_03" src="assets/images/zoom/small/image3.jpg" data-zoom-image="assets/images/zoom/large/image3.jpg" style="width: 100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-white">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Mousewheel Zoom</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <img id="zoom_04" src="assets/images/zoom/small/image4.jpg" data-zoom-image="assets/images/zoom/large/image4.jpg" style="width: 100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                </div><!-- Main Wrapper -->
+                <div class="page-footer">
+                    <p class="no-s">2015 &copy; Modern by Steelcoders.</p>
+                </div>
+            </div><!-- Page Inner -->
+        </main><!-- Page Content -->
+       <app-footernav></app-footernav>
+        <div class="cd-overlay"></div>
+	
+
+        <!-- Javascripts -->
+        
+        <script src="assets/js/pages/form-image-zoom.js"></script>
+        
+    </body>
